@@ -24,14 +24,20 @@ An application where users can invest in the stock market with real-time stock p
 3. ``mongodb``
 4. ``yahoo-finance2``
 
-## Instructions for contributing (for authors that are not the repository owner)
+## Instructions for contributing
 
 - Fork the project to your own repository (see the fork button on github):
 
-- Clone the fork and start working on that:
+- Clone the fork you made:
 
 ```shell
 git clone your_fork_repo_link.git
+```
+
+- Setup node project and dependencies:
+
+```shell
+npm i
 ```
 
 - After making your changes, you must add and then commit them:
@@ -49,12 +55,14 @@ To add specific files, simple remove the ``--all`` and just specify the file nam
 git push
 ```
 
-At this point, if you want to merge your changes to the main codebase, create a **pull request** on github, this will analyze for merge conflicts, and if there are any, fix them on VSCode, recommit them and push them, and if there are no merge conflicts it can be accepted to the codebase.
+At this point, if you want to merge your changes to the main codebase, create a **pull request** on GitHub, this will analyze for merge conflicts, and if there are any, fix them on VSCode, recommit and push them, and if there are no merge conflicts it can be accepted to the codebase.
 
 To make sure your fork is up to date with the original, please PULL from the repository:
 
 ```shell
 git pull
 ```
+
+After a pull request goes through successfully, GitHub will still retain the fork in your account, so for a team of 4 this will be the development workflow, commit changes to our forks (while keepng up to date with main), make pull requests, bring the changes to main (our production branch) and repeat.
 
 Please refer to git basics: <https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet> for help with git commands.
