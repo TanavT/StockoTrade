@@ -51,4 +51,10 @@ git push
 
 At this point, if you want to merge your changes to the main codebase, create a **pull request** on github, this will analyze for merge conflicts, and if there are any, fix them on VSCode, recommit them and push them, and if there are no merge conflicts it can be accepted to the codebase.
 
+To make sure your fork is up to date with the original, please PULL from the repository:
+
+```shell
+git pull
+```
+
 Please refer to git basics: <https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet> for help with git commands.
