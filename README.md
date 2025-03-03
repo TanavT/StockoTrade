@@ -34,10 +34,6 @@ An application where users can invest in the stock market with real-time stock p
 git clone your_fork_repo_link.git
 ```
 
-To switch to an existing branch, drop the ``-b``.
-
-Please refer to git basics: <https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet> for help with git commands.
-
 - After making your changes, you must add and then commit them:
 
 ```shell
@@ -45,4 +41,14 @@ git add --all
 git commit -m "you need to put a message here"
 ```
 
-- Finally, push the changes towards your fork
+To add specific files, simple remove the ``--all`` and just specify the file names instead. At this point you made changes to your fork and committed them.
+
+- Now you need to push them to see the official change on github:
+
+```shell
+git push
+```
+
+At this point, if you want to merge your changes to the main codebase, create a **pull request** on github, this will analyze for merge conflicts, and if there are any, fix them on VSCode, recommit them and push them, and if there are no merge conflicts it can be accepted to the codebase.
+
+Please refer to git basics: <https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet> for help with git commands.
