@@ -21,5 +21,6 @@ package-lock.json
 
 # Logs
 logs
+logs/*
 *.log
 npm-debug.log*

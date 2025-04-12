@@ -1,0 +1,4 @@
+
+portfolioData = {}
+
+export default portfolioData;

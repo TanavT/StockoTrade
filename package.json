@@ -18,9 +18,10 @@
   },
   "homepage": "https://github.com/Josh-Hiz/StockoTrade#readme",
   "dependencies": {
-    "d3": "^7.9.0",
-    "express": "^4.21.2",
-    "mongodb": "^6.14.0",
-    "yahoo-finance2": "^2.13.3"
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.1",
+    "handlebars": "^4.7.8",
+    "mongodb": "^6.15.0",
+    "morgan": "^1.10.0"
   }
 }
