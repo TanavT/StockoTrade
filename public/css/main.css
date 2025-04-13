@@ -1,0 +1,224 @@
+/* Root level CSS, just default font and background color */
+* {
+	font-family: 'Arial', 'sans-serif';
+	background-color: #f5f7f4;
+	color: #1c2b25;
+}
+
+/* Default link settings, links will be in green */
+a {
+	color: #7aa843;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #88b04b;
+}
+
+/* Header settings for main template file */
+.main-header {
+	background-color: #ffffff;
+	padding: 5px 10px;
+	border-bottom: 2px solid #7aa843;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.main-header-content h1 {
+	font-size: 24px;
+	background-color: #ffffff;
+}
+
+.main-header-content a {
+	font-weight: bold;
+	color: #1c2b25;
+	background-color: #ffffff;
+}
+
+.main-header-content a:hover {
+	color: #7aa843;
+	transition: 0.6s;
+}
+
+/* Error page styling */
+.error-page {
+	text-align: center;
+	margin-top: 10rem;
+	margin-bottom: 10rem;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 4rem 2rem;
+	max-width: 600px;
+	background-color: #ffffff;
+	border: 2px solid #7aa843;
+	border-radius: 10px;
+}
+
+.error-title {
+	font-size: 2rem;
+	color: #7aa843;
+	margin-bottom: 1rem;
+	background-color: transparent;
+}
+
+.error {
+	font-size: 4rem;
+	color: #c0392b;
+	margin-bottom: 2rem;
+	font-weight: bold;
+	background-color: transparent;
+}
+
+.error-go-back-tag {
+	padding: 0.75rem 1.5rem;
+	background-color: transparent;
+	border: 2px solid #7aa843;
+	border-radius: 5px;
+	color: #7aa843;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.error-go-back-tag:hover {
+	background-color: #7aa843;
+	color: #ffffff;
+	transition: 0.6s;
+}
+
+/* Main footer css */
+.main-footer {
+	background-color: #ffffff;
+	border-top: 2px solid #7aa843;
+	text-align: center;
+	margin-top: 4rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.main-footer-content {
+	max-width: 800px;
+	margin: 0 auto;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+.main-footer-content p {
+	margin-bottom: 0.5rem;
+	background-color: transparent;
+	font-weight: bold;
+}
+
+.main-footer-content ul {
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1.5rem;
+	background-color: transparent;
+}
+
+.main-footer-content li {
+	background-color: transparent;
+}
+
+.main-footer-content a {
+	color: #1c2b25;
+	font-weight: bold;
+	background-color: transparent;
+}
+
+.main-footer-content a:hover {
+	color: #7aa843;
+	transition: 0.6s;
+}
+
+/* Homepage login, signup, and information sections */
+.home-create-account-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f5f7f4;
+}
+
+.home-account-box {
+    background-color: #ffffff;
+    border: 2px solid #7AA843;
+    border-radius: 10px;
+    padding: 2rem 3rem;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+	margin-top: 1rem;
+}
+
+.home-account-box h2,
+.home-account-box h3 {
+    color: #1C2B25;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.account-form {
+	background-color: transparent;
+}
+
+.account-btn {
+    background-color: #7AA843;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+    transition: 0.6s;
+}
+
+.account-btn:hover {
+    background-color: #88B04B;
+}
+
+/* Info Section */
+.home-info-section {
+    padding: 4rem 2rem;
+    background-color: #ffffff;
+	border-radius: 3rem;
+    border: 2px solid #7AA843;
+	margin: auto;
+}
+
+.home-info-section-article {
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    background-color: transparent;
+}
+
+.home-info-section-article h2 {
+    color: #7AA843;
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.home-info-section-article p,
+.home-info-section-article ul {
+    color: #1C2B25;
+    line-height: 1.6;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+.home-info-section-article ul {
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.home-info-section-article li {
+    background-color: transparent;
+}

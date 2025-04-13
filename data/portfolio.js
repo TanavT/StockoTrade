@@ -1,4 +1,4 @@
 
-portfolioData = {}
+const portfolioDataFunctions = {}
 
-export default portfolioData;
+export default portfolioDataFunctions;

@@ -1,4 +1,4 @@
 
-userData = {}
+const userDataFunctions = {}
 
-export default userData;
+export default userDataFunctions;
