@@ -37,20 +37,17 @@ app.set('view engine', 'handlebars');
 // Default route will just render home unless cookies permits something else
 app.use('/', (req,res,next) => {
     const isLoggedIn = req.cookies.isLoggedIn;
-    if(!isLoggedIn || isLoggedIn === 'false') {
-        next();
-        return res.render('home')
-    } else {
-        // Update cookie expiration
+    if(isLoggedIn && isLoggedIn !== 'false') {
         const now = new Date();
         const expiresAt = new Date();
-        expiresAt.setHours(expiresAt.getHours+2);
+        expiresAt.setHours(expiresAt.getHours() + 1);
         res.cookie('isLoggedIn', now.toString(), {expires: expiresAt})
-        // Call next on the middleware
-        next();
-        // Figure out a way to render this dashboard...
-        return;
+        // Set an authentication variable
+        req.isAuthenticated = true;
+    } else {
+        req.isAuthenticated = false;
     }
+    next();
 })
 
 setupRoutes(app);
