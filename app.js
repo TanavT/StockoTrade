@@ -1,7 +1,7 @@
 import express from 'express';
 import exphbs from 'express-handlebars';
 import morgan from 'morgan';
-import logger from './utils/logger.js';
+import logger from './utils/logging/logger.js';
 import setupRoutes from './routes/index.js';
 import cookieParser from 'cookie-parser';
 
@@ -35,19 +35,18 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// Default route will just render home unless cookies permits something else
+// Middleware for default route will just render home unless cookies permits something else
 app.use('/', (req, res, next) => {
-	const isLoggedIn = req.cookies.isLoggedIn; // Make sure they are logged in
+	const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
 	const userId = req.cookies.userID; // Make sure we have a userID cookies
-	if (isLoggedIn && userId && isLoggedIn === 'true') {
-		const expiresAt = new Date();
-		expiresAt.setHours(expiresAt.getHours() + 1);
-		res.cookie('isLoggedIn', 'true', { expires: expiresAt });
-		res.cookie('userID', req.cookies.userID, { expires: expiresAt });
-		// Set an authentication variable to be used in route
-		req.isAuthenticated = true;
+	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+		next();
+		return;
 	} else {
-		req.isAuthenticated = false;
+		// If a user isnt auth'd then set some cookies
+		const dayFromNow = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
+		res.cookie("isAuthenticated", "false", {expires: dayFromNow});
+		res.cookie('userID', "null", {expires: dayFromNow})
 	}
 	next();
 });

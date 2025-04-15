@@ -3,7 +3,9 @@ import dashboardRouter from './dashboard.js';
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
 	app.get('/', (req, res) => {
-		if (req.isAuthenticated) {
+		const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
+		const userId = req.cookies.userID; // Make sure we have a userID cookies
+		if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
 			// dashboard rendering logic via express redirect() method, NOT send()
 			return res
 				.status(200)
@@ -15,7 +17,9 @@ const setupRoutes = (app) => {
 	});
 	// Bind signup router
 	app.use('/signup', (req, res) => {
-		if (req.isAuthenticated) {
+		const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
+		const userId = req.cookies.userID; // Make sure we have a userID cookies
+		if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
 			// dashboard rendering logic via express redirect() method, NOT send()
 			return res
 				.status(200)
@@ -27,7 +31,9 @@ const setupRoutes = (app) => {
 	});
 	// Bind signup router
 	app.use('/login', (req, res) => {
-		if (req.isAuthenticated) {
+		const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
+		const userId = req.cookies.userID; // Make sure we have a userID cookies
+		if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
 			// dashboard rendering logic via express redirect() method, NOT send()
 			return res
 				.status(200)
@@ -45,9 +51,7 @@ const setupRoutes = (app) => {
 		return res
 			.status(404)
 			.render('error', {
-				errorCode: 404,
-				containFooter: true,
-				containHeader: true,
+				errorCode: 404
 			});
 	});
 };
