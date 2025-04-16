@@ -1,0 +1,52 @@
+<div id='signup-div'>
+	<h2>Sign Up!</h2>
+	<form method='POST' id='signup-form' action='/signup'>
+		<label for='username_input'>Username</label>
+		<input id='username_input' name='username_input' required pattern="[A-Za-z0-9]*"/>
+		<label for='first_name_input'>First Name</label>
+		<input
+			id='first_name_input'
+			name='first_name_input'
+			required
+			pattern='[A-Za-z]+'
+			title='Only letters allowed.'
+		/>
+		<label for='last_name_input'>Last Name</label>
+		<input
+			id='last_name_input'
+			name='last_name_input'
+			required
+			pattern='[A-Za-z]+'
+			title='Only letters allowed.'
+		/>
+		<label for='email_input'>Email</label>
+		<input id='email_input' name='email_input' type='email' required />
+		<label for='password_input'>Password</label>
+		<input
+			id='password_input'
+			name='password_input'
+			type='password'
+			minlength='8'
+			required
+		/>
+		<label for='age_input'>Age</label>
+		<input
+			id='age_input'
+			name='age_input'
+			type='number'
+            value="18"
+			min='18'
+			required
+		/>
+		<label for='birthday_input'>Birthday</label>
+		<input
+			id='birthday_input'
+			name='birthday_input'
+			type='date'
+			required
+            value="2007-12-31"
+            max="2007-12-31"
+		/>
+		<button type='submit' class='account-btn'>Sign Up</button>
+	</form>
+</div>

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Josh-Hiz/StockoTrade#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "d3": "^7.9.0",
     "express": "^5.1.0",

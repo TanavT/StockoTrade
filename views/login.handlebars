@@ -1,0 +1,16 @@
+<div id='login-div'>
+	<h2>Login to StockoTrade</h2>
+	<form method='POST' id='login-form' action='/login'>
+		<label for='username_input'>Username</label>
+		<input id='username_input' name='username_input' required />
+		<label for='password_input'>Password</label>
+		<input
+			id='password_input'
+			name='password_input'
+            type="password"
+			required
+			minlength='8'
+		/>
+		<button type='submit' class='account-btn'>Login</button>
+	</form>
+</div>
