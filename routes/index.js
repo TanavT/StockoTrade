@@ -13,10 +13,8 @@ const setupRoutes = (app) => {
 			isLoggedIn === 'true' &&
 			userId !== 'null'
 		) {
-			// dashboard rendering logic via express redirect() method, NOT send()
 			return res.status(200).redirect(`/dashboard/${userId}`);
 		} else {
-			// Set the status code to 200 OK and render the home page server side
 			return res.status(200).render('home', { title: 'Home' });
 		}
 	});
@@ -32,6 +30,7 @@ const setupRoutes = (app) => {
 		return res.status(404).render('error', {
 			errorCode: 404,
 			title: '404',
+			errorMessage: "Seems like you are going to a page that doesn't exist."
 		});
 	});
 };

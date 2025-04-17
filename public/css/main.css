@@ -86,6 +86,15 @@ a:hover {
 	transition: 0.6s;
 }
 
+.error-message {
+    color: #c0392b;
+    font-size: 1.2rem;
+	padding: 10px;
+    margin-top: 1rem;
+    background-color: transparent;
+    text-align: center;
+}
+
 /* Main footer css */
 .main-footer {
 	background-color: #ffffff;

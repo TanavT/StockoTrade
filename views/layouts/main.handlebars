@@ -9,6 +9,11 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16x16.png">
     <link rel="icon" type="image/x-icon" href="/public/favicon/favicon.ico">
     <link rel="manifest" href="/public/site.webmanifest">
+    {{#if inputScript}}
+    {{#each scriptPaths}}
+    <script src="/public/js/{{path}}"></script>
+    {{/each}}
+    {{/if}}
     <title>{{title}}</title>
 </head>
 <body>
@@ -26,7 +31,7 @@
             <ul>
                 <li><a href="https://github.com/Josh-Hiz" target="_blank">Joshua Hizgiaev</a></li>
                 <li><a href="https://github.com/mattsolstice" target="_blank">Matthew Soltys</a></li>
-                <li><a href="https://github.com" target="_blank">Tanav Thota</a></li>
+                <li><a href="https://github.com/TanavT" target="_blank">Tanav Thota</a></li>
                 <li><a href="https://github.com/thehargun" target="_blank">Hargun Sawhney</a></li>
             </ul>
             <p>StockoTrade by @CS546-Team10</p>
