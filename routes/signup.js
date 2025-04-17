@@ -55,6 +55,7 @@ router
 					});
 			}
 			try {
+				// Perform input verification server side
 				var [
 					verifiedUserName,
 					verifiedFirstName,

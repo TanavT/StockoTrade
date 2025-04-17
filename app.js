@@ -16,7 +16,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
 };
 
 const checkAuthentication = (req, res, next) => {
-	console.log("AUTH FIRED OFF")
 	const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
 	const userId = req.cookies.userID; // Make sure we have a userID cookies
 	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {

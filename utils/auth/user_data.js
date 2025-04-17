@@ -116,19 +116,9 @@ export const verifyBirthday = (birthday) => {
 	i
 	if (!verifyDate(year, month, day)) throw ['400', 'Invalid Birthday.'];
 	const today = new Date();
-	if(year > today.getFullYear || year < 1900) throw ['400', `Invalid birthday range, only years [1900,${today.getFullYear}] is allowed.`]
+	if(year > today.getFullYear || year < 1900) throw ['400', `Invalid birthday year range, only years [1900,${today.getFullYear}] is allowed.`]
 	const ageDifference = today.getFullYear - year;
-	const monthDifference = today.getMonth + 1 - month;
-	const dayDifference = today.getDate() - day;
-	if (
-		!(
-			ageDifference > 18 ||
-			(ageDifference === 18 &&
-				(monthDifference > 0 ||
-					(monthDifference === 0 && dayDifference >= 0)))
-		)
-	)
-		throw ['400', 'Birthday selected is invalid.'];
+	if (!(ageDifference >= 18 )) throw ['400', 'Sorry, but you must be 18 or older to use StockoTrade.'];
 };
 
 // Will be used in dashboard router

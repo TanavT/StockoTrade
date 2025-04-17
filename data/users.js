@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
 import { users } from '../config/mongodb/mongoCollections.js';
-import { verifyId, verifyUserInfo } from '../utils/auth/user_data.js';
+import { verifyId, verifyUserInfo, verifyUserName, verifyPassword } from '../utils/auth/user_data.js';
 
 const createUser = async (
 	userName,
@@ -12,6 +12,7 @@ const createUser = async (
 	age,
 	birthday
 ) => {
+	// Perform data-side input verification
 	const [
 		verifiedUserName,
 		verifiedFirstName,
@@ -30,12 +31,21 @@ const createUser = async (
 		birthday
 	)
 
-	// Verify that username and email hasn't already been used
+	const userCollection = await users();
+
+	// Verify that username or email hasn't been taken yet
+	const tryToFindUser = await userCollection.findOne( { username: verifiedUserName})
+	if(tryToFindUser) throw ['400', 'Username already taken.']
+	const tryToFindEmail = await userCollection.findOne( { email: verifiedEmail})
+	if(tryToFindEmail) throw ['400', 'Email already taken.']
 	
+	// Hash passwords
+	const salt = bcrypt.genSaltSync(10);
+	const passwordHash = bcrypt.hashSync(verifiedPassword, salt);
 	
 	const newUser = {
 		username: verifiedUserName.toUpperCase(),
-		password: verifiedPassword,
+		password: passwordHash,
 		firstName: verifiedFirstName,
 		lastName: verifiedLastName,
 		email: verifiedEmail.toUpperCase(),
@@ -48,7 +58,6 @@ const createUser = async (
 			trade_history: [],
 		},
 	};
-	const userCollection = await users();
 	const insertInfo = await userCollection.insertOne(newUser);
 	if (!insertInfo.acknowledged || !insertInfo.insertedId) {
 		throw ['500','Could not sign-up new user, try again later.'];
@@ -69,6 +78,24 @@ const getUserById = async (userId) => {
 	return userToFind;
 };
 
-const userDataFunctions = { createUser, getUserById };
+const getUserByUserName = async (userName) => {
+	const trimUserName = verifyUserName(userName);
+	const userCollection = await users();
+	const userToFind = await userCollection.findOne({
+		username: trimUserName,
+	});
+	if (userToFind === null) throw ['404','No user found with that username.'];
+	userToFind._id = userToFind._id.toString();
+	return userToFind;
+};
+
+const matchUserNameAndPassword = async (username, password) => {
+	const user = await getUserByUserName(username)
+	const verifiedPassword = verifyPassword(password)
+	const verifyCredentials = bcrypt.compareSync(verifiedPassword, user.password)
+	return verifyCredentials
+}
+
+const userDataFunctions = { createUser, getUserById, matchUserNameAndPassword };
 
 export default userDataFunctions;
