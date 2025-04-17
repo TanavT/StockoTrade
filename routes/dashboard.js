@@ -11,11 +11,12 @@ router
 			isLoggedIn &&
 			userId &&
 			isLoggedIn === 'true' &&
-			userId !== 'null'
+			userId !== 'null'  &&
+			req.params.id === userId
 		) {
             // The dashboard (by the end of the project) will take in alot of parameters of 
             // statistics calculated in realtime
-			return res.status(200).render('dashboard');
+			return res.status(200).render('dashboard', {inputScript: true, scriptPaths: [{path: dashboard}], id: userId});
 		} else {
 			return res
 				.status(200)
