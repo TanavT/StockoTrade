@@ -65,12 +65,13 @@ router
 				const dayFromNow = new Date(
 					new Date().getTime() + 60 * 60 * 24 * 1000
 				);
+				const userInfo = await userData.getUserByUserName(userName);
 				res.cookie('isAuthenticated', 'true', { expires: dayFromNow });
 				res.cookie('userID', userInfo._id, { expires: dayFromNow });
 				// Then redirect to dashboard
 				return res.status(200).redirect(`../dashboard/${userInfo._id}`);
 			} catch(e) {
-				const errorCode = Number.parseInt(e[0])
+				const errorCode = e[0]
 				const errorMessage = `${errorCode} Error: ${e[1]}`
 				return res.status(errorCode).render('login', { title: 'Login', errorMessage: errorMessage})
 			}

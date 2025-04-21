@@ -20,6 +20,11 @@
     <header class="main-header">
         <div class="main-header-content">
             <h1><a href="/">StockoTrade</a></h1>
+            {{#if isLoggedIn}}
+            <form method="POST" action="/logout" class="signout-form">
+                <button type="submit" class="signout-btn">Sign Out</button>
+            </form>
+            {{/if}}
         </div>
     </header>
     <main>
