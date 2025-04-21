@@ -1,4 +1,4 @@
-<div id='login-div'>
+<section id='login-div'>
 	<h2>Login to StockoTrade</h2>
 	<form method='POST' id='login-form' action='/login'>
 		<label for='username_input'>Username</label>
@@ -9,8 +9,8 @@
 			pattern='^[A-Za-z0-9]+$'
 			title='Only letters and numbers allowed.'
 			maxlength='32'
-			minlength="1"
-		/>		
+			minlength='1'
+		/>
 		<label for='password_input'>Password</label>
 		<input
 			id='password_input'
@@ -24,6 +24,6 @@
 		<button type='submit' class='account-btn'>Login</button>
 	</form>
 	{{#if errorMessage}}
-		<p class="login-error">{{errorMessage}}</p>
+		<p class='login-error'>{{errorMessage}}</p>
 	{{/if}}
-</div>
+</section>

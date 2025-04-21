@@ -1,7 +1,7 @@
 import dashboardRouter from './dashboard.js';
 import loginRouter from './login.js';
 import signupRouter from './signup.js';
-import logoutRouter from './logout.js'
+import logoutRouter from './logout.js';
 
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
@@ -24,7 +24,7 @@ const setupRoutes = (app) => {
 	// Bind login router
 	app.use('/login', loginRouter);
 	// Bind a logout router that just clears cookies
-	app.use('/logout', logoutRouter)
+	app.use('/logout', logoutRouter);
 	// Bind dashboard router
 	app.use('/dashboard', dashboardRouter);
 	// Bind universal router for invalid URL's
@@ -33,7 +33,8 @@ const setupRoutes = (app) => {
 		return res.status(404).render('error', {
 			errorCode: 404,
 			title: '404',
-			errorMessage: "Seems like you are going to a page that doesn't exist."
+			errorMessage:
+				"Seems like you are going to a page that doesn't exist.",
 		});
 	});
 };

@@ -76,12 +76,10 @@ router
 				console.log(e);
 				const errorCode = e[0];
 				const errorMessage = `${errorCode} Error: ${e[1]}`;
-				return res
-					.status(errorCode)
-					.render('signup', {
-						title: 'Sign Up',
-						errorMessage: errorMessage,
-					});
+				return res.status(errorCode).render('signup', {
+					title: 'Sign Up',
+					errorMessage: errorMessage,
+				});
 			}
 			try {
 				const userInsertInfo = await userData.createUser(
@@ -108,12 +106,10 @@ router
 			} catch (e) {
 				const errorCode = e[0];
 				const errorMessage = `${errorCode} Error: ${e[1]}`;
-				return res
-					.status(errorCode)
-					.render('signup', {
-						title: 'Sign Up',
-						errorMessage: errorMessage,
-					});
+				return res.status(errorCode).render('signup', {
+					title: 'Sign Up',
+					errorMessage: errorMessage,
+				});
 			}
 		}
 	});

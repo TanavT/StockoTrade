@@ -1,4 +1,4 @@
-<div id='signup-div'>
+<section id='signup-div'>
 	<h2>Sign Up!</h2>
 	<form method='POST' id='signup-form' action='/signup'>
 		<label for='username_input'>Username</label>
@@ -9,7 +9,7 @@
 			pattern='^[A-Za-z0-9]+$'
 			title='Only letters and numbers allowed.'
 			maxlength='32'
-			minlength="1"
+			minlength='1'
 		/>
 		<label for='first_name_input'>First Name</label>
 		<input
@@ -19,7 +19,7 @@
 			pattern='^[A-Za-z]+$'
 			title='Only letters allowed.'
 			maxlength='32'
-			minlength="1"
+			minlength='1'
 		/>
 		<label for='last_name_input'>Last Name</label>
 		<input
@@ -29,7 +29,7 @@
 			pattern='^[A-Za-z]+$'
 			title='Only letters allowed.'
 			maxlength='32'
-			minlength="1"
+			minlength='1'
 		/>
 		<label for='email_input'>Email</label>
 		<input id='email_input' name='email_input' type='email' required />
@@ -50,7 +50,7 @@
 			type='number'
 			value='18'
 			min='18'
-			max="100"
+			max='100'
 			required
 		/>
 		<label for='birthday_input'>Birthday</label>
@@ -64,6 +64,6 @@
 		<button type='submit' class='account-btn'>Sign Up</button>
 	</form>
 	{{#if errorMessage}}
-		<p class="signup-error">{{errorMessage}}</p>
+		<p class='signup-error'>{{errorMessage}}</p>
 	{{/if}}
-</div>
+</section>

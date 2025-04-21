@@ -108,6 +108,11 @@ const matchUserNameAndPassword = async (username, password) => {
 	return verifyCredentials;
 };
 
-const userDataFunctions = { createUser, getUserById, matchUserNameAndPassword, getUserByUserName };
+const userDataFunctions = {
+	createUser,
+	getUserById,
+	matchUserNameAndPassword,
+	getUserByUserName,
+};
 
 export default userDataFunctions;
