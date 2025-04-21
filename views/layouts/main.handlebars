@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang='en'>
 	<head>
 		<meta charset='UTF-8' />
@@ -26,9 +27,6 @@
 			href='/public/favicon/favicon.ico'
 		/>
 		<link rel='manifest' href='/public/site.webmanifest' />
-		{{#each scriptPaths}}
-			<script src='/public/js/{{this}}'></script>
-		{{/each}}
 		<title>{{title}}</title>
 	</head>
 	<body>
@@ -38,6 +36,14 @@
 				{{#if isLoggedIn}}
 					<form method="GET" action="/leaderboard" class="leaderboard-form">
 						<button type='submit' class='leaderboard-btn'>Leaderboard</button>
+					</form>
+					<form name="searchBarStocksForm" id="searchBarStocksForm" class="searchBarForm">
+    					<!--<label for="searchBarStocks">Search for stocks...</label> -->
+    					<input name="searchBarStocks" id="searchBarStocks" type="text" placeholder="Search for Stocks" class="searchBar">
+					</form>
+					<form name="searchBarPeopleForm" id="searchBarPeopleForm" class="searchBarForm">
+    					<!--<label for="searchBarStocks">Search for stocks...</label> -->
+    					<input name="searchBarPeople" id="searchBarPeople" type="text" placeholder="Search for People" class="searchBar">
 					</form>
 					<form method='POST' action='/logout' class='signout-form'>
 						<button type='submit' class='signout-btn'>Sign Out</button>
@@ -72,5 +78,9 @@
 				<p>StockoTrade by @CS546-Team10</p>
 			</div>
 		</footer>
+			<script src='/public/js/searchBar.js'></script>
+		{{#each scriptPaths}}
+			<script src='/public/js/{{this}}'></script>
+		{{/each}}
 	</body>
 </html>
