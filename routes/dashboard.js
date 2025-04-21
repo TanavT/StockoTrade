@@ -16,7 +16,8 @@ router.route('/:id').get(async (req, res) => {
 	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
 		// The dashboard (by the end of the project) will take in alot of parameters of
 		// statistics calculated in realtime
-		return res.status(200).render('dashboard', { isLoggedIn: true });
+		const user = await userData.getUserById(req.params.id)
+		return res.status(200).render('dashboard', { isLoggedIn: true, username: user.username, scriptPaths: ['dashboard.js'], title: "dashboard" });
 	} else {
 		return res.status(200).redirect('/');
 	}
