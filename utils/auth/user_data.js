@@ -9,13 +9,13 @@ export const verifyUserInfo = (
 	age,
 	birthday
 ) => {
-	const verifiedUserName = verifyUserName(userName)
-	const verifiedFirstName = verifyFirstName(firstName)
-	const verifiedLastName = verifyLastName(lastName)
-	const verifiedEmail = verifyEmail(email)
-	const verifiedPassword = verifyPassword(password)
-	const verifiedAge = verifyAge(age); 
-	const verifiedBirthday = verifyBirthday(birthday)
+	const verifiedUserName = verifyUserName(userName);
+	const verifiedFirstName = verifyFirstName(firstName);
+	const verifiedLastName = verifyLastName(lastName);
+	const verifiedEmail = verifyEmail(email);
+	const verifiedPassword = verifyPassword(password);
+	const verifiedAge = verifyAge(age);
+	const verifiedBirthday = verifyBirthday(birthday);
 	return [
 		verifiedUserName,
 		verifiedFirstName,
@@ -23,54 +23,54 @@ export const verifyUserInfo = (
 		verifiedEmail,
 		verifiedPassword,
 		verifiedAge,
-		verifiedBirthday
-	]
+		verifiedBirthday,
+	];
 };
 
 export const verifyUserName = (userName) => {
 	const trimUserName = verifyString(userName, 'Username');
 	if (trimUserName.length > 32)
-		throw ['400', 'Username must have a length less than or equal to 32.'];
+		throw [400, 'Username must have a length less than or equal to 32.'];
 	const pattern = /^[A-Za-z0-9]+$/;
 	if (!pattern.test(trimUserName))
-		throw ['400', 'Username must only contain letters and numbers.'];
+		throw [400, 'Username must only contain letters and numbers.'];
 	return trimUserName;
 };
 
 export const verifyFirstName = (firstName) => {
 	const trimFirstName = verifyString(firstName, 'First Name');
 	if (trimFirstName.length > 32)
-		throw ['400', 'First Name must have a length less than or equal to 32.'];
+		throw [400, 'First Name must have a length less than or equal to 32.'];
 	const pattern = /^[A-Za-z]+$/;
 	if (!pattern.test(trimFirstName))
-		throw ['400', 'First Name must only contain letters.'];
+		throw [400, 'First Name must only contain letters.'];
 	return trimFirstName;
 };
 
 export const verifyLastName = (lastName) => {
 	const trimLastName = verifyString(lastName, 'Last Name');
 	if (trimLastName.length > 32)
-		throw ['400', 'Last Name must have a length less than or equal to 32.'];
+		throw [400, 'Last Name must have a length less than or equal to 32.'];
 	const pattern = /^[A-Za-z]+$/;
 	if (!pattern.test(trimLastName))
-		throw ['400', 'Last Name must only contain letters.'];
+		throw [400, 'Last Name must only contain letters.'];
 	return trimLastName;
 };
 
 export const verifyEmail = (email) => {
-	const trimEmail = verifyString(email, 'Email')
-	const emailPattern = /^[A-Za-z0-9.-]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-	if(!pattern.test(trimEmail)) throw ['400', 'Invalid email format.']
-	return emailPattern
-}
+	const trimEmail = verifyString(email, 'Email');
+	const emailPattern = /^[A-Za-z0-9.-]+\@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+	if (!emailPattern.test(trimEmail)) throw [400, 'Invalid email format.'];
+	return trimEmail;
+};
 
 export const verifyPassword = (password) => {
 	const trimPassword = verifyString(password, 'Password');
 	if (trimPassword.length < 8)
-		throw ['400', 'Password length must be greater than or equal to 8.'];
+		throw [400, 'Password length must be greater than or equal to 8.'];
 	const pattern = /^[A-Za-z0-9]+$/;
 	if (!pattern.test(trimPassword))
-		throw ['400', 'Password must only contain letters and numbers.'];
+		throw [400, 'Password must only contain letters and numbers.'];
 	return trimPassword;
 };
 
@@ -81,7 +81,7 @@ export const verifyAge = (age) => {
 	if (!pattern.test(trimAge)) throw ['400', 'Age must be a proper number.'];
 	const numAge = Number.parseInt(trimAge);
 	if (numAge < 18 || numAge > 100)
-		throw ['400', 'Age must be between 18 and 100.'];
+		throw [400, 'Age must be between 18 and 100.'];
 	return trimAge;
 };
 
@@ -106,25 +106,33 @@ export const verifyBirthday = (birthday) => {
 		return true;
 	};
 	const trimBirthday = verifyString(birthday, 'Birthday');
-	const pattern = /^\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])$/;
+	if (trimBirthday.length !== 10)
+		throw [400, 'Date length must be equal to 10.'];
+	const pattern = /^\d{4}\-(0[1-9]|1[0-2])\-(0[1-9]|[12][0-9]|3[01])$/;
 	if (!pattern.test(trimBirthday))
-		throw ['400', 'Birthday must be in YYYY-MM-DD format.'];
-	const yearMonthDay = trimBirthday.split('/');
+		throw [400, 'Birthday must be in YYYY-MM-DD format.'];
+	const yearMonthDay = trimBirthday.split('-');
 	const year = Number.parseInt(yearMonthDay[0]);
 	const month = Number.parseInt(yearMonthDay[1]);
 	const day = Number.parseInt(yearMonthDay[2]);
-	i
-	if (!verifyDate(year, month, day)) throw ['400', 'Invalid Birthday.'];
+	if (!verifyDate(year, month, day)) throw [400, 'Invalid Birthday.'];
 	const today = new Date();
-	if(year > today.getFullYear || year < 1900) throw ['400', `Invalid birthday year range, only years [1900,${today.getFullYear}] is allowed.`]
-	const ageDifference = today.getFullYear - year;
-	if (!(ageDifference >= 18 )) throw ['400', 'Sorry, but you must be 18 or older to use StockoTrade.'];
+	if (year > today.getFullYear() || year < 1900)
+		throw [
+			400,
+			`Invalid birthday year range, only years [1900,${today.getFullYear()}] is allowed.`,
+		];
+	const ageDifference = today.getFullYear() - year;
+	// TODO: Should I also consider month and day here?
+	if (!(ageDifference >= 18))
+		throw [400, 'Sorry, but you must be 18 or older to use StockoTrade.'];
+	return trimBirthday;
 };
 
 // Will be used in dashboard router
 export const verifyId = (id) => {
 	const trimId = verifyString(id, 'User ID');
-	if (!ObjectId.isValid(trimId)) throw ['400', 'Error: Invalid object ID'];
+	if (!ObjectId.isValid(trimId)) throw [400, 'Error: Invalid object ID'];
 	return trimId;
 };
 
@@ -164,10 +172,10 @@ const checkIfKeyInObject = (keyName, requestBody) => {
 
 // These errors DO require an array
 const verifyString = (str, varName) => {
-	if (!str) throw ['400', `You must provide a ${varName}.`];
-	if (typeof str !== 'string') throw ['400', `${varName} must be a string.`];
+	if (!str) throw [400, `You must provide a ${varName}.`];
+	if (typeof str !== 'string') throw [400, `${varName} must be a string.`];
 	const trimStr = str.trim();
 	if (trimStr.length < 1)
-		throw ['400', `${varName} cannot be an empty string or whitespace.`];
+		throw [400, `${varName} cannot be an empty string or whitespace.`];
 	return trimStr;
 };

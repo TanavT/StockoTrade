@@ -1,14 +1,17 @@
 import { Router } from 'express';
 import { userData } from '../data/index.js';
-import { verifySignUpRequestBody, verifyUserInfo } from '../utils/auth/user_data.js';
+import {
+	verifySignUpRequestBody,
+	verifyUserInfo,
+} from '../utils/auth/user_data.js';
 
 const router = Router();
 
 router
 	.route('/')
 	.get(async (req, res) => {
-		const isLoggedIn = req.cookies.isAuthenticated; 
-		const userId = req.cookies.userID; 
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userId = req.cookies.userID;
 		if (
 			isLoggedIn &&
 			userId &&
@@ -17,9 +20,7 @@ router
 		) {
 			return res.status(200).redirect(`../dashboard/${userId}`);
 		} else {
-			return res
-				.status(200)
-				.render('signup', { title: 'Sign Up' });
+			return res.status(200).render('signup', { title: 'Sign Up' });
 		}
 	})
 	.post(async (req, res) => {
@@ -46,13 +47,11 @@ router
 			try {
 				verifySignUpRequestBody(userInfo);
 			} catch (e) {
-				return res
-					.status(400)
-					.render('error', {
-						errorCode: 400,
-						title: '400',
-						errorMessage: e,
-					});
+				return res.status(400).render('error', {
+					errorCode: 400,
+					title: '400',
+					errorMessage: e,
+				});
 			}
 			try {
 				// Perform input verification server side
@@ -63,7 +62,7 @@ router
 					verifiedEmail,
 					verifiedPassword,
 					verifiedAge,
-					verifiedBirthday
+					verifiedBirthday,
 				] = verifyUserInfo(
 					userInfo.username_input,
 					userInfo.first_name_input,
@@ -72,11 +71,15 @@ router
 					userInfo.password_input,
 					userInfo.age_input,
 					userInfo.birthday_input
-				)
-			} catch(e) {
-				const errorCode = Number.parseInt(e[0])
-				const errorMessage = `${errorCode} Error: ${e[1]}`
-				return res.status(errorCode).render('signup', { title: 'Sign Up', errorMessage: errorMessage})
+				);
+			} catch (e) {
+				console.log(e);
+				const errorCode = e[0];
+				const errorMessage = `${errorCode} Error: ${e[1]}`;
+				return res.status(errorCode).render('signup', {
+					title: 'Sign Up',
+					errorMessage: errorMessage,
+				});
 			}
 			try {
 				const userInsertInfo = await userData.createUser(
@@ -101,9 +104,12 @@ router
 					.status(200)
 					.redirect(`../dashboard/${userInsertInfo._id}`);
 			} catch (e) {
-				const errorCode = Number.parseInt(e[0])
-				const errorMessage = `${errorCode} Error: ${e[1]}`
-				return res.status(errorCode).render('signup', { title: 'Sign Up', errorMessage: errorMessage})
+				const errorCode = e[0];
+				const errorMessage = `${errorCode} Error: ${e[1]}`;
+				return res.status(errorCode).render('signup', {
+					title: 'Sign Up',
+					errorMessage: errorMessage,
+				});
 			}
 		}
 	});
