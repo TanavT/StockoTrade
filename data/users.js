@@ -54,6 +54,7 @@ const createUser = async (
 
 	const newUser = {
 		username: verifiedUserName.toUpperCase(),
+		filler_username: verifiedUserName, // Filler value for visual purposes
 		password: passwordHash,
 		firstName: verifiedFirstName,
 		lastName: verifiedLastName,

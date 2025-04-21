@@ -26,11 +26,9 @@
 			href='/public/favicon/favicon.ico'
 		/>
 		<link rel='manifest' href='/public/site.webmanifest' />
-		{{#if inputScript}}
-			{{#each scriptPaths}}
-				<script src='/public/js/{{path}}'></script>
-			{{/each}}
-		{{/if}}
+		{{#each scriptPaths}}
+			<script src='/public/js/{{this}}'></script>
+		{{/each}}
 		<title>{{title}}</title>
 	</head>
 	<body>
@@ -38,6 +36,9 @@
 			<div class='main-header-content'>
 				<h1><a href='/'>StockoTrade</a></h1>
 				{{#if isLoggedIn}}
+					<form method="GET" action="/leaderboard" class="leaderboard-form">
+						<button type='submit' class='leaderboard-btn'>Leaderboard</button>
+					</form>
 					<form method='POST' action='/logout' class='signout-form'>
 						<button type='submit' class='signout-btn'>Sign Out</button>
 					</form>

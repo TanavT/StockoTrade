@@ -2,6 +2,7 @@ import dashboardRouter from './dashboard.js';
 import loginRouter from './login.js';
 import signupRouter from './signup.js';
 import logoutRouter from './logout.js';
+import leaderboardRouter from './leaderboard.js'
 
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
@@ -27,6 +28,8 @@ const setupRoutes = (app) => {
 	app.use('/logout', logoutRouter);
 	// Bind dashboard router
 	app.use('/dashboard', dashboardRouter);
+	// Bind leaderboard router
+	app.use('/leaderboard', leaderboardRouter)
 	// Bind universal router for invalid URL's
 	app.use(/(.*)/, (req, res) => {
 		// Set status code to 404 and render the error page
