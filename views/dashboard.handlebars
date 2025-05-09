@@ -1,23 +1,40 @@
-
-<h1 id="userNameDisplay">{{username}}</h1>
 <h2>Dashboard Screen (WIP)</h2>
-<div>
-    <p>Capital: {{capital}}</p>
-    <p>Portfolio Worth: {{portfolio_worth}}</p> 
+<h1 id="userNameDisplay">{{username}}</h1>
+<div class="userSummary">
+  <p>Capital: {{capital}}</p>
+  <p>Portfolio Worth: {{portfolio_worth}}</p> 
 </div>
-<div>
-    <p>Tickers</p>
-    <ul>
+<div class="tickersAndHistory">
+    <table class="tickers">
+        <caption>Tickers Held</caption>
+        <tr>
+            <th>Stock Ticker</th>
+            <th>Volume</th>
+        </tr>
         {{#each tickers}}
-        <li>{{this}}</li>
+        <tr>
+        <td>{{this.stock_ticker}}</td>
+        <td>{{this.volume}} shares</td>
+        </tr>
         {{/each}}
-    </ul>
-</div>
-<div>
-    <p>Trade History</p>
-    <ol>
+    </table>
+    <table class="trades">
+        <caption>Trade History</caption>
+        <tr>
+            <th>Type</th>
+            <th>Stock Ticker</th>
+            <th>Volume</th>
+            <th>Value</th>
+            <th>Date</th>
+        </tr>
         {{#each trade_history}}
-        <li>{{this}}</li>
+        <tr>
+        <td>{{this.type}}</td>
+        <td>{{this.stock_ticker}}</td>
+        <td>{{this.volume}} shares</td>
+        <td>${{this.value}}</td>
+        <td>{{this.date}}</td>
+        </tr>
         {{/each}}
-    </ol>
+    </table>
 </div>
