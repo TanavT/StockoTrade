@@ -1,8 +1,23 @@
 
 <h1 id="userNameDisplay">{{username}}</h1>
-<!--<form name="searchBarStocksForm" id="searchBarStocksForm">
-    <label for="searchBarStocks">Search for stocks...</label>
-    <input name="searchBarStocks" id="searchBarStocks" type="text">
-</form> -->
-
 <h2>Dashboard Screen (WIP)</h2>
+<div>
+    <p>Capital: {{capital}}</p>
+    <p>Portfolio Worth: {{portfolio_worth}}</p> 
+</div>
+<div>
+    <p>Tickers</p>
+    <ul>
+        {{#each tickers}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ul>
+</div>
+<div>
+    <p>Trade History</p>
+    <ol>
+        {{#each trade_history}}
+        <li>{{this}}</li>
+        {{/each}}
+    </ol>
+</div>

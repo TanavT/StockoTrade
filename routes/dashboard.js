@@ -17,7 +17,8 @@ router.route('/:id').get(async (req, res) => {
 		// The dashboard (by the end of the project) will take in alot of parameters of
 		// statistics calculated in realtime
 		const user = await userData.getUserById(req.params.id)
-		return res.status(200).render('dashboard', { isLoggedIn: true, username: user.filler_username, scriptPaths: ['dashboard.js'], title: "dashboard" });
+		return res.status(200).render('dashboard', { isLoggedIn: true, username: user.filler_username, scriptPaths: ['dashboard.js'], title: "dashboard", 
+			capital: user.portfolio_information.capital, portfolio_worth: user.portfolio_information.portfolio_worth, tickers: user.portfolio_information.tickers, trade_history: user.portfolio_information.trade_history});
 	} else {
 		return res.status(200).redirect('/');
 	}
