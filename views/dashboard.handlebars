@@ -1,8 +1,11 @@
 <h2>Dashboard Screen (WIP)</h2>
 <h1 id="userNameDisplay">{{username}}</h1>
 <div class="userSummary">
-  <p>Capital: {{capital}}</p>
-  <p>Portfolio Worth: {{portfolio_worth}}</p> 
+  <p id="capital">Capital: {{capital}}</p>
+  <p id="portfolio_worth">Portfolio Worth: {{portfolio_worth}}</p> 
+  <form id="recomputePorfolioWorthForm">
+  <button type="button" id="recomputePortfolioWorth">Recompute Portfolio Worth</button>
+  </form>
 </div>
 <div class="tickersAndHistory">
     <table class="tickers">
@@ -33,7 +36,7 @@
         <td>{{this.stock_ticker}}</td>
         <td>{{this.volume}} shares</td>
         <td>${{this.value}}</td>
-        <td>{{this.date}}</td>
+        <td>{{this.date}}</td> <!--Added this part just in case we wanted it, it is not in the doc -->
         </tr>
         {{/each}}
     </table>

@@ -24,4 +24,8 @@ router.route('/:id').get(async (req, res) => {
 	}
 });
 
+router.route('/portfolio/worth/:id').post(async (req,res) => {
+
+});
+
 export default router;
