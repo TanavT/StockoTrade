@@ -429,3 +429,34 @@ a:hover {
 	border-radius: 5px;
 	box-sizing: border-box;
   }
+  .tickersAndHistory {
+  display: flex;
+  gap: 32px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 500px;
+}
+
+table caption {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+.summary {
+  margin-bottom: 16px;
+}
