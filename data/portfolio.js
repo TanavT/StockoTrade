@@ -27,7 +27,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	//adding new ticker to array and sorting, easier to find
 	userToBuy.portfolio_information.tickers.push({stock_ticker: verifiedStock_Ticker, volume: verifiedVolume})
 	const newTicker = userToBuy.portfolio_information.tickers.toSorted((a,b) => {
-		a.stock_ticker.localeCompare(b.stock_ticker)
+		return a.stock_ticker.localeCompare(b.stock_ticker)
 	})
 
 	const now = new Date()
