@@ -1,3 +1,9 @@
+//my bs just to look at it for now
+//import yahooFinance from 'yahoo-finance2';
+//yahooFinance.suppressNotices(['yahooSurvey'])
+//const results = await yahooFinance.search('GNT')
+//console.log(results)
+
 import express from 'express';
 import exphbs from 'express-handlebars';
 import morgan from 'morgan';

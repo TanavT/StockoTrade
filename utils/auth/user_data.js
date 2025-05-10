@@ -1,3 +1,4 @@
+import { stackOrderInsideOut } from 'd3';
 import { ObjectId } from 'mongodb';
 
 export const verifyUserInfo = (
@@ -135,6 +136,24 @@ export const verifyId = (id) => {
 	if (!ObjectId.isValid(trimId)) throw [400, 'Error: Invalid object ID'];
 	return trimId;
 };
+
+//for buying and selling stock functions, when calling this function you will need to use yahoofinance.search after to make sure the stock exists
+export const verifyStockAndUserPartial = (id, stockTicker, volume) => {
+	const verifiedId = verifyId(id)
+	const verifiedStockTicker = verifyString(stockTicker, "Stock Ticker").toUpperCase();
+	const verifiedVolume = verifyNumber(volume, 'Volume');
+	return [verifiedId, verifiedStockTicker, verifiedVolume]
+
+}
+
+//takes string number and output number of type number
+export const verifyNumber = (num, varName) => {
+	const trimNum = verifyString(num, varName)
+	const pattern = /^\d+$/;
+	if (!pattern.test(trimNum)) throw ['400', `${varName} must be a proper number.`];
+	const numb = Number.parseInt(trimNum);
+	return numb
+}
 
 // These errors wont require an array
 export const verifySignUpRequestBody = (requestBody) => {

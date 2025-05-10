@@ -78,7 +78,9 @@
 				<p>StockoTrade by @CS546-Team10</p>
 			</div>
 		</footer>
+		{{#if isLoggedIn}}
 			<script src='/public/js/searchBar.js'></script>
+		{{/if}}
 		{{#each scriptPaths}}
 			<script src='/public/js/{{this}}'></script>
 		{{/each}}
