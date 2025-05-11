@@ -190,7 +190,7 @@ const checkIfKeyInObject = (keyName, requestBody) => {
 };
 
 // These errors DO require an array
-const verifyString = (str, varName) => {
+export const verifyString = (str, varName) => { //gonna export this for now, lmk if it should not be exported
 	if (!str) throw [400, `You must provide a ${varName}.`];
 	if (typeof str !== 'string') throw [400, `${varName} must be a string.`];
 	const trimStr = str.trim();

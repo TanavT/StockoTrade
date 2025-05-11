@@ -1,3 +1,4 @@
+import xss from 'xss'
 import { Router } from 'express';
 import { userData, portfolioData } from '../data/index.js';
 import { verifyId } from '../utils/auth/user_data.js';
@@ -33,10 +34,11 @@ router.route('/chart/:id').get(async (req,res) => {
 	res.json(result)
 });
 
-router.route('/worth/:id').get(async (req,res) => {
+router.route('/worth').post(async (req,res) => {
 	//console.log("Route reached")
-	req.params.id = verifyId(req.params.id)
-	const result = await portfolioData.getPortfolioWorthCurrent(req.params.id)
+	let userId = xss(req.body.userId)
+	userId = verifyId(userId)
+	const result = await portfolioData.getPortfolioWorthCurrent(userId)
 	res.json(result)
 });
 

@@ -200,7 +200,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {fields: ["regularMarketPrice"]})
 		gettingPrice = gettingPrice['regularMarketPrice']
-		console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
+		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume
 	}
 

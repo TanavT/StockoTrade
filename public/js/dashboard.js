@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //portfolio_worth
     let portfolioWorth = document.getElementById("portfolio_worth")
-    fetch(`/dashboard/worth/${userId}`)
+    fetch(`/dashboard/worth`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId})
+    })
         .then((response => response.json()))
         .then((data) => {
             //console.log("response reached")
