@@ -22,6 +22,7 @@ router
 	.post(async (req, res) => {
 		const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
 		const userId = req.cookies.userID; // Make sure we have a userID cookies
+		// Theoretically shouldn't happen but good to check anyway
 		if (
 			isLoggedIn &&
 			userId &&
@@ -35,7 +36,7 @@ router
 			if (!loginInfo || Object.keys(loginInfo).length === 0) {
 				return res.status(400).render('error', {
 					errorCode: 400,
-					title: '400',
+					title: '400 Error',
 					errorMessage: 'Invalid Request Body Detected.',
 				});
 			}
@@ -45,7 +46,7 @@ router
 			} catch (e) {
 				return res.status(400).render('error', {
 					errorCode: 400,
-					title: '400',
+					title: '400 Error',
 					errorMessage: e,
 				});
 			}

@@ -146,7 +146,7 @@ export const verifyBirthday = (birthday) => {
 // Will be used in dashboard router
 export const verifyId = (id) => {
 	const trimId = verifyString(id, 'User ID');
-	if (!ObjectId.isValid(trimId)) throw [400, 'Error: Invalid object ID'];
+	if (!ObjectId.isValid(trimId)) throw [400, 'Invalid object ID.'];
 	return trimId;
 };
 

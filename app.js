@@ -1,9 +1,3 @@
-//my bs just to look at it for now
-import yahooFinance from 'yahoo-finance2';
-yahooFinance.suppressNotices(['yahooSurvey'])
-const results = await yahooFinance.chart('JVSAU', {period1: '2025-05-01', period2: '2025-05-11', interval: '1d'})
-//console.log(results)
-
 import express from 'express';
 import exphbs from 'express-handlebars';
 import morgan from 'morgan';

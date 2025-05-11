@@ -38,7 +38,7 @@ const setupRoutes = (app) => {
 		// Set status code to 404 and render the error page
 		return res.status(404).render('error', {
 			errorCode: 404,
-			title: '404',
+			title: '404 Error',
 			errorMessage:
 				"Seems like you are going to a page that doesn't exist.",
 		});
