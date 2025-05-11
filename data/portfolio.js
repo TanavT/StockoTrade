@@ -128,7 +128,7 @@ async function getPortfolioWorthOverTime(userId) {
 		period1: dateList[0], //first buy
 		interval: '1d',
       	//range: '1y', in case we want to restrict it to only 1y or other metric, leaving unlimited for now
-    });
+	});
     	tickerPrices[ticker] = {};
     	for (const { date, close } of history.quotes) {
       		const d = new Date(date).toISOString().split('T')[0];
@@ -177,12 +177,12 @@ async function getPortfolioWorthOverTime(userId) {
   			}
 		}
 
-    	result.push({
-      		date,
+		result.push({
+			date,
 			//both under can be used, but no purpose for them anymore
       		investedValue: parseFloat(investedValue.toFixed(4)),
-      		cash: parseFloat(cash.toFixed(4)),
-      		totalValue: parseFloat((cash + investedValue).toFixed(4))
+			cash: parseFloat(cash.toFixed(4)),
+			totalValue: parseFloat((cash + investedValue).toFixed(4))
     	});
   	}
   	return result;
