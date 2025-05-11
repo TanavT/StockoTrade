@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response => response.json()))
         .then((data) => {
             //console.log("response reached")
-            portfolioWorth.innerHTML = `Portfolio Worth: $${data.toFixed(4)}`
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
         }) 
         .catch((error) => {
             console.error(`Could not display portfolio worth because of error: ${error}`)
@@ -40,6 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 .attr("class", "portfolio-svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom);
+
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", 15)
+                .attr("text-anchor", "middle")
+                .attr("class", "graph-title")
+                .text("Portfolio Value Over Time")
 
             const g = svg.append("g")
                 .attr("class", "chart-group")
@@ -95,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/dashboard/worth/${userId}`)
         .then((response => response.json()))
         .then((data) => {
-            portfolioWorth.innerHTML = `Portfolio Worth: $${data.toFixed(4)}`
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
         }) 
         .catch((error) => {
             console.error(`Could not display portfolio worth because of error: ${error}`)
