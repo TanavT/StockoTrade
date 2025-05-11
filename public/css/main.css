@@ -515,8 +515,8 @@ th {
 }
 
 /* Base styling for error messages */
-.signup-error,
-.login-error {
+#signup-error,
+#login-error,.login-error,.signup-error {
   display: block;
   color: #b00020;          
   background-color: transparent; 

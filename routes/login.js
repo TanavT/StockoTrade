@@ -16,7 +16,12 @@ router
 		) {
 			return res.status(200).redirect(`../dashboard/${userId}`);
 		} else {
-			return res.status(200).render('login', { title: 'Login' });
+			return res
+				.status(200)
+				.render('login', {
+					title: 'Login',
+					scriptPaths: ['auth_login_form.js'],
+				});
 		}
 	})
 	.post(async (req, res) => {
@@ -58,13 +63,12 @@ router
 				const credentialsCorrect =
 					await userData.matchUserNameAndPassword(userName, password);
 				if (!credentialsCorrect)
-					return res
-						.status(400)
-						.render('login', {
-							title: 'Login',
-							errorMessage:
-								'400 Error: Password incorrect for given username.',
-						});
+					return res.status(400).render('login', {
+						title: 'Login',
+						errorMessage:
+							'400 Error: Password incorrect for given username.',
+						scriptPaths: ['auth_login_form.js'],
+					});
 
 				// If successfull, time to set cookies
 				const dayFromNow = new Date(
@@ -78,12 +82,11 @@ router
 			} catch (e) {
 				const errorCode = e[0];
 				const errorMessage = `${errorCode} Error: ${e[1]}`;
-				return res
-					.status(errorCode)
-					.render('login', {
-						title: 'Login',
-						errorMessage: errorMessage,
-					});
+				return res.status(errorCode).render('login', {
+					title: 'Login',
+					errorMessage: errorMessage,
+					scriptPaths: ['auth_login_form.js'],
+				});
 			}
 		}
 	});

@@ -20,7 +20,12 @@ router
 		) {
 			return res.status(200).redirect(`../dashboard/${userId}`);
 		} else {
-			return res.status(200).render('signup', { title: 'Sign Up' });
+			return res
+				.status(200)
+				.render('signup', {
+					title: 'Sign Up',
+					scriptPaths: ['auth_signup_form.js'],
+				});
 		}
 	})
 	.post(async (req, res) => {
@@ -79,6 +84,7 @@ router
 				return res.status(errorCode).render('signup', {
 					title: 'Sign Up',
 					errorMessage: errorMessage,
+					scriptPaths: ['auth_signup_form.js'],
 				});
 			}
 			try {
@@ -109,6 +115,7 @@ router
 				return res.status(errorCode).render('signup', {
 					title: 'Sign Up',
 					errorMessage: errorMessage,
+					scriptPaths: ['auth_signup_form.js'],
 				});
 			}
 		}
