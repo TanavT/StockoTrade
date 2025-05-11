@@ -33,8 +33,11 @@ router.route('/chart/:id').get(async (req,res) => {
 	res.json(result)
 });
 
-router.route('/portfolio/worth/:id').post(async (req,res) => {
-
+router.route('/worth/:id').get(async (req,res) => {
+	//console.log("Route reached")
+	req.params.id = verifyId(req.params.id)
+	const result = await portfolioData.getPortfolioWorthCurrent(req.params.id)
+	res.json(result)
 });
 
 export default router;

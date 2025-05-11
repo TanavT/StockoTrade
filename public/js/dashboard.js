@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const username = document.getElementById("userNameDisplay")
+    const userId = username.getAttribute("userId")
+
+    //portfolio_worth
+    let portfolioWorth = document.getElementById("portfolio_worth")
+    fetch(`/dashboard/worth/${userId}`)
+        .then((response => response.json()))
+        .then((data) => {
+            //console.log("response reached")
+            portfolioWorth.innerHTML = `Portfolio Worth: $${data.toFixed(4)}`
+        }) 
+        .catch((error) => {
+            console.error(`Could not display portfolio worth because of error: ${error}`)
+        })
+
+
+    //chart
     let chartDiv = document.getElementById("portfolio-chart")
-    const userId = chartDiv.getAttribute("userId")
     fetch(`/dashboard/chart/${userId}`)
         .then((response) => response.json())
         .then((data) => {
@@ -66,13 +82,18 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => {
             console.error(`Could not display chart because of error: ${error}`)
         })
-
-    let username = document.getElementById("userNameDisplay")
     let pwButton = document.getElementById("recomputePortfolioWorth")
 
     pwButton.addEventListener("click", function (event) {
         event.preventDefault();
-        console.log("Button pressed for Recompute Profile Worth")
+        fetch(`/dashboard/worth/${userId}`)
+        .then((response => response.json()))
+        .then((data) => {
+            portfolioWorth.innerHTML = `Portfolio Worth: $${data.toFixed(4)}`
+        }) 
+        .catch((error) => {
+            console.error(`Could not display portfolio worth because of error: ${error}`)
+        })
     })
 
 })
