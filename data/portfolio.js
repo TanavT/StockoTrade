@@ -48,6 +48,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
+	if (!updatedInfo) throw ['500', 'Could not sell']
 	return updatedInfo
 	
 }
@@ -98,6 +99,7 @@ const sellStock = async(userId, stock_ticker, volume) => {
 
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
+	if (!updatedInfo) throw ['500', 'Could not sell']
 	return updatedInfo
 
 }
@@ -107,7 +109,7 @@ async function getPortfolioWorthOverTime(userId) {
 	const userCollection = await users();
 	const userToInspect = await userCollection.findOne({
 			_id: new ObjectId(verifiedUserId)
-	})	
+	})
   	let cash = 100000; //inital amount of money user starts with, is set to 100000 currently
   	const tradeHistory = userToInspect.portfolio_information.trade_history;
   	const tickers = [...new Set(tradeHistory.map(t => t.stock_ticker))];
@@ -124,15 +126,15 @@ async function getPortfolioWorthOverTime(userId) {
   	//getting price history for each ticker
   	const tickerPrices = {};
   	for (const ticker of tickers) {
-    	const history = await yahooFinance.chart(ticker, {
+		const history = await yahooFinance.chart(ticker, {
 		period1: dateList[0], //first buy
 		interval: '1d',
-      	//range: '1y', in case we want to restrict it to only 1y or other metric, leaving unlimited for now
+	  	//range: '1y', in case we want to restrict it to only 1y or other metric, leaving unlimited for now
 	});
-    	tickerPrices[ticker] = {};
-    	for (const { date, close } of history.quotes) {
-      		const d = new Date(date).toISOString().split('T')[0];
-      		tickerPrices[ticker][d] = close;
+		tickerPrices[ticker] = {};
+		for (const { date, close } of history.quotes) {
+	  		const d = new Date(date).toISOString().split('T')[0];
+	  		tickerPrices[ticker][d] = close;
 		}
   	}
   	const result = [];
@@ -161,8 +163,8 @@ async function getPortfolioWorthOverTime(userId) {
 			tradeIndex++;
 		}
 
-    	//calculating portfolio value
-    	let investedValue = 0;
+		//calculating portfolio value
+		let investedValue = 0;
 		for (const [ticker, volume] of Object.entries(holdings)) {
   			if (volume <= 0) continue;
 
@@ -180,12 +182,38 @@ async function getPortfolioWorthOverTime(userId) {
 		result.push({
 			date,
 			//both under can be used, but no purpose for them anymore
-      		investedValue: parseFloat(investedValue.toFixed(4)),
+			investedValue: parseFloat(investedValue.toFixed(4)),
 			cash: parseFloat(cash.toFixed(4)),
 			totalValue: parseFloat((cash + investedValue).toFixed(4))
-    	});
+		});
   	}
   	return result;
+}
+
+const getPortfolioWorthCurrent = async (userId) => {
+	const verifiedUserId = verifyId(userId)
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({
+			_id: new ObjectId(verifiedUserId)
+	})
+	let total = userToInspect.portfolio_information.capital
+	for (const ticker of userToInspect.portfolio_information.tickers) {
+		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {fields: ["regularMarketPrice"]})
+		gettingPrice = gettingPrice['regularMarketPrice']
+		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
+		total += gettingPrice * ticker.volume
+	}
+
+	const newPortfolioInformation = {
+		capital: userToInspect.portfolio_information.capital,
+		portfolio_worth: total,
+		tickers: userToInspect.portfolio_information.tickers,
+		trade_history: userToInspect.portfolio_information.trade_history,
+	}
+	//updating in collection
+	const result = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}})
+	if (!result) throw ['500', 'Could not update']
+	return total
 }
 
 const getTopPortfolioProfiles = async () => {
@@ -216,6 +244,6 @@ const getTopPortfolioProfiles = async () => {
 
 console.log(await getTopPortfolioProfiles());
 
-const portfolioDataFunctions = { getTopPortfolioProfiles, buyStock, sellStock, getPortfolioWorthOverTime};
+const portfolioDataFunctions = { getTopPortfolioProfiles, buyStock, sellStock, getPortfolioWorthOverTime, getPortfolioWorthCurrent};
 
 export default portfolioDataFunctions;

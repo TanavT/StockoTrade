@@ -485,6 +485,10 @@ th {
   	margin-bottom: 16px;
 }
 
+.graph-title {
+	font-size: 20px;
+	font-weight: bold;
+}
 .portfolio-svg {
   	background-color: #f9f9f9;
 }

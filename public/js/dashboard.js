@@ -1,6 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const username = document.getElementById("userNameDisplay")
+    const userId = username.getAttribute("userId")
+
+    //portfolio_worth
+    let portfolioWorth = document.getElementById("portfolio_worth")
+    fetch(`/dashboard/worth`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId})
+    })
+        .then((response => response.json()))
+        .then((data) => {
+            //console.log("response reached")
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
+        }) 
+        .catch((error) => {
+            console.error(`Could not display portfolio worth because of error: ${error}`)
+        })
+
+
+    //chart
     let chartDiv = document.getElementById("portfolio-chart")
-    const userId = chartDiv.getAttribute("userId")
     fetch(`/dashboard/chart/${userId}`)
         .then((response) => response.json())
         .then((data) => {
@@ -18,6 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 .attr("class", "portfolio-svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom);
+
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", 15)
+                .attr("text-anchor", "middle")
+                .attr("class", "graph-title")
+                .text("Portfolio Value Over Time")
 
             const g = svg.append("g")
                 .attr("class", "chart-group")
@@ -66,13 +95,18 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch((error) => {
             console.error(`Could not display chart because of error: ${error}`)
         })
-
-    let username = document.getElementById("userNameDisplay")
     let pwButton = document.getElementById("recomputePortfolioWorth")
 
     pwButton.addEventListener("click", function (event) {
         event.preventDefault();
-        console.log("Button pressed for Recompute Profile Worth")
+        fetch(`/dashboard/worth/${userId}`)
+        .then((response => response.json()))
+        .then((data) => {
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
+        }) 
+        .catch((error) => {
+            console.error(`Could not display portfolio worth because of error: ${error}`)
+        })
     })
 
 })
