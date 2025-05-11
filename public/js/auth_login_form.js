@@ -1,0 +1,1 @@
+// Client side javascript to client-side verify form info for login
