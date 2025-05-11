@@ -1,3 +1,4 @@
+// Makes an AJAX request to get database data for top 10 profiles
 document.addEventListener("DOMContentLoaded", function () {
     // Example data - replace with fetch call if pulling from server
     const leaderboard = [
