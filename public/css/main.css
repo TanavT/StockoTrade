@@ -269,10 +269,19 @@ a:hover {
 /* Chart container styling */
 .chartArea {
   flex: 2 1 600px;
-  background: #fff;
+  background: #ffffff;
   border: 2px solid var(--primary);
   border-radius: 10px;
   padding: 1.5rem;
+}
+.portfolio-area {
+	fill: rgb(0, 255, 13);
+	opacity: 0.5;
+}
+.portfolio-line {
+  	fill: none;
+  	stroke: rgb(70, 180, 112);
+  	stroke-width: 2px;
 }
 #portfolio-chart {
   width: 100%;
