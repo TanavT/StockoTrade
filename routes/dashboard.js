@@ -1,7 +1,7 @@
 import xss from 'xss';
 import { Router } from 'express';
 import { userData, portfolioData } from '../data/index.js';
-import { verifyId } from '../utils/auth/user_data.js';
+import { verifyId, verifyString } from '../utils/auth/user_data.js';
 const router = Router();
 
 router.route('/:id').get(async (req, res) => {
@@ -52,6 +52,8 @@ router.route('/chart/:id').get(async (req, res) => {
 	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
+		const result = await portfolioData.getPortfolioWorthOverTime(req.params.id);
+		res.json(result);
 	} catch (e) {
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
@@ -60,15 +62,38 @@ router.route('/chart/:id').get(async (req, res) => {
 			errorMessage: e[1],
 		});
 	}	
-	const result = await portfolioData.getPortfolioWorthOverTime(req.params.id);
-	res.json(result);
 });
+
+router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
+	//console.log("Route reached")
+	let stock_ticker = xss(req.params.stock_ticker);
+	let volume = xss(req.params.volume)
+	try {
+		stock_ticker = verifyString(stock_ticker);
+		volume = verifyString(volume);
+		const value = await portfolioData.getCurrentValue(stock_ticker, volume);
+		res.json(value);
+	} catch (e) {
+		console.log(e)
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: parseInt(errorCode),
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}	
+	// console.log(result)
+
+});
+
 
 router.route('/worth').post(async (req, res) => {
 	//console.log("Route reached")
 	let userId = xss(req.body.userId);
 	try {
 		userId = verifyId(userId);
+		const result = await portfolioData.getPortfolioWorthCurrent(userId);
+		res.json(result);
 	} catch (e) {
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
@@ -77,8 +102,6 @@ router.route('/worth').post(async (req, res) => {
 			errorMessage: e[1],
 		});
 	}
-	const result = await portfolioData.getPortfolioWorthCurrent(userId);
-	res.json(result);
 });
 
 export default router;

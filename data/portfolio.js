@@ -3,7 +3,7 @@ yahooFinance.suppressNotices(['yahooSurvey']) //I gave you your survey, stop sen
 
 import { ObjectId } from 'mongodb';
 import { users } from '../config/mongodb/mongoCollections.js';
-import { verifyStockAndUserPartial, verifyId} from '../utils/auth/user_data.js';
+import { verifyStockAndUserPartial, verifyId, verifyString} from '../utils/auth/user_data.js';
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
@@ -319,6 +319,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 		//console.log(ticker.stock_ticker)
 		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {fields: ["regularMarketPrice"]})
 		gettingPrice = gettingPrice['regularMarketPrice']
+		if (!gettingPrice) throw [500, "Could not get price"]
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume
 	}
@@ -333,6 +334,17 @@ const getPortfolioWorthCurrent = async (userId) => {
 	const result = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}})
 	if (!result) throw ['500', 'Could not update']
 	return {portfolio_worth: total, capital: userToInspect.portfolio_information.capital}
+}
+
+const getCurrentValue = async(stock_ticker, volume) => {
+	stock_ticker = verifyString(stock_ticker);
+	volume = verifyString(volume);
+	const volumeInt = parseInt(volume)
+	let gettingPrice = await yahooFinance.quote(stock_ticker, {fields: ["regularMarketPrice"]})
+	gettingPrice = gettingPrice['regularMarketPrice']
+	if (!gettingPrice) throw [500, "Could not get price"]
+	return {result: (gettingPrice * volumeInt)}
+
 }
 
 const getTopPortfolioProfiles = async () => {
@@ -368,6 +380,15 @@ const getTopPortfolioProfiles = async () => {
 	return topProfiles;
 };
 
-const portfolioDataFunctions = { getTopPortfolioProfiles, buyStock, sellStock, getPortfolioWorthOverTime, getPortfolioWorthCurrent, buyStockPast, sellStockPast};
+const portfolioDataFunctions = {
+	getTopPortfolioProfiles, 
+	buyStock, 
+	sellStock,
+	getPortfolioWorthOverTime, 
+	getPortfolioWorthCurrent, 
+	buyStockPast, 
+	sellStockPast,
+	getCurrentValue
+};
 
 export default portfolioDataFunctions;
