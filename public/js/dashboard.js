@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const username = document.getElementById("userNameDisplay")
 	const userId = username.getAttribute("userId")
 
+	//selling buttons
+	const sellForm = document.querySelectorAll('.sell-form')
+
 	//portfolio_worth
 	let portfolioWorth = document.getElementById("portfolio_worth")
 	let capital = document.getElementById("capital")
@@ -29,13 +32,15 @@ document.addEventListener("DOMContentLoaded", function () {
 		const row = rows[i];
 		const stock_ticker = row.querySelector('td a').innerHTML;
 		const volume = (row.querySelectorAll('td')[1].innerHTML).split(" ")[0];
-		const currentValue = row.querySelectorAll('td')[2]
+		const currentTotalValue = row.querySelectorAll('td')[2]
+		const currentpricePerShare = row.querySelectorAll('td')[3]
 
 		fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
 		.then((response) => response.json())
 		.then((data) => {
-			console.log(data)
-			currentValue.innerHTML = `$${data.result.toFixed(4)}`
+			// console.log(data)
+			currentTotalValue.innerHTML = `$${data.total_price.toFixed(4)}`
+			currentpricePerShare.innerHTML = `$${data.price_per_share.toFixed(4)}`
 			
 		})
 		.catch((error) => {

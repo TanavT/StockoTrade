@@ -343,7 +343,7 @@ const getCurrentValue = async(stock_ticker, volume) => {
 	let gettingPrice = await yahooFinance.quote(stock_ticker, {fields: ["regularMarketPrice"]})
 	gettingPrice = gettingPrice['regularMarketPrice']
 	if (!gettingPrice) throw [500, "Could not get price"]
-	return {result: (gettingPrice * volumeInt)}
+	return {total_price: (gettingPrice * volumeInt), price_per_share: gettingPrice}
 
 }
 

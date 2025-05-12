@@ -8,17 +8,17 @@ await db.dropDatabase();
 // Create 3 accounts first
 
 
-const Tanav = await userData.createUser("TanavT", "Tanav", "Thota", "tanavthota@gmail.com", "Password123", "20", "2004-06-24")
-const Chris = await userData.createUser("ChrisBrown", "Chris", "Brown", "cbrown19@notstevens.edu", "TestingDIFFERENTPassword098", "21", "2003-10-23")
-const Mylo = await userData.createUser("Mylo", "Mylo", "Thota", "randomemail@hotmail.com", "BadPassword1", "21", "2004-01-19")
-const Logan = await userData.createUser("ltripler", "Logan", "Tripler", "logantripler@example.com", "Passwd123", "20", "2002-12-07")
-const JustinK = await userData.createUser("jkwak", "Justin", "Kwak", "justinkwak@example.com", "Passwod123", "21", "2005-06-24")
-const JustinF = await userData.createUser("jfarley", "Justin", "Farley", "justinfarley@example.com", "Passwor23", "21", "2003-07-24")
-const Peter = await userData.createUser("pparker", "Peter", "Parker", "peterparker@example.com", "Passd123", "27", "2004-08-18")
-const Sam = await userData.createUser("ssulek", "Sam", "Sulek", "samsulek@example.com", "Passw123", "23", "2002-11-04")
-const Rock = await userData.createUser("trock", "The", "Rock", "therock@example.com", "Passrd123", "53", "2003-12-22")
-const Mike = await userData.createUser("mtyson", "Mike", "Tyson", "miketyson@example.com", "Pasord123", "58", "2003-10-19")
-const Willy = await userData.createUser("wwonka", "Willy", "Wonka", "willywonka@example.com", "Pasord123", "47", "2001-01-27");
+const Tanav = await userData.createUser("TanavT", "Tanav", "Thota", "tanavthota@gmail.com", "Password123!", "20", "2004-06-24")
+const Chris = await userData.createUser("ChrisBrown", "Chris", "Brown", "cbrown19@notstevens.edu", "Test!ngDIFFERENTPassword098", "21", "2003-10-23")
+const Mylo = await userData.createUser("Mylo", "Mylo", "Thota", "randomemail@hotmail.com", "BadPassword2!", "21", "2004-01-19")
+const Logan = await userData.createUser("ltripler", "Logan", "Tripler", "logantripler@example.com", "P@sswd123", "20", "2002-12-07")
+const JustinK = await userData.createUser("jkwak", "Justin", "Kwak", "justinkwak@example.com", "P@ssw0d123", "21", "2005-06-24")
+const JustinF = await userData.createUser("jfarley", "Justin", "Farley", "justinfarley@example.com", "Pa$$wor23", "21", "2003-07-24")
+const Peter = await userData.createUser("pparker", "Peter", "Parker", "peterparker@example.com", "Passd!23", "27", "2004-08-18")
+const Sam = await userData.createUser("ssulek", "Sam", "Sulek", "samsulek@example.com", "P@ssw12E", "23", "2002-11-04")
+const Rock = await userData.createUser("trock", "The", "Rock", "therock@example.com", "Passrd!23", "53", "2003-12-22")
+const Mike = await userData.createUser("mtyson", "Mike", "Tyson", "miketyson@example.com", "Pas0rd!23", "58", "2003-10-19")
+const Willy = await userData.createUser("wwonka", "Willy", "Wonka", "willywonka@example.com", "P@sord123*", "47", "2001-01-27");
 
 const Tid = Tanav._id.toString();
 const Cid = Chris._id.toString();

@@ -192,6 +192,7 @@ a:hover {
 .leaderboard__table td {
   padding: 0.75rem;
   border: 1px solid #ddd;
+  text-align: center;
 }
 .leaderboard__table th {
   background: #f0f0f0;

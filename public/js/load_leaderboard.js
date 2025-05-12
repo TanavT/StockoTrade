@@ -10,7 +10,7 @@
         const row = $('<tr>');
         row.append( $('<td>').text(item.username) );
         row.append( $('<td>').text(
-          item.portfolio_worth.toFixed(2)
+          `$${item.portfolio_worth.toFixed(2)}`
         ));
         tableBody.append(row);
       });
