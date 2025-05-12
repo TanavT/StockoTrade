@@ -104,6 +104,28 @@ router.route('/worth').post(async (req, res) => {
 	}
 });
 
+
+router.route('/sell').post(async (req, res) => {
+	//console.log("Route reached")
+	let sellAmount = xss(req.body.sellAmount);
+	let stockTicker = xss(req.body.stockTicker)
+	let userId = xss(req.body.userId);
+	try {
+		userId = verifyId(userId);
+		sellAmount = verifyString(sellAmount);
+		stockTicker = verifyString(stockTicker);
+		const result = await portfolioData.sellStock(userId, stockTicker, sellAmount);
+		res.json(result);
+	} catch (e) {
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}
+});
+
 router.route('/reset').post(async (req,res) => {
 	const isLoggedIn = req.cookies.isAuthenticated;
 	const userId = req.cookies.userID;
@@ -114,5 +136,6 @@ router.route('/reset').post(async (req,res) => {
 		return res.status(200).redirect('/');
 	}
 })
+
 
 export default router;

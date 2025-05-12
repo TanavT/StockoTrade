@@ -3,7 +3,43 @@ document.addEventListener("DOMContentLoaded", function () {
 	const userId = username.getAttribute("userId")
 
 	//selling buttons
-	const sellForm = document.querySelectorAll('.sell-form')
+	const sellForms = document.querySelectorAll('.sell-stock')
+	sellForms.forEach( (form) => {
+		form.addEventListener('submit', async(event) => {
+			event.preventDefault()
+			const stockTicker = form.dataset.stock_ticker;
+	  		const input = form.querySelector(`input[name="sell_amount_${stockTicker}"]`);
+	  		const sellAmount = input.value;
+	  		// console.log(`Selling ${sellAmount} shares of ${stockTicker}`);
+			fetch(`/dashboard/sell`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({userId, stockTicker, sellAmount})
+			})
+				.then((response => response.json()))
+				.then((data) => {
+					const index = data.tickers.findIndex((ticker_elem) => ticker_elem.stock_ticker === stockTicker)
+					if (index === -1) {
+						const row = document.getElementById(`row_${stockTicker}`);
+						if (row) row.remove();
+					} else {
+						const updated_volume = data.tickers[index].volume
+						const volumeElement = document.getElementById(`volume_${stockTicker}`);
+						volumeElement.innerHTML = `${updated_volume} shares`;
+						input.max = updated_volume;
+					}
+					updateTickers();
+					// capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
+					// portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
+				}) 
+				.catch((error) => {
+					console.error(`Could not display sell stock because of error: ${error}`)
+				})
+		})
+	})
+
 
 	//portfolio_worth
 	let portfolioWorth = document.getElementById("portfolio_worth")
@@ -27,27 +63,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	//tickers current value
-	const rows = document.querySelectorAll('.tickers tr'); 
-	for (let i = 1; i < rows.length; i++) {  // Skip the header row 
-		const row = rows[i];
-		const stock_ticker = row.querySelector('td a').innerHTML;
-		const volume = (row.querySelectorAll('td')[1].innerHTML).split(" ")[0];
-		const currentTotalValue = row.querySelectorAll('td')[2]
-		const currentpricePerShare = row.querySelectorAll('td')[3]
+	const updateTickers = () => {
+		const rows = document.querySelectorAll('.tickers tr'); 
+		for (let i = 1; i < rows.length; i++) {  // Skip the header row 
+			const row = rows[i];
+			const stock_ticker = row.querySelector('td a').innerHTML;
+			const volume = (row.querySelectorAll('td')[1].innerHTML).split(" ")[0];
+			const currentTotalValue = row.querySelectorAll('td')[2]
+			const currentpricePerShare = row.querySelectorAll('td')[3]
 
-		fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
-		.then((response) => response.json())
-		.then((data) => {
-			// console.log(data)
-			currentTotalValue.innerHTML = `$${data.total_price.toFixed(4)}`
-			currentpricePerShare.innerHTML = `$${data.price_per_share.toFixed(4)}`
-			
-		})
-		.catch((error) => {
-			console.error(`Could not display current value because of error: ${error}`)
-		})
+			fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
+				.then((response) => response.json())
+				.then((data) => {
+					// console.log(data)
+					currentTotalValue.innerHTML = `$${data.total_price.toFixed(4)}`
+					currentpricePerShare.innerHTML = `$${data.price_per_share.toFixed(4)}`
+				
+				})
+				.catch((error) => {
+					console.error(`Could not display current value because of error: ${error}`)
+				})
+		}
 	}
-	
+	updateTickers(); //run once at page load
 	//chart
 	let chartDiv = document.getElementById("portfolio-chart")
 	fetch(`/dashboard/chart/${userId}`)
