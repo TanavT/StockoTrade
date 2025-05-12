@@ -138,9 +138,9 @@ export const verifyBirthday = (birthday) => {
 				400,
 				'Sorry, but you must be 18 or older to use StockoTrade.',
 			];
-	} else {
-		return trimBirthday;
-	}
+	} 
+	return trimBirthday;
+	
 };
 
 // Will be used in dashboard router

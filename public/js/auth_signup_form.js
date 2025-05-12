@@ -12,7 +12,11 @@ if (signupForm) {
 	function outputError(errorcode, message) {
 		userNameInput.value = '';
 		passwordInput.value = '';
-		signupErrorOutput.value = `${errorcode}: ${message}`;
+		firstNameInput.value = ''
+		lastNameInput.value = ''
+		emailInput.value = ''
+		ageInput.value = ''
+		signupErrorOutput.innerHTML = `${errorcode}: ${message}`;
 		signupErrorOutput.hidden = false;
 	}
 	signupForm.addEventListener('submit', (event) => {

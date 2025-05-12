@@ -62,6 +62,13 @@ router
 			}
 			try {
 				// Perform input verification server side
+				userInfo.username_input = xss(userInfo.username_input)
+				userInfo.first_name_input = xss(userInfo.first_name_input)
+				userInfo.last_name_input = xss(userInfo.last_name_input)
+				userInfo.email_input = xss(userInfo.email_input)
+				userInfo.password_input = xss(userInfo.password_input)
+				userInfo.age_input = xss(userInfo.age_input)
+				userInfo.birthday_input = xss(userInfo.birthday_input)
 				var [
 					verifiedUserName,
 					verifiedFirstName,
@@ -71,13 +78,13 @@ router
 					verifiedAge,
 					verifiedBirthday,
 				] = verifyUserInfo(
-					xss(userInfo.username_input),
-					xss(userInfo.first_name_input),
-					xss(userInfo.last_name_input),
-					xss(userInfo.email_input),
-					xss(userInfo.password_input),
-					xss(userInfo.age_input),
-					xss(userInfo.birthday_input)
+					userInfo.username_input,
+					userInfo.first_name_input,
+					userInfo.last_name_input,
+					userInfo.email_input,
+					userInfo.password_input,
+					userInfo.age_input,
+					userInfo.birthday_input
 				);
 			} catch (e) {
 				const errorCode = e[0];

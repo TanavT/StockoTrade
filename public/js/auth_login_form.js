@@ -7,7 +7,7 @@ if (loginForm) {
 	function outputError(errorcode, message) {
 		userNameInput.value = '';
 		passwordInput.value = '';
-		loginErrorOutput.value = `${errorcode}: ${message}`;
+		loginErrorOutput.innerHTML = `${errorcode}: ${message}`;
 		loginErrorOutput.hidden = false;
 	}
 	loginForm.addEventListener('submit', (event) => {
