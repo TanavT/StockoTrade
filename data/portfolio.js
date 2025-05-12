@@ -35,11 +35,21 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 	if (userToBuy.portfolio_information.capital < buyCost) throw [403, `Trying to buy ${stock_ticker} for a total of ${buyCost} with ${userToBuy.portfolio_information.capital}`]
 
 	//updating tickers, tradehistory, and capital
+	let newTicker = null
+	// console.log(userToBuy.portfolio_information.tickers)
+	const indexOfTicker = userToBuy.portfolio_information.tickers.findIndex((ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker)
+	if (indexOfTicker >= 0) { 
+		//ticker exists
+		userToBuy.portfolio_information.tickers[indexOfTicker].volume += verifiedVolume
+		newTicker = userToBuy.portfolio_information.tickers
+	} else {
 	//adding new ticker to array and sorting, easier to find
-	userToBuy.portfolio_information.tickers.push({stock_ticker: verifiedStock_Ticker, volume: verifiedVolume})
-	const newTicker = userToBuy.portfolio_information.tickers.toSorted((a,b) => {
-		return a.stock_ticker.localeCompare(b.stock_ticker)
-	})
+		userToBuy.portfolio_information.tickers.push({stock_ticker: verifiedStock_Ticker, volume: verifiedVolume})
+		newTicker = userToBuy.portfolio_information.tickers.toSorted((a,b) => {
+			return a.stock_ticker.localeCompare(b.stock_ticker)
+			
+		})
+	}
 
 	//adding new trade to front of array, most recent trades on top
 	userToBuy.portfolio_information.trade_history.unshift({type: "Buy", stock_ticker: verifiedStock_Ticker,
@@ -58,7 +68,7 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
 	if (!updatedInfo) throw ['500', 'Could not sell']
-	return updatedInfo
+	return newPortfolioInformation
 	
 }
 
@@ -91,7 +101,7 @@ const sellStockPast = async(userId, stock_ticker, volume, dateSold) => {
 
 	//may have to check for multiplication error
 	let newTicker = userToSell.portfolio_information.tickers
-	const indexOfTicker = newTicker.findIndex((ticker_elem) => ticker_elem.stock_ticker == verifiedStock_Ticker)
+	const indexOfTicker = newTicker.findIndex((ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker)
 	if (newTicker[indexOfTicker].volume < verifiedVolume) throw [403, "User does not have enough owned shares to sell and make this trade"]
 
 	//updating tickers, tradehistory, and capital
@@ -119,7 +129,7 @@ const sellStockPast = async(userId, stock_ticker, volume, dateSold) => {
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
 	if (!updatedInfo) throw ['500', 'Could not sell']
-	return updatedInfo
+	return newPortfolioInformation
 
 }
 
@@ -146,11 +156,20 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	if (userToBuy.portfolio_information.capital < buyCost) throw [403, `Trying to buy ${stock_ticker} for a total of ${buyCost} with ${userToBuy.portfolio_information.capital}`]
 
 	//updating tickers, tradehistory, and capital
+	let newTicker = null
+	const indexOfTicker = userToBuy.portfolio_information.tickers.findIndex((ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker)
+	if (indexOfTicker >= 0) { 
+		//ticker exists
+		userToBuy.portfolio_information.tickers[indexOfTicker].volume += verifiedVolume
+		newTicker = userToBuy.portfolio_information.tickers
+	} else {
 	//adding new ticker to array and sorting, easier to find
-	userToBuy.portfolio_information.tickers.push({stock_ticker: verifiedStock_Ticker, volume: verifiedVolume})
-	const newTicker = userToBuy.portfolio_information.tickers.toSorted((a,b) => {
-		return a.stock_ticker.localeCompare(b.stock_ticker)
-	})
+		userToBuy.portfolio_information.tickers.push({stock_ticker: verifiedStock_Ticker, volume: verifiedVolume})
+		newTicker = userToBuy.portfolio_information.tickers.toSorted((a,b) => {
+			return a.stock_ticker.localeCompare(b.stock_ticker)
+			
+		})
+	}
 
 	const now = new Date()
 	//adding new trade to front of array, most recent trades on top
@@ -170,7 +189,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
 	if (!updatedInfo) throw ['500', 'Could not sell']
-	return updatedInfo
+	return newPortfolioInformation
 	
 }
 
@@ -193,7 +212,7 @@ const sellStock = async(userId, stock_ticker, volume) => {
 
 	//may have to check for multiplication error
 	let newTicker = userToSell.portfolio_information.tickers
-	const indexOfTicker = newTicker.findIndex((ticker_elem) => ticker_elem.stock_ticker == verifiedStock_Ticker)
+	const indexOfTicker = newTicker.findIndex((ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker)
 	if (newTicker[indexOfTicker].volume < verifiedVolume) throw [403, "User does not have enough owned shares to sell and make this trade"]
 
 	//updating tickers, tradehistory, and capital
@@ -222,7 +241,7 @@ const sellStock = async(userId, stock_ticker, volume) => {
 	const updatedInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}},{returnDocument: 'after'})
 	//could set _id to id right here, idrc right now
 	if (!updatedInfo) throw ['500', 'Could not sell']
-	return updatedInfo
+	return newPortfolioInformation
 
 }
 
