@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	const username = document.getElementById("userNameDisplay")
 	const userId = username.getAttribute("userId")
 
+	//selling buttons
+	const sellForm = document.querySelectorAll('.sell-form')
+
 	//portfolio_worth
 	let portfolioWorth = document.getElementById("portfolio_worth")
 	let capital = document.getElementById("capital")
