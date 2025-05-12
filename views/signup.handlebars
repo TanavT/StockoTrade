@@ -49,9 +49,9 @@
       name="password_input"
       type="password"
       required
-      pattern="^[A-Za-z0-9]+$"
+      pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[\S]{8,}$"
       minlength="8"
-      title="Only letters and numbers are allowed."
+      title="Be at least 8 characters long and contain at least one uppercase, number, and special character."
     />
 
     <label for="age_input">Age</label>

@@ -37,9 +37,9 @@ const verifyPassword = (password) => {
 	const trimPassword = verifyString(password, 'Password');
 	if (trimPassword.length < 8)
 		throw [400, 'Password length must be greater than or equal to 8.'];
-	const pattern = /^[A-Za-z0-9]+$/;
+	const pattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[\S]{8,}$/;
 	if (!pattern.test(trimPassword))
-		throw [400, 'Password must only contain letters and numbers.'];
+		throw [400, 'Password must contain at least one uppercase, number, and special character.'];
 	return trimPassword;
 };
 
