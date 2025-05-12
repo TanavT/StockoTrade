@@ -242,8 +242,6 @@ const getTopPortfolioProfiles = async () => {
 	return topProfiles;
 };
 
-console.log(await getTopPortfolioProfiles());
-
 const portfolioDataFunctions = { getTopPortfolioProfiles, buyStock, sellStock, getPortfolioWorthOverTime, getPortfolioWorthCurrent};
 
 export default portfolioDataFunctions;

@@ -27,6 +27,9 @@
 			href='/public/favicon/favicon.ico'
 		/>
 		<link rel='manifest' href='/public/site.webmanifest' />
+		{{#each outsidePaths}}
+			<script src='{{this}}'></script>
+		{{/each}}
 		<title>{{title}}</title>
 	</head>
 	<body>
@@ -84,8 +87,6 @@
 		{{#each scriptPaths}}
 			<script src='/public/js/{{this}}'></script>
 		{{/each}}
-		{{#each outsidePaths}}
-			<script src='{{this}}'></script>
-		{{/each}}
+
 	</body>
 </html>

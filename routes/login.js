@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { userData } from '../data/index.js';
 import { verifyLoginRequestBody } from '../utils/auth/user_data.js';
+import xss from 'xss';
 const router = Router();
 
 router
@@ -58,8 +59,8 @@ router
 
 			// Make a login attempt
 			try {
-				const userName = loginInfo.username_input;
-				const password = loginInfo.password_input;
+				const userName = xss(loginInfo.username_input);
+				const password = xss(loginInfo.password_input);
 				const credentialsCorrect =
 					await userData.matchUserNameAndPassword(userName, password);
 				if (!credentialsCorrect)
