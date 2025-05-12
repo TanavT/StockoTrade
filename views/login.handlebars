@@ -1,30 +1,34 @@
-<section id='login-div'>
-	<h2>Login to StockoTrade</h2>
-	<form method='POST' id='login-form' action='/login'>
-		<label for='username_input'>Username</label>
-		<input
-			id='username_input'
-			name='username_input'
-			required
-			pattern='^[A-Za-z0-9]+$'
-			title='Only letters and numbers allowed.'
-			maxlength='32'
-			minlength='1'
-		>
-		<label for='password_input'>Password</label>
-		<input
-			id='password_input'
-			name='password_input'
-			type='password'
-			pattern='^[A-Za-z0-9]+$'
-			minlength='8'
-			required
-			title='Only letters and numbers are allowed.'
-		>
-		<button type='submit' class='account-btn'>Login</button>
-	</form>
-	<p id='login-error' hidden></p>
-	{{#if errorMessage}}
-		<p class='login-error'>{{errorMessage}}</p>
-	{{/if}}
+<section class="auth card">
+  <h2>Login to StockoTrade</h2>
+
+  <form id="login-form" method="POST" action="/login">
+    <label for="username_input">Username</label>
+    <input
+      id="username_input"
+      name="username_input"
+      required
+      pattern="^[A-Za-z0-9]+$"
+      title="Only letters and numbers allowed."
+      maxlength="32"
+      minlength="1"
+    />
+
+    <label for="password_input">Password</label>
+    <input
+      id="password_input"
+      name="password_input"
+      type="password"
+      required
+      pattern="^[A-Za-z0-9]+$"
+      minlength="8"
+      title="Only letters and numbers are allowed."
+    />
+
+    <button type="submit" class="btn">Login</button>
+  </form>
+
+  <p id="login-error" class="auth-error" hidden></p>
+  {{#if errorMessage}}
+    <p class="auth-error">{{errorMessage}}</p>
+  {{/if}}
 </section>

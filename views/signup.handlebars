@@ -1,70 +1,84 @@
-<section id='signup-div'>
-	<h2>Sign Up!</h2>
-	<form method='POST' id='signup-form' action='/signup'>
-		<label for='username_input'>Username</label>
-		<input
-			id='username_input'
-			name='username_input'
-			required
-			pattern='^[A-Za-z0-9]+$'
-			title='Only letters and numbers allowed.'
-			maxlength='32'
-			minlength='1'
-		>
-		<label for='first_name_input'>First Name</label>
-		<input
-			id='first_name_input'
-			name='first_name_input'
-			required
-			pattern='^[A-Za-z]+$'
-			title='Only letters allowed.'
-			maxlength='32'
-			minlength='1'
-		>
-		<label for='last_name_input'>Last Name</label>
-		<input
-			id='last_name_input'
-			name='last_name_input'
-			required
-			pattern='^[A-Za-z]+$'
-			title='Only letters allowed.'
-			maxlength='32'
-			minlength='1'
-		>
-		<label for='email_input'>Email</label>
-		<input id='email_input' name='email_input' type='email' required >
-		<label for='password_input'>Password</label>
-		<input
-			id='password_input'
-			name='password_input'
-			type='password'
-			pattern='^[A-Za-z0-9]+$'
-			minlength='8'
-			required
-			title='Only letters and numbers are allowed.'
-		>
-		<label for='age_input'>Age</label>
-		<input
-			id='age_input'
-			name='age_input'
-			type='number'
-			value='18'
-			min='18'
-			max='100'
-			required
-		>
-		<label for='birthday_input'>Birthday</label>
-		<input
-			id='birthday_input'
-			name='birthday_input'
-			type='date'
-			required
-			value='2007-01-01'
-		>
-		<button type='submit' class='account-btn'>Sign Up</button>
-	</form>
-	<p id='signup-error' hidden></p>
-	{{#if errorMessage}}
-		<p class='signup-error'>{{errorMessage}}</p>
-	{{/if}}
+<section class="auth card">
+  <h2>Sign Up!</h2>
+
+  <form id="signup-form" method="POST" action="/signup">
+    <label for="username_input">Username</label>
+    <input
+      id="username_input"
+      name="username_input"
+      required
+      pattern="^[A-Za-z0-9]+$"
+      title="Only letters and numbers allowed."
+      maxlength="32"
+      minlength="1"
+    />
+
+    <label for="first_name_input">First Name</label>
+    <input
+      id="first_name_input"
+      name="first_name_input"
+      required
+      pattern="^[A-Za-z]+$"
+      title="Only letters allowed."
+      maxlength="32"
+      minlength="1"
+    />
+
+    <label for="last_name_input">Last Name</label>
+    <input
+      id="last_name_input"
+      name="last_name_input"
+      required
+      pattern="^[A-Za-z]+$"
+      title="Only letters allowed."
+      maxlength="32"
+      minlength="1"
+    />
+
+    <label for="email_input">Email</label>
+    <input
+      id="email_input"
+      name="email_input"
+      type="email"
+      required
+    />
+
+    <label for="password_input">Password</label>
+    <input
+      id="password_input"
+      name="password_input"
+      type="password"
+      required
+      pattern="^[A-Za-z0-9]+$"
+      minlength="8"
+      title="Only letters and numbers are allowed."
+    />
+
+    <label for="age_input">Age</label>
+    <input
+      id="age_input"
+      name="age_input"
+      type="number"
+      value="18"
+      min="18"
+      max="100"
+      required
+    />
+
+    <label for="birthday_input">Birthday</label>
+    <input
+      id="birthday_input"
+      name="birthday_input"
+      type="date"
+      required
+      value="2007-01-01"
+    />
+
+    <button type="submit" class="btn">Sign Up</button>
+  </form>
+
+  <p id="signup-error" class="auth-error" hidden></p>
+  {{#if errorMessage}}
+    <p class="auth-error">{{errorMessage}}</p>
+  {{/if}}
 </section>

@@ -1,61 +1,68 @@
 <!DOCTYPE html>
-<html lang='en'>
-	<head>
-		<meta charset='UTF-8' >
-		<meta name='viewport' content='width=device-width, initial-scale=1.0' >
-		<link rel='stylesheet' href='/public/css/main.css' >
-		<link rel='apple-touch-icon' sizes='180x180' href='/public/favicon/apple-touch-icon.png'>
-		<link rel='icon' type='image/png' sizes='32x32' href='/public/favicon/favicon-32x32.png'>
-		<link rel='icon' type='image/png' sizes='16x16' href='/public/favicon/favicon-16x16.png'>
-		<link rel='icon' type='image/x-icon' href='/public/favicon/favicon.ico'>
-		<link rel='manifest' href='/public/site.webmanifest' >
-		{{#each outsidePaths}}
-			<script src='{{this}}'></script>
-		{{/each}}
-		<title>{{title}}</title>
-	</head>
-	<body>
-		<header class='main-header'>
-			<div class='main-header-content'>
-				<h1><a href='/'>StockoTrade</a></h1>
-				{{#if isLoggedIn}}
-					<form method='GET' action='/leaderboard' class='leaderboard-form'>
-						<button type='submit' class='leaderboard-btn'>Leaderboard</button>
-					</form>
-					<form name='searchBarStocksForm' id='searchBarStocksForm' class='searchBarForm'>
-						<!--<label for="searchBarStocks">Search for stocks...</label> -->
-						<input name='searchBarStocks' id='searchBarStocks' type='text' placeholder='Search for Stocks' class='searchBar'/>
-					</form>
-					<form name='searchBarPeopleForm' id='searchBarPeopleForm'class='searchBarForm'>
-						<!--<label for="searchBarStocks">Search for stocks...</label> -->
-						<input name='searchBarPeople' id='searchBarPeople' type='text' placeholder='Search for People' class='searchBar'/>
-					</form>
-					<form method='POST' action='/logout' class='signout-form'>
-						<button type='submit' class='signout-btn'>Sign Out</button>
-					</form>
-				{{/if}}
-			</div>
-		</header>
-		<main>
-			{{{body}}}
-		</main>
-		<footer class='main-footer'>
-			<div class='main-footer-content'>
-				<p>Authors:</p>
-				<ul>
-					<li><a href='https://github.com/Josh-Hiz' target='_blank'>Joshua Hizgiaev</a></li>
-					<li><a href='https://github.com/mattsolstice' target='_blank'>Matthew Soltys</a></li>
-					<li><a href='https://github.com/TanavT' target='_blank'>Tanav Thota</a></li>
-					<li><a href='https://github.com/thehargun' target='_blank'>Hargun Sawhney</a></li>
-				</ul>
-				<p>StockoTrade by @CS546-Team10</p>
-			</div>
-		</footer>
-		{{#if isLoggedIn}}
-			<script src='/public/js/searchBar.js'></script>
-		{{/if}}
-		{{#each scriptPaths}}
-			<script src='/public/js/{{this}}'></script>
-		{{/each}}
-	</body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/css/main.css" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16x16.png" />
+    <link rel="icon" type="image/x-icon" href="/public/favicon/favicon.ico" />
+    <link rel="manifest" href="/public/site.webmanifest" />
+    {{#each outsidePaths}}
+      <script src="{{this}}"></script>
+    {{/each}}
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header__content">
+        <h1 class="site-logo"><a href="/">StockoTrade</a></h1>
+        {{#if isLoggedIn}}
+          <a href="/leaderboard" class="btn">Leaderboard</a>
+          <input
+            id="searchBarStocks"
+            name="searchBarStocks"
+            class="search-input"
+            type="text"
+            placeholder="Search for Stocks"
+          />
+          {{!-- <input
+            id="searchBarPeople"
+            name="searchBarPeople"
+            class="search-input"
+            type="text"
+            placeholder="Search for People"
+          /> --}}
+          <form method="POST" action="/logout" >
+            <button type="submit" class="btn btn--danger">Sign Out</button>
+          </form>
+        {{/if}}
+      </div>
+    </header>
+
+    <main class="site-main">
+      {{{body}}}
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__content">
+        <p>Authors:</p>
+        <ul>
+          <li><a href="https://github.com/Josh-Hiz" target="_blank">Joshua Hizgiaev</a></li>
+          <li><a href="https://github.com/mattsolstice" target="_blank">Matthew Soltys</a></li>
+          <li><a href="https://github.com/TanavT" target="_blank">Tanav Thota</a></li>
+          <li><a href="https://github.com/thehargun" target="_blank">Hargun Sawhney</a></li>
+        </ul>
+        <p>StockoTrade by @CS546-Team10</p>
+      </div>
+    </footer>
+
+    {{#if isLoggedIn}}
+      <script src="/public/js/searchBar.js"></script>
+    {{/if}}
+    {{#each scriptPaths}}
+      <script src="/public/js/{{this}}"></script>
+    {{/each}}
+  </body>
 </html>
