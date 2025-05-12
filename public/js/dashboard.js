@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 	//tickers current value
-	const rows = document.querySelectorAll('.tickers tr');  // Select all rows in the tickers table
-	for (let i = 1; i < rows.length; i++) {  // Skip the header row (start at i = 1)
+	const rows = document.querySelectorAll('.tickers tr'); 
+	for (let i = 1; i < rows.length; i++) {  // Skip the header row 
 		const row = rows[i];
 		const stock_ticker = row.querySelector('td a').innerHTML;
 		const volume = (row.querySelectorAll('td')[1].innerHTML).split(" ")[0];
