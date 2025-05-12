@@ -20,13 +20,23 @@
         <tr>
             <th>Stock Ticker</th>
             <th>Volume</th>
-            <th>Current Value</th>
+            <th>Current Total Value</th>
+            <th>Price/Share</th>
+            <th>Sell Shares</th>
         </tr>
         {{#each tickers}}
         <tr>
         <td><a href="/stock/{{this.stock_ticker}}">{{this.stock_ticker}}</a></td>
         <td>{{this.volume}} shares</td>
-        <td> 0</td>
+        <td>Calculating...</td>
+        <td>Calculating...</td>
+        <td>
+            <form class="sell-stock" stock_ticker="{{this.stock_ticker}}">
+                {{!-- <label for="sell_amount_{{this.stock_ticker}}">Sell Shares:</label> --}}
+                <input type="number" id="sell_amount_{{this.stock_ticker}}" name="sell_amount_{{this.stock_ticker}}" min="1" max="{{this.volume}}" required>
+                <button type="submit">Sell</button>
+            </form>
+        </td>
         </tr>
         {{/each}}
     </table>
