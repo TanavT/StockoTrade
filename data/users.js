@@ -63,7 +63,7 @@ const createUser = async (
 		age: Number.parseInt(verifiedAge),
 		portfolio_information: {
 			capital: 100000,
-			portfolio_worth: 0,
+			portfolio_worth: 100000,
 			tickers: [],
 			trade_history: [],
 		},

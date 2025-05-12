@@ -101,7 +101,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     pwButton.addEventListener("click", function (event) {
         event.preventDefault();
-        fetch(`/dashboard/worth/${userId}`)
+        fetch(`/dashboard/worth`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userId})
+        })
         .then((response => response.json()))
         .then((data) => {
             capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
