@@ -11,7 +11,8 @@ router.route('/').get(async (req, res) => {
 			.render('leaderboard', {
 				title: 'Leaderboard',
 				scriptPaths: ['load_leaderboard.js'], // Client-side JS to load table
-				outsidePaths: ['https://code.jquery.com/jquery-3.7.1.min.js']
+				outsidePaths: ['https://code.jquery.com/jquery-3.7.1.min.js'],
+				isLoggedIn: true,
 			});
 	} else {
 		return res.status(200).redirect('/'); // If a user is not auth'd they cannot access the leaderboard!
