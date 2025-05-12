@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //portfolio_worth
     let portfolioWorth = document.getElementById("portfolio_worth")
+    let capital = document.getElementById("capital")
     fetch(`/dashboard/worth`, {
         method: 'POST',
         headers: {
@@ -14,10 +15,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((response => response.json()))
         .then((data) => {
             //console.log("response reached")
-            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
+            capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
         }) 
         .catch((error) => {
-            console.error(`Could not display portfolio worth because of error: ${error}`)
+            console.error(`Could not display capital and portfolio worth because of error: ${error}`)
         })
 
 
@@ -102,10 +104,11 @@ document.addEventListener("DOMContentLoaded", function () {
         fetch(`/dashboard/worth/${userId}`)
         .then((response => response.json()))
         .then((data) => {
-            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.toFixed(4)}`
+            capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
+            portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
         }) 
         .catch((error) => {
-            console.error(`Could not display portfolio worth because of error: ${error}`)
+            console.error(`Could not update capital and portfolio worth because of error: ${error}`)
         })
     })
 

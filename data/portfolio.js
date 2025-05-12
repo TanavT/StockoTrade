@@ -110,8 +110,9 @@ async function getPortfolioWorthOverTime(userId) {
 	const userToInspect = await userCollection.findOne({
 			_id: new ObjectId(verifiedUserId)
 	})
-  	let cash = 100000; //inital amount of money user starts with, is set to 100000 currently
+  	let capital = 100000; //inital amount of money user starts with, is set to 100000 currently
   	const tradeHistory = userToInspect.portfolio_information.trade_history;
+	if (tradeHistory.length === 0) return []
   	const tickers = [...new Set(tradeHistory.map(t => t.stock_ticker))];
   	const sortedTrades = [...tradeHistory].sort((a, b) => new Date(a.date) - new Date(b.date)); //need to reverse array since it is stored newest first
 
@@ -146,19 +147,14 @@ async function getPortfolioWorthOverTime(userId) {
   	for (const date of dateList) {
 		while (tradeIndex < sortedTrades.length && new Date(sortedTrades[tradeIndex].date).toISOString().split('T')[0] === date) {
 			const trade = sortedTrades[tradeIndex];
-			const price = tickerPrices[trade.stock_ticker]?.[date];
-			if (price !== undefined) {
-				const volume = trade.volume;
-				const cost = price * volume;
-				if (trade.type === 'Buy') {
-					if (cash >= cost) {
-						holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) + volume;
-						cash -= cost;
-					}
-				} else if (trade.type === 'Sell') {
-					holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) - volume;
-					cash += cost;
-				}
+			const volume = trade.volume;
+			const tradePrice = parseFloat(trade.value); // getting logged price, since could have bought in at any point in day
+			if (trade.type === 'Buy') {
+				holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) + volume;
+				capital -= tradePrice;
+			} else if (trade.type === 'Sell') {
+				holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) - volume;
+				capital += tradePrice;
 			}
 			tradeIndex++;
 		}
@@ -183,8 +179,8 @@ async function getPortfolioWorthOverTime(userId) {
 			date,
 			//both under can be used, but no purpose for them anymore
 			investedValue: parseFloat(investedValue.toFixed(4)),
-			cash: parseFloat(cash.toFixed(4)),
-			totalValue: parseFloat((cash + investedValue).toFixed(4))
+			capital: parseFloat(capital.toFixed(4)),
+			totalValue: parseFloat((capital + investedValue).toFixed(4))
 		});
   	}
   	return result;
@@ -198,6 +194,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 	})
 	let total = userToInspect.portfolio_information.capital
 	for (const ticker of userToInspect.portfolio_information.tickers) {
+		console.log(ticker.stock_ticker)
 		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {fields: ["regularMarketPrice"]})
 		gettingPrice = gettingPrice['regularMarketPrice']
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
@@ -213,7 +210,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 	//updating in collection
 	const result = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}})
 	if (!result) throw ['500', 'Could not update']
-	return total
+	return {portfolio_worth: total, capital: userToInspect.portfolio_information.capital}
 }
 
 const getTopPortfolioProfiles = async () => {

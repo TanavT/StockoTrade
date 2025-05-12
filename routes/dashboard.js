@@ -50,7 +50,16 @@ router.route('/:id').get(async (req, res) => {
 });
 router.route('/chart/:id').get(async (req, res) => {
 	//console.log("Route reached")
-	req.params.id = verifyId(req.params.id);
+	try {
+		req.params.id = verifyId(req.params.id);
+	} catch (e) {
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}	
 	const result = await portfolioData.getPortfolioWorthOverTime(req.params.id);
 	res.json(result);
 });
@@ -58,7 +67,16 @@ router.route('/chart/:id').get(async (req, res) => {
 router.route('/worth').post(async (req, res) => {
 	//console.log("Route reached")
 	let userId = xss(req.body.userId);
-	userId = verifyId(userId);
+	try {
+		userId = verifyId(userId);
+	} catch (e) {
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}
 	const result = await portfolioData.getPortfolioWorthCurrent(userId);
 	res.json(result);
 });
