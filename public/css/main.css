@@ -211,6 +211,14 @@ a:hover {
 	margin: auto;
 }
 
+.home-info-section-title {
+	padding: 1rem 1rem;
+	color: 7aa843;
+	background-color: #ffffff;
+	margin: auto;
+	text-align: center;
+}
+
 .home-info-section-article {
 	max-width: 800px;
 	margin: 0 auto 4rem auto;
@@ -354,7 +362,7 @@ a:hover {
   padding: 1.5rem;
   background: var(--lb-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #ffffff;
 }
 
 .leaderboard-title {
@@ -362,12 +370,14 @@ a:hover {
   margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: 600;
+  background-color: transparent;
   color: var(--lb-header-bg);
 }
 
 .leaderboard-div {
   overflow-x: auto;
   border-radius: 8px;
+  background-color: transparent;
   border: 1px solid var(--lb-border);
 }
 

@@ -1,50 +1,54 @@
 <h2>Dashboard Screen (WIP)</h2>
-<h1 id="userNameDisplay" userId="{{userId}}">{{username}}</h1>
-<div class="containerSummary">
-    <div class="userSummary">
-        <h2 id="capital">Current Capital: ${{capital}}</h2>
-        <h2 id="portfolio_worth">Total Portfolio Worth: ${{portfolio_worth}}</h2> 
-        <form id="recomputePorfolioWorthForm">
-            <button type="button" id="recomputePortfolioWorth">Recompute Portfolio Worth</button>
-        </form>
-    </div>
+<h1 id='userNameDisplay' userId='{{userId}}'>{{username}}</h1>
+<div class='containerSummary'>
+	<div class='userSummary'>
+		<h2 id='capital'>Current Capital: ${{capital}}</h2>
+		<h2 id='portfolio_worth'>Total Portfolio Worth: ${{portfolio_worth}}</h2>
+		<form id='recomputePorfolioWorthForm'>
+			<button type='button' id='recomputePortfolioWorth'>Recompute
+				Portfolio Worth</button>
+		</form>
+	</div>
 
-    <div class="chartArea">
-        <div id="portfolio-chart"></div>
-    </div>
+	<div class='chartArea'>
+		<div id='portfolio-chart'></div>
+	</div>
 </div>
 
-<div class="tickersAndHistory">
-    <table class="tickers">
-        <caption>Tickers Held</caption>
-        <tr>
-            <th>Stock Ticker</th>
-            <th>Volume</th>
-        </tr>
-        {{#each tickers}}
-        <tr>
-        <td><a href="/stock/{{this.stock_ticker}}">{{this.stock_ticker}}</a></td>
-        <td>{{this.volume}} shares</td>
-        </tr>
-        {{/each}}
-    </table>
-    <table class="trades">
-        <caption>Trade History</caption>
-        <tr>
-            <th>Type</th>
-            <th>Stock Ticker</th>
-            <th>Volume</th>
-            <th>Value</th>
-            <th>Date</th>
-        </tr>
-        {{#each trade_history}}
-        <tr>
-        <td>{{this.type}}</td>
-        <td>{{this.stock_ticker}}</td>
-        <td>{{this.volume}} shares</td>
-        <td>${{this.value}}</td>
-        <td>{{this.date}}</td> <!--Added this part just in case we wanted it, it is not in the doc -->
-        </tr>
-        {{/each}}
-    </table>
+<div class='tickersAndHistory'>
+	<table class='tickers'>
+		<caption>Tickers Held</caption>
+		<tr>
+			<th>Stock Ticker</th>
+			<th>Volume</th>
+		</tr>
+		{{#each tickers}}
+			<tr>
+				<td><a
+						href='/stock/{{this.stock_ticker}}'
+					>{{this.stock_ticker}}</a></td>
+				<td>{{this.volume}} shares</td>
+			</tr>
+		{{/each}}
+	</table>
+	<table class='trades'>
+		<caption>Trade History</caption>
+		<tr>
+			<th>Type</th>
+			<th>Stock Ticker</th>
+			<th>Volume</th>
+			<th>Value</th>
+			<th>Date</th>
+		</tr>
+		{{#each trade_history}}
+			<tr>
+				<td>{{this.type}}</td>
+				<td>{{this.stock_ticker}}</td>
+				<td>{{this.volume}} shares</td>
+				<td>${{this.value}}</td>
+				<td>{{this.date}}</td>
+				<!--Added this part just in case we wanted it, it is not in the doc -->
+			</tr>
+		{{/each}}
+	</table>
 </div>

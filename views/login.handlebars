@@ -10,7 +10,7 @@
 			title='Only letters and numbers allowed.'
 			maxlength='32'
 			minlength='1'
-		/>
+		>
 		<label for='password_input'>Password</label>
 		<input
 			id='password_input'
@@ -20,10 +20,10 @@
 			minlength='8'
 			required
 			title='Only letters and numbers are allowed.'
-		/>
+		>
 		<button type='submit' class='account-btn'>Login</button>
 	</form>
-	<p id="login-error" hidden></p>
+	<p id='login-error' hidden></p>
 	{{#if errorMessage}}
 		<p class='login-error'>{{errorMessage}}</p>
 	{{/if}}
