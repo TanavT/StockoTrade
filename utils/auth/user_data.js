@@ -116,44 +116,60 @@ export const verifyBirthday = (birthday) => {
 	const year = Number.parseInt(yearMonthDay[0]);
 	const month = Number.parseInt(yearMonthDay[1]);
 	const day = Number.parseInt(yearMonthDay[2]);
-	if (!verifyDate(year, month, day)) throw [400, 'Invalid Birthday.'];
 	const today = new Date();
 	if (year > today.getFullYear() || year < 1900)
 		throw [
 			400,
 			`Invalid birthday year range, only years [1900,${today.getFullYear()}] is allowed.`,
 		];
-	const ageDifference = today.getFullYear() - year;
-	// TODO: Should I also consider month and day here?
-	if (!(ageDifference >= 18))
+	if (!verifyDate(year, month, day)) throw [400, 'Invalid Birthday.'];
+
+	const yearDifference = today.getFullYear() - year;
+	if (yearDifference < 18)
 		throw [400, 'Sorry, but you must be 18 or older to use StockoTrade.'];
+	if (yearDifference === 18) {
+		const currentMonth = today.getMonth() + 1;
+		const currentDay = today.getDate();
+		if (
+			currentMonth < month ||
+			(currentMonth === month && currentDay < day)
+		)
+			throw [
+				400,
+				'Sorry, but you must be 18 or older to use StockoTrade.',
+			];
+	} 
 	return trimBirthday;
+	
 };
 
 // Will be used in dashboard router
 export const verifyId = (id) => {
 	const trimId = verifyString(id, 'User ID');
-	if (!ObjectId.isValid(trimId)) throw [400, 'Error: Invalid object ID'];
+	if (!ObjectId.isValid(trimId)) throw [400, 'Invalid object ID.'];
 	return trimId;
 };
 
 //for buying and selling stock functions, when calling this function you will need to use yahoofinance.search after to make sure the stock exists
 export const verifyStockAndUserPartial = (id, stockTicker, volume) => {
-	const verifiedId = verifyId(id)
-	const verifiedStockTicker = verifyString(stockTicker, "Stock Ticker").toUpperCase();
+	const verifiedId = verifyId(id);
+	const verifiedStockTicker = verifyString(
+		stockTicker,
+		'Stock Ticker'
+	).toUpperCase();
 	const verifiedVolume = verifyNumber(volume, 'Volume');
-	return [verifiedId, verifiedStockTicker, verifiedVolume]
-
-}
+	return [verifiedId, verifiedStockTicker, verifiedVolume];
+};
 
 //takes string number and output number of type number
 export const verifyNumber = (num, varName) => {
-	const trimNum = verifyString(num, varName)
+	const trimNum = verifyString(num, varName);
 	const pattern = /^\d+$/;
-	if (!pattern.test(trimNum)) throw ['400', `${varName} must be a proper number.`];
+	if (!pattern.test(trimNum))
+		throw ['400', `${varName} must be a proper number.`];
 	const numb = Number.parseInt(trimNum);
-	return numb
-}
+	return numb;
+};
 
 // These errors wont require an array
 export const verifySignUpRequestBody = (requestBody) => {
@@ -190,7 +206,8 @@ const checkIfKeyInObject = (keyName, requestBody) => {
 };
 
 // These errors DO require an array
-export const verifyString = (str, varName) => { //gonna export this for now, lmk if it should not be exported
+export const verifyString = (str, varName) => {
+	//gonna export this for now, lmk if it should not be exported
 	if (!str) throw [400, `You must provide a ${varName}.`];
 	if (typeof str !== 'string') throw [400, `${varName} must be a string.`];
 	const trimStr = str.trim();

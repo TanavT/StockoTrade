@@ -4,6 +4,7 @@ import {
 	verifySignUpRequestBody,
 	verifyUserInfo,
 } from '../utils/auth/user_data.js';
+import xss from 'xss';
 
 const router = Router();
 
@@ -20,12 +21,18 @@ router
 		) {
 			return res.status(200).redirect(`../dashboard/${userId}`);
 		} else {
-			return res.status(200).render('signup', { title: 'Sign Up' });
+			return res
+				.status(200)
+				.render('signup', {
+					title: 'Sign Up',
+					scriptPaths: ['auth_signup_form.js'],
+				});
 		}
 	})
 	.post(async (req, res) => {
 		const isLoggedIn = req.cookies.isAuthenticated;
 		const userId = req.cookies.userID;
+		// Theoretically this should never happen but good to check anyway
 		if (
 			isLoggedIn &&
 			userId &&
@@ -39,7 +46,7 @@ router
 			if (!userInfo || Object.keys(userInfo).length === 0) {
 				return res.status(400).render('error', {
 					errorCode: 400,
-					title: '400',
+					title: '400 Error',
 					errorMessage: 'Invalid Request Body Detected.',
 				});
 			}
@@ -49,12 +56,19 @@ router
 			} catch (e) {
 				return res.status(400).render('error', {
 					errorCode: 400,
-					title: '400',
+					title: '400 Error',
 					errorMessage: e,
 				});
 			}
 			try {
 				// Perform input verification server side
+				userInfo.username_input = xss(userInfo.username_input)
+				userInfo.first_name_input = xss(userInfo.first_name_input)
+				userInfo.last_name_input = xss(userInfo.last_name_input)
+				userInfo.email_input = xss(userInfo.email_input)
+				userInfo.password_input = xss(userInfo.password_input)
+				userInfo.age_input = xss(userInfo.age_input)
+				userInfo.birthday_input = xss(userInfo.birthday_input)
 				var [
 					verifiedUserName,
 					verifiedFirstName,
@@ -73,12 +87,12 @@ router
 					userInfo.birthday_input
 				);
 			} catch (e) {
-				console.log(e);
 				const errorCode = e[0];
 				const errorMessage = `${errorCode} Error: ${e[1]}`;
 				return res.status(errorCode).render('signup', {
 					title: 'Sign Up',
 					errorMessage: errorMessage,
+					scriptPaths: ['auth_signup_form.js'],
 				});
 			}
 			try {
@@ -109,6 +123,7 @@ router
 				return res.status(errorCode).render('signup', {
 					title: 'Sign Up',
 					errorMessage: errorMessage,
+					scriptPaths: ['auth_signup_form.js'],
 				});
 			}
 		}

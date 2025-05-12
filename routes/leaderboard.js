@@ -3,18 +3,29 @@ import { portfolioData } from '../data/index.js';
 const router = Router();
 
 router.route('/').get(async (req, res) => {
-	const isLoggedIn = req.cookies.isAuthenticated; // Make sure they are logged in
-	const userId = req.cookies.userID; // Make sure we have a userID cookies
+	const isLoggedIn = req.cookies.isAuthenticated;
+	const userId = req.cookies.userID; 
 	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
 		return res
 			.status(200)
 			.render('leaderboard', {
 				title: 'Leaderboard',
-				isLoggedIn: true,
 				scriptPaths: ['load_leaderboard.js'], // Client-side JS to load table
+				outsidePaths: ['https://code.jquery.com/jquery-3.7.1.min.js']
 			});
 	} else {
-		return res.status(200).redirect('/');
+		return res.status(200).redirect('/'); // If a user is not auth'd they cannot access the leaderboard!
+	}
+});
+
+router.route('/json').get(async (req, res) => {
+	const isLoggedIn = req.cookies.isAuthenticated;
+	const userId = req.cookies.userID; 
+	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+		const topUsers = await portfolioData.getTopPortfolioProfiles();
+		return res.status(200).json(topUsers)
+	} else {
+		return res.status(200).redirect('/'); // If a user is not auth'd they cannot access the leaderboard data!
 	}
 });
 

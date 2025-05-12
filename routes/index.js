@@ -3,7 +3,7 @@ import loginRouter from './login.js';
 import signupRouter from './signup.js';
 import logoutRouter from './logout.js';
 import leaderboardRouter from './leaderboard.js'
-import stockRouter from './stock.js'
+// import stockRouter from './stock.js' (stock pages)
 
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
@@ -31,14 +31,14 @@ const setupRoutes = (app) => {
 	app.use('/dashboard', dashboardRouter);
 	// Bind leaderboard router
 	app.use('/leaderboard', leaderboardRouter)
-	// Bind stock router
-	app.use('/stock', stockRouter)
+	// Bind stock router (stock pages)
+	// app.use('/stock', stockRouter)
 	// Bind universal router for invalid URL's
 	app.use(/(.*)/, (req, res) => {
 		// Set status code to 404 and render the error page
 		return res.status(404).render('error', {
 			errorCode: 404,
-			title: '404',
+			title: '404 Error',
 			errorMessage:
 				"Seems like you are going to a page that doesn't exist.",
 		});

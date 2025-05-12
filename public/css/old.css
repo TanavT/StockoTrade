@@ -1,0 +1,523 @@
+/* Root level CSS, just default font and background color */
+* {
+	font-family: 'Arial', 'sans-serif';
+	background-color: #f5f7f4;
+	color: #1c2b25;
+}
+
+/* Default link settings, links will be in green */
+a {
+	color: #7aa843;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #88b04b;
+}
+
+/* Header settings for main template file */
+.main-header {
+	background-color: #ffffff;
+	padding: 5px 10px;
+	border-bottom: 2px solid #7aa843;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.main-header-content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between; /* optional, makes spacing cleaner */
+	padding: 1rem;
+	background-color: #ffffff;
+}
+
+.main-header-content h1 {
+	font-size: 24px;
+	background-color: #ffffff;
+	margin: 0;
+}
+
+.main-header-content a {
+	font-weight: bold;
+	color: #1c2b25;
+	background-color: #ffffff;
+}
+
+.main-header-content a:hover {
+	color: #7aa843;
+	transition: 0.6s;
+}
+
+/* Error page styling */
+.error-page {
+	text-align: center;
+	margin-top: 10rem;
+	margin-bottom: 10rem;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 4rem 2rem;
+	max-width: 600px;
+	background-color: #ffffff;
+	border: 2px solid #7aa843;
+	border-radius: 10px;
+}
+
+.error-title {
+	font-size: 2rem;
+	color: #7aa843;
+	margin-bottom: 1rem;
+	background-color: transparent;
+}
+
+.error {
+	font-size: 4rem;
+	color: #c0392b;
+	margin-bottom: 2rem;
+	font-weight: bold;
+	background-color: transparent;
+}
+
+.error-go-back-tag {
+	padding: 0.75rem 1.5rem;
+	background-color: transparent;
+	border: 2px solid #7aa843;
+	border-radius: 5px;
+	color: #7aa843;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.error-go-back-tag:hover {
+	background-color: #7aa843;
+	color: #ffffff;
+	transition: 0.6s;
+}
+
+.error-message {
+	color: #c0392b;
+	font-size: 1.2rem;
+	padding: 10px;
+	margin-top: 1rem;
+	background-color: transparent;
+	text-align: center;
+}
+
+/* Main footer css */
+.main-footer {
+	background-color: #ffffff;
+	border-top: 2px solid #7aa843;
+	text-align: center;
+	margin-top: 4rem;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.main-footer-content {
+	max-width: 800px;
+	margin: 0 auto;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+.main-footer-content p {
+	margin-bottom: 0.5rem;
+	background-color: transparent;
+	font-weight: bold;
+}
+
+.main-footer-content ul {
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 1rem 0;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1.5rem;
+	background-color: transparent;
+}
+
+.main-footer-content li {
+	background-color: transparent;
+}
+
+.main-footer-content a {
+	color: #1c2b25;
+	font-weight: bold;
+	background-color: transparent;
+}
+
+.main-footer-content a:hover {
+	color: #7aa843;
+	transition: 0.6s;
+}
+
+/* Homepage login, signup, and information sections */
+.home-create-account-section {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+	background-color: #f5f7f4;
+}
+
+.home-account-box {
+	background-color: #ffffff;
+	border: 2px solid #7aa843;
+	border-radius: 10px;
+	padding: 2rem 3rem;
+	text-align: center;
+	max-width: 400px;
+	width: 100%;
+	margin-top: 1rem;
+}
+
+.home-account-box h2,
+.home-account-box h3 {
+	color: #1c2b25;
+	margin-bottom: 1rem;
+	background-color: transparent;
+}
+
+.account-form {
+	background-color: transparent;
+}
+
+.account-btn {
+	background-color: #7aa843;
+	color: #ffffff;
+	border: none;
+	padding: 0.75rem 2rem;
+	border-radius: 5px;
+	font-weight: bold;
+	font-size: 1rem;
+	margin-bottom: 1.5rem;
+	cursor: pointer;
+	transition: 0.6s;
+}
+
+.account-btn:hover {
+	background-color: #88b04b;
+}
+
+/* Info Section */
+.home-info-section {
+	padding: 4rem 2rem;
+	background-color: #ffffff;
+	border-radius: 3rem;
+	border: 2px solid #7aa843;
+	margin: auto;
+}
+
+.home-info-section-title {
+	padding: 1rem 1rem;
+	color: 7aa843;
+	background-color: #ffffff;
+	margin: auto;
+	text-align: center;
+}
+
+.home-info-section-article {
+	max-width: 800px;
+	margin: 0 auto 4rem auto;
+	background-color: transparent;
+}
+
+.home-info-section-article h2 {
+	color: #7aa843;
+	font-size: 1.75rem;
+	margin-bottom: 1rem;
+	background-color: transparent;
+}
+
+.home-info-section-article p,
+.home-info-section-article ul {
+	color: #1c2b25;
+	line-height: 1.6;
+	font-size: 1rem;
+	background-color: transparent;
+}
+
+.home-info-section-article ul {
+	padding-left: 1.5rem;
+	list-style: disc;
+}
+
+.home-info-section-article li {
+	background-color: transparent;
+}
+
+/* Login page styling */
+#login-div {
+	background-color: #ffffff;
+	border: 2px solid #7aa843;
+	border-radius: 10px;
+	padding: 2rem 3rem;
+	width: 100%;
+	max-width: 400px;
+	margin: 8rem auto;
+	text-align: center;
+}
+
+#login-div h2 {
+	margin-bottom: 2rem;
+	color: #1c2b25;
+	font-size: 1.75rem;
+	background-color: transparent;
+}
+
+#login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	background-color: transparent;
+}
+
+#login-form label {
+	text-align: left;
+	font-weight: bold;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+#login-form input {
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 1rem;
+	background-color: #f5f7f4;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+/* signup styling */
+#signup-div {
+	max-width: 500px;
+	margin: 8rem auto;
+	padding: 3rem 2rem;
+	background-color: #ffffff;
+	border: 2px solid #7aa843;
+	border-radius: 10px;
+	text-align: center;
+}
+
+#signup-div h2 {
+	margin-bottom: 2rem;
+	font-size: 2rem;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+#signup-form {
+	background-color: transparent;
+}
+
+#signup-form label {
+	display: block;
+	text-align: left;
+	margin-top: 1rem;
+	font-weight: bold;
+	color: #1c2b25;
+	background-color: transparent;
+}
+
+#signup-form input {
+	width: 100%;
+	padding: 0.5rem;
+	margin-top: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 1rem;
+	background-color: transparent;
+}
+
+/* sign out button */
+.signout-form,
+.leaderboard-form,
+.searchBar-form {
+	margin-left: auto;
+}
+
+.signout-btn {
+	background-color: #c0392b;
+	color: white;
+	border: none;
+	padding: 0.5rem 1rem;
+	font-weight: 600;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.signout-btn:hover {
+	background-color: #a93226;
+	transition: 0.6s;
+}
+
+/* Leadboard styling */
+.leaderboard-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--lb-bg);
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.leaderboard-title {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  background-color: transparent;
+  color: var(--lb-header-bg);
+}
+
+.leaderboard-div {
+  overflow-x: auto;
+  border-radius: 8px;
+  background-color: transparent;
+  border: 1px solid var(--lb-border);
+}
+
+.leaderboard-table {
+  width: 100%;
+  min-width: 400px;
+  border-collapse: collapse;
+  font-family: sans-serif;
+  margin: 0 auto;
+}
+
+.leaderboard-table thead {
+  background: var(--lb-header-bg);
+  color: var(--lb-header-color);
+}
+
+.leaderboard-table th {
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 500;
+}
+
+.leaderboard-table th:first-child {
+  border-top-left-radius: 8px;
+}
+.leaderboard-table th:last-child {
+  border-top-right-radius: 8px;
+}
+
+.leaderboard-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--lb-border);
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.searchBar {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 0px 0px;
+	display: inline-block;
+	border: 2px solid #7aa843;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+  	.tickersAndHistory {
+  	display: flex;
+  	gap: 32px;
+  	margin-top: 16px;
+  	flex-wrap: wrap;
+}
+
+table {
+  	border-collapse: collapse;
+  	width: 100%;
+  	max-width: 500px;
+}
+
+table caption {
+  	font-weight: bold;
+  	margin-bottom: 8px;
+}
+
+th, td {
+  	border: 1px solid #ddd;
+  	padding: 8px;
+  	text-align: left;
+}
+
+th {
+  	background-color: #f0f0f0;
+}
+.containerSummary {
+  	display: flex;
+  	justify-content: space-between;
+  	align-items: flex-start;
+  	flex-wrap: wrap;
+  	gap: 20px;
+}
+
+.userSummary {
+  	flex: 0px 0px auto;
+  	min-width: 200px;
+}
+
+.chartArea {
+  	display: flex;
+  	flex-wrap: wrap;
+  	gap: 10px;
+  	justify-content: center;
+  	align-items: flex-start;
+}
+
+#portfolio-chart{
+  	width: 400px;
+  	height: 300px;
+}
+.summary {
+  	margin-bottom: 16px;
+}
+
+.graph-title {
+	font-size: 20px;
+	font-weight: bold;
+}
+.portfolio-svg {
+  	background-color: #f9f9f9;
+}
+
+.chart-group {
+  	font-size: 12px;
+}
+
+.x-axis path,
+.y-axis path,
+.x-axis line,
+.y-axis line {
+  	stroke: #ccc;
+}
+
+.portfolio-area {
+	fill: rgb(0, 255, 13);
+	opacity: 0.5;
+}
+.portfolio-line {
+  	fill: none;
+  	stroke: rgb(70, 180, 112);
+  	stroke-width: 2px;
+}
+
+/* Base styling for error messages */
+#signup-error,
+#login-error,.login-error,.signup-error {
+  display: block;
+  color: #b00020;          
+  background-color: transparent; 
+  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
