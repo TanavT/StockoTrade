@@ -4,6 +4,7 @@ yahooFinance.suppressNotices(['yahooSurvey']) //I gave you your survey, stop sen
 import { ObjectId } from 'mongodb';
 import { users } from '../config/mongodb/mongoCollections.js';
 import { verifyStockAndUserPartial, verifyId, verifyString} from '../utils/auth/user_data.js';
+import { userData } from './index.js'
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
@@ -380,6 +381,23 @@ const getTopPortfolioProfiles = async () => {
 	return topProfiles;
 };
 
+const resetPortfolio = async (userId) => {
+	// Verify the user exists
+	userData.getUserById(userId)
+	const defaultPortfolio = {
+		capital: 100000,
+		portfolio_worth: 100000,
+		tickers: [],
+		trade_history: []
+	}
+	const trimId = verifyId(userId);
+	const userCollection = await users();
+	const updateInfo = await userCollection.findOneAndUpdate({_id: new ObjectId(trimId)}, {$set: {'portfolio_information': defaultPortfolio}})
+	if (!updateInfo) throw [500, 'Could not reset portfolio.']
+	updateInfo._id = updateInfo._id.toString();
+	return updateInfo
+}
+
 const portfolioDataFunctions = {
 	getTopPortfolioProfiles, 
 	buyStock, 
@@ -388,7 +406,8 @@ const portfolioDataFunctions = {
 	getPortfolioWorthCurrent, 
 	buyStockPast, 
 	sellStockPast,
-	getCurrentValue
+	getCurrentValue,
+	resetPortfolio
 };
 
 export default portfolioDataFunctions;

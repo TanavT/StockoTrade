@@ -104,4 +104,15 @@ router.route('/worth').post(async (req, res) => {
 	}
 });
 
+router.route('/reset').post(async (req,res) => {
+	const isLoggedIn = req.cookies.isAuthenticated;
+	const userId = req.cookies.userID;
+	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+		await portfolioData.resetPortfolio(userId)
+		return res.status(200).redirect(`/dashboard/${userId}`)
+	} else {
+		return res.status(200).redirect('/');
+	}
+})
+
 export default router;
