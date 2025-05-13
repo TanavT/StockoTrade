@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch(`/dashboard/chart/volatility/${userId}`)
 		.then((response => response.json()))
 		.then((data) => {
-			console.log(data)
+			// console.log(data)
 			const chart_ctx = document.getElementById("volatility-chart").getContext("2d");
 
 			const chartData = data.map(day => ({
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch(`/dashboard/chart/gains/${userId}`)
 		.then((response => response.json()))
 		.then((data) => {
-			console.log(data)
+			// console.log(data)
 			const chart_ctx = document.getElementById("gains-chart").getContext("2d");
 
 			const chartData = data.map(day => ({
@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch(`/dashboard/chart/stocks/${userId}`)
 		.then((response => response.json()))
 		.then((data) => {
-			console.log("response reached")
+			// console.log("response reached")
 			const tickers = data.map(stock => stock.stock_ticker);
 			const volumes = data.map(stock => stock.volume);
 
