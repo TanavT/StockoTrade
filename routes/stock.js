@@ -31,12 +31,21 @@ router.get('/', async (req, res) => {
 			});
 		}
 
-		let data = await stockData.getStockData(ticker);
+		let data = null;
+		try{
+			data = await stockData.getStockData(ticker);
 
-		if (!data) {
+			if (!data) {
+				return res.status(404).render('error', {
+					errorCode: '404',
+					errorMessage: `Stock with ticker ${ticker} not found`,
+				});
+			}
+		}
+		catch (e) {
 			return res.status(404).render('error', {
-				errorCode: '404',
-				errorMessage: `Stock with ticker ${ticker} not found`,
+					errorCode: '404',
+					errorMessage: `Stock with ticker ${ticker} not found`,
 			});
 		}
 
@@ -224,12 +233,21 @@ router.route('/buy/:ticker').post(async (req, res) => {
 	
 	
 
-	let data = await stockData.getStockData(ticker);
+	let data = null;
+	try{
+		data = await stockData.getStockData(ticker);
 
-	if (!data) {
+		if (!data) {
+			return res.status(404).render('error', {
+				errorCode: '404',
+				errorMessage: `Stock with ticker ${ticker} not found`,
+			});
+		}
+	}
+	catch (e) {
 		return res.status(404).render('error', {
-			errorCode: '404',
-			errorMessage: `Stock with ticker ${ticker} not found`,
+				errorCode: '404',
+				errorMessage: `Stock with ticker ${ticker} not found`,
 		});
 	}
 
@@ -371,16 +389,25 @@ router.route('/sell/:ticker').post(async (req, res) => {
 		});
 	}
 	
-	
+	let data = null;
+	try{
+		data = await stockData.getStockData(ticker);
 
-	let data = await stockData.getStockData(ticker);
-
-	if (!data) {
+		if (!data) {
+			return res.status(404).render('error', {
+				errorCode: '404',
+				errorMessage: `Stock with ticker ${ticker} not found`,
+			});
+		}
+	}
+	catch (e) {
 		return res.status(404).render('error', {
-			errorCode: '404',
-			errorMessage: `Stock with ticker ${ticker} not found`,
+				errorCode: '404',
+				errorMessage: `Stock with ticker ${ticker} not found`,
 		});
 	}
+
+	
 
 	let user = null;
 	let sell = null;
