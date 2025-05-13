@@ -86,6 +86,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 	updateTickers(); //run once at page load
+
+	//refresh button
+	const refreshButton = document.getElementById('refresh_button');
+	if (refreshButton) {
+		refreshButton.addEventListener('click', (event) => {
+			// console.log("button clicked")
+			event.preventDefault(); //just in case
+			updateTickers();
+		});
+	}
+
 	//chart
 	let chartDiv = document.getElementById("portfolio-chart")
 	fetch(`/dashboard/chart/${userId}`)

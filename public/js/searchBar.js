@@ -1,4 +1,4 @@
-let searchBarStocks = document.getElementById("searchBarStocks")
+// let searchBarStocks = document.getElementById("searchBarStocks")
 //let searchBarPeople = document.getElementById("searchBarPeople")
 
 searchBarStocks.addEventListener("keypress", function (event) {
