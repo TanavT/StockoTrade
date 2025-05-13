@@ -76,7 +76,6 @@ const getStockData = async (ticker) => {
 	};
 
 
-	console.log(typeof quote.regularMarketChange)
 	let marketCapAbbrev = 'N/A';
 
 	if (data.companyName === null || data.companyName === undefined) {
