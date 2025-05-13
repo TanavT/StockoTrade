@@ -34,7 +34,7 @@ router.route('/:id').get(async (req, res) => {
 			username: user.filler_username,
 			scriptPaths: ['dashboard.js', 'reset_button.js'],
 			outsidePaths: [
-				'https://cdn.jsdelivr.net/npm/chart.js',
+				' https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 				'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns',
 			],
 			title: 'dashboard',
@@ -135,12 +135,11 @@ router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 });
 
 router.route('/worth').post(async (req, res) => {
-	//console.log("Route reached")
 	let userId = xss(req.body.userId);
 	try {
 		userId = verifyId(userId);
 		const result = await portfolioData.getPortfolioWorthCurrent(userId);
-		res.json(result);
+		return res.json(result);
 	} catch (e) {
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
