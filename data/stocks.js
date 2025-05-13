@@ -75,6 +75,8 @@ const getStockData = async (ticker) => {
 		currentPriceNUMBER: null,
 	};
 
+
+	console.log(typeof quote.regularMarketChange)
 	let marketCapAbbrev = 'N/A';
 
 	if (data.companyName === null || data.companyName === undefined) {
@@ -90,7 +92,7 @@ const getStockData = async (ticker) => {
 		data.currentPrice = '$' + quote.regularMarketPrice.toString();
 		data.currentPriceNUMBER = quote.regularMarketPrice;
 	}
-	if (quote.isPositive === null || quote.isPositive === undefined) {
+	if (quote.regularMarketChange === null || quote.regularMarketChange === undefined) {
 		data.isPositive = true;
 	}
 	if (
