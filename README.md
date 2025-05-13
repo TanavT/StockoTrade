@@ -24,45 +24,34 @@ An application where users can invest in the stock market with real-time stock p
 3. ``mongodb``
 4. ``yahoo-finance2``
 
-## Instructions for contributing
+## Instructions for usage
 
-- Fork the project to your own repository (see the fork button on github):
+To run your own version of StockoTrade, please either clone the repository:
 
-- Clone the fork you made:
-
-```shell
-git clone your_fork_repo_link.git
+```git
+git clone https://github.com/Josh-Hiz/StockoTrade.git
 ```
 
-- Setup node project and dependencies:
+Or download the projects zip file. Once downloaded and viewing the project on VSCode or any other text editor, within the folder, on your terminal, run the following commands to install NPM packages and seed the database:
 
-```shell
-npm i
+```git
+npm install
+npm run seed
+npm start
 ```
 
-- After making your changes, you must add and then commit them:
+This will install the required pacakges, seed the database, and start the web application hosted on localhost on port 3000. You must have MongoDB installed in order to interact with the database.
 
-```shell
-git add --all
-git commit -m "you need to put a message here"
-```
+From there, you can now register new accounts, or login to existing ones, the seed file has the details of many example accounts. For demonstration purposes, we used the following example account:
 
-To add specific files, simple remove the ``--all`` and just specify the file names instead. At this point you made changes to your fork and committed them.
+Username: TanavT
 
-- Now you need to push them to see the official change on github:
+Password: Password123!
 
-```shell
-git push
-```
+### A few notes about finance
 
-At this point, if you want to merge your changes to the main codebase, create a **pull request** on GitHub, this will analyze for merge conflicts, and if there are any, fix them on VSCode, recommit and push them, and if there are no merge conflicts it can be accepted to the codebase.
+Given the nature of how financial portfolios work, data gets updated slowly and daily, immediate results on your portfolio volatility of cummulative gains should not be expected to be instant, especially when starting out. Thats why using premade accounts, with already populated portfolios over months is far more preferable to see our data visualization and statistics compared to a fresh account.
 
-To make sure your fork is up to date with the original, please PULL from the repository:
+We try to make this as realistic as possible, we do this by following the market in **live time**. Which means trading starts at 9:30AM to 4PM EST time. Which means your portfolio will not be updated outside these ranges, because trading isnt happening at this time!
 
-```shell
-git pull
-```
-
-After a pull request goes through successfully, GitHub will still retain the fork in your account, so for a team of 4 this will be the development workflow, commit changes to our forks (while keepng up to date with main), make pull requests, bring the changes to main (our production branch) and repeat.
-
-Please refer to git basics: <https://www.atlassian.com/git/tutorials/atlassian-git-cheatsheet> for help with git commands.
+Regardless, investing is something that takes years to master, and making money can be slow, and arduous, but with patience, and through the correct decision making, one can make it big.
