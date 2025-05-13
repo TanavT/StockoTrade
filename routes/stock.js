@@ -13,7 +13,6 @@ router.get('/', async (req, res) => {
     }
 
     try {
-        console.log(ticker)
         
         
         const isLoggedIn = req.cookies.isAuthenticated;
@@ -57,8 +56,6 @@ router.get('/', async (req, res) => {
 
         let data = await stockData.getStockData(ticker); 
 
-        console.log("LIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLSLIGMA BALLS")
-        
         if (!data) {
             return res.status(404).render('error', {
                 errorCode: "404",
@@ -138,14 +135,11 @@ router.get('/', async (req, res) => {
 
 router.get('/chart/:ticker', async (req, res) => {
 
-    console.log("WE HERE WE HERE WE HERE WE HERE WE HERE ")
     let ticker = null;
     if (req.params.ticker) {
         const checkTicker = xss(req.params.ticker.trim());
         ticker = checkTicker.toUpperCase();
     }
-
-    console.log(ticker)
 
     try {
 
@@ -173,9 +167,6 @@ router.get('/chart/:ticker', async (req, res) => {
         //     });
         // }
         // data = data.data;
-
-        console.log(data.chartLabels)
-        console.log(data.chartPrices)
 
         res.json({chartLabels: data.chartLabels,
             chartPrices: data.chartPrices

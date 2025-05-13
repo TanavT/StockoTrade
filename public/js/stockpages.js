@@ -29,9 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const dates = data.chartLabels.map(dateStr => {return new Date(dateStr)});
             const prices = data.chartPrices;
 
-            console.log(dates)
-            console.log(prices)
-
             const canvas = document.createElement('canvas');
             canvas.id = 'chartDiv';
             document.getElementById('portfolio-chart').appendChild(canvas);

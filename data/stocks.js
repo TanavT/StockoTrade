@@ -124,14 +124,6 @@ const getStockData = async (ticker) => {
         data.marketCapAbbrev = marketCapAbbrev;
     }
 
-    
-
-    console.log(data)
-
-    
-
-    
-
 
     return data
 
