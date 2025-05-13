@@ -70,7 +70,10 @@ export const verifyPassword = (password) => {
 		throw [400, 'Password length must be greater than or equal to 8.'];
 	const pattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[\S]{8,}$/;
 	if (!pattern.test(trimPassword))
-		throw [400, 'Password must contain at least one uppercase, number, and special character.'];
+		throw [
+			400,
+			'Password must contain at least one uppercase, number, and special character.',
+		];
 	return trimPassword;
 };
 
@@ -137,9 +140,8 @@ export const verifyBirthday = (birthday) => {
 				400,
 				'Sorry, but you must be 18 or older to use StockoTrade.',
 			];
-	} 
+	}
 	return trimBirthday;
-	
 };
 
 // Will be used in dashboard router

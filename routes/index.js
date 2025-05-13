@@ -2,8 +2,8 @@ import dashboardRouter from './dashboard.js';
 import loginRouter from './login.js';
 import signupRouter from './signup.js';
 import logoutRouter from './logout.js';
-import leaderboardRouter from './leaderboard.js'
-import stockRouter from './stock.js'
+import leaderboardRouter from './leaderboard.js';
+import stockRouter from './stock.js';
 
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
@@ -30,9 +30,9 @@ const setupRoutes = (app) => {
 	// Bind dashboard router
 	app.use('/dashboard', dashboardRouter);
 	// Bind leaderboard router
-	app.use('/leaderboard', leaderboardRouter)
+	app.use('/leaderboard', leaderboardRouter);
 	// Bind stock router (stock pages)
-	app.use('/stock', stockRouter)
+	app.use('/stock', stockRouter);
 	// Bind universal router for invalid URL's
 	app.use(/(.*)/, (req, res) => {
 		// Set status code to 404 and render the error page

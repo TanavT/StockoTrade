@@ -23,12 +23,12 @@ const checkAuthentication = (req, res, next) => {
 		return;
 	} else {
 		// If a user isnt auth'd then set some cookies
-		const dayFromNow = new Date(new Date().getTime() + 60 * 60 * 24 * 1000)
-		res.cookie("isAuthenticated", "false", {expires: dayFromNow});
-		res.cookie('userID', "null", {expires: dayFromNow})
+		const dayFromNow = new Date(new Date().getTime() + 60 * 60 * 24 * 1000);
+		res.cookie('isAuthenticated', 'false', { expires: dayFromNow });
+		res.cookie('userID', 'null', { expires: dayFromNow });
 	}
 	next();
-}
+};
 
 // Init app
 const app = express();
@@ -48,9 +48,9 @@ app.use(rewriteUnsupportedBrowserMethods);
 
 // Middleware to set default cookies if required
 app.all('/', checkAuthentication);
-app.all('/login', checkAuthentication)
-app.all('/signup', checkAuthentication)
-app.all('/dashboard', checkAuthentication)
+app.all('/login', checkAuthentication);
+app.all('/signup', checkAuthentication);
+app.all('/dashboard', checkAuthentication);
 
 // Setup templating engine
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));

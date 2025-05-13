@@ -18,8 +18,8 @@ if (loginForm) {
 			loginErrorOutput.hidden = true;
 			loginForm.submit();
 		} catch (e) {
-            outputError(e[0],e[1])
-        }
+			outputError(e[0], e[1]);
+		}
 	});
 }
 
@@ -39,7 +39,10 @@ const verifyPassword = (password) => {
 		throw [400, 'Password length must be greater than or equal to 8.'];
 	const pattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[\S]{8,}$/;
 	if (!pattern.test(trimPassword))
-		throw [400, 'Password must contain at least one uppercase, number, and special character.'];
+		throw [
+			400,
+			'Password must contain at least one uppercase, number, and special character.',
+		];
 	return trimPassword;
 };
 

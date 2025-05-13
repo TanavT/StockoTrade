@@ -1,239 +1,239 @@
 :root {
-  --bg:            #f5f7f4;
-  --fg:            #1c2b25;
-  --primary:       #7aa843;
-  --primary-light: #88b04b;
-  --error:         #c0392b;
-  --font:          Arial, sans-serif;
+	--bg: #f5f7f4;
+	--fg: #1c2b25;
+	--primary: #7aa843;
+	--primary-light: #88b04b;
+	--error: #c0392b;
+	--font: Arial, sans-serif;
 }
 
 /* Reset & base */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: var(--font);
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: var(--font);
 }
 body {
-  background: var(--bg);
-  color: var(--fg);
+	background: var(--bg);
+	color: var(--fg);
 }
 a {
-  color: var(--primary);
-  text-decoration: none;
+	color: var(--primary);
+	text-decoration: none;
 }
 a:hover {
-  color: var(--primary-light);
+	color: var(--primary-light);
 }
 
 /* Buttons */
 .btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 5px;
-  background: var(--primary);
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.25s;
+	display: inline-block;
+	padding: 0.75rem 1.5rem;
+	font-size: 1.1rem;
+	border: none;
+	border-radius: 5px;
+	background: var(--primary);
+	color: #fff;
+	font-weight: 600;
+	cursor: pointer;
+	transition: 0.25s;
 }
 .btn:hover {
-  background: var(--primary-light);
-  color: #fff;
+	background: var(--primary-light);
+	color: #fff;
 }
 .btn--danger {
-  background: var(--error);
+	background: var(--error);
 }
 .btn--danger:hover {
-  background: #b41200;
+	background: #b41200;
 }
 
 /* Section “cards” */
 .card {
-  background: #fff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  padding: 2rem;
-  margin: 3rem auto;
-  max-width: 800px;
+	background: #fff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	padding: 2rem;
+	margin: 3rem auto;
+	max-width: 800px;
 }
 
 /* Header & Footer */
 .site-header,
 .site-footer {
-  background: #fff;
-  padding: 1rem 2rem;
-  border-width: 2px 0 0 0;
-  border-style: solid;
-  border-color: var(--primary);
+	background: #fff;
+	padding: 1rem 2rem;
+	border-width: 2px 0 0 0;
+	border-style: solid;
+	border-color: var(--primary);
 }
 .site-header {
-  border-bottom-width: 2px;
+	border-bottom-width: 2px;
 }
 .site-footer {
-  border-top-width: 2px;
+	border-top-width: 2px;
 }
 .site-header__content,
 .site-footer__content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /* Footer — authors list */
 .site-footer__content p {
-  text-align: center;
-  font-weight: bold;
-  margin: 0.5rem 0;
+	text-align: center;
+	font-weight: bold;
+	margin: 0.5rem 0;
 }
 .site-footer__content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
+	list-style: none;
+	padding: 0;
+	margin: 0.5rem 0 1rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1.5rem;
 }
 .site-footer__content a {
-  color: var(--fg);
-  font-weight: bold;
-  transition: 0.3s;
+	color: var(--fg);
+	font-weight: bold;
+	transition: 0.3s;
 }
 .site-footer__content a:hover {
-  color: var(--primary);
+	color: var(--primary);
 }
 .site-logo a {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--fg);
-  transition: 0.3s;
+	font-size: 1.5rem;
+	font-weight: bold;
+	color: var(--fg);
+	transition: 0.3s;
 }
 .site-logo a:hover {
-    color: var(--primary-light);
+	color: var(--primary-light);
 }
 
 /* Main wrapper */
 .site-main {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+	padding: 2rem;
+	max-width: 1200px;
+	margin: 0 auto;
 }
 
 /* Home */
 .home-auth {
-  text-align: center;
+	text-align: center;
 }
 .home-info.card {
-  padding: 4rem 3rem;
-  border-radius: 2rem;
+	padding: 4rem 3rem;
+	border-radius: 2rem;
 }
 .home-auth h2,
 .home-info h2 {
-  margin: 2rem 0;
+	margin: 2rem 0;
 }
 .home-info h2 {
-  color: var(--primary);
+	color: var(--primary);
 }
 
 /* Home page — more space between list items */
 .home-info ul {
-  padding-left: 1.5rem;
-  list-style: disc outside;
+	padding-left: 1.5rem;
+	list-style: disc outside;
 }
 .home-info ul li {
-  margin-bottom: 1rem;
+	margin-bottom: 1rem;
 }
 
 /* Auth (login/signup) */
 .auth h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
+	font-size: 1.5rem;
+	margin-bottom: 1.5rem;
 }
 .auth form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 }
 .auth label {
-  font-weight: 600;
+	font-weight: 600;
 }
 .auth input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 }
 .auth-error {
-  color: #b00020;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+	color: #b00020;
+	margin-top: 0.5rem;
+	font-size: 0.9rem;
 }
 
 /* Leaderboard */
 .leaderboard__title {
-  text-align: center;
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
+	text-align: center;
+	font-size: 1.75rem;
+	margin-bottom: 1rem;
 }
 .leaderboard__container {
-  overflow-x: auto;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+	overflow-x: auto;
+	border: 1px solid #ddd;
+	border-radius: 8px;
 }
 .leaderboard__table {
-  width: 100%;
-  border-collapse: collapse;
+	width: 100%;
+	border-collapse: collapse;
 }
 .leaderboard__table th,
 .leaderboard__table td {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  text-align: center;
+	padding: 0.75rem;
+	border: 1px solid #ddd;
+	text-align: center;
 }
 .leaderboard__table th {
-  background: #f0f0f0;
+	background: #f0f0f0;
 }
 
 /* Error page */
 .error-page {
-  text-align: center;
+	text-align: center;
 }
 .error-title {
-  font-size: 1.5rem;
-  color: var(--primary);
-  margin-bottom: 1rem;
+	font-size: 1.5rem;
+	color: var(--primary);
+	margin-bottom: 1rem;
 }
 .error {
-  font-size: 3rem;
-  color: var(--error);
-  margin-bottom: 1rem;
+	font-size: 3rem;
+	color: var(--error);
+	margin-bottom: 1rem;
 }
 .error-message {
-  color: var(--error);
-  margin-top: 1rem;
+	color: var(--error);
+	margin-top: 1rem;
 }
 .error-page a.btn {
-  margin-top: 1rem;
+	margin-top: 1rem;
 }
 
 .auth {
-  font-size: 1.1rem;
+	font-size: 1.1rem;
 }
 .auth h2 {
-  font-size: 2rem;
+	font-size: 2rem;
 }
 .auth label {
-  font-size: 1.1rem;
+	font-size: 1.1rem;
 }
 .auth input {
-  font-size: 1.05rem;
+	font-size: 1.05rem;
 }
 .auth .btn {
-  font-size: 1.25rem;
+	font-size: 1.25rem;
 }
 
 /* dashboard.css
@@ -242,316 +242,316 @@ a:hover {
 
 /* Layout for the top summary + chart */
 .containerSummary {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 2rem auto;
-  align-items: flex-start;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	max-width: 1200px;
+	margin: 2rem auto;
+	align-items: flex-start;
 }
 .userSummary {
-  flex: 1 1 300px;
-  background: #fff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  padding: 1.5rem;
+	flex: 1 1 300px;
+	background: #fff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	padding: 1.5rem;
 }
 .userSummary h2 {
-  margin-bottom: 1rem;
-  font-size: 1.25rem;
-  color: var(--fg);
+	margin-bottom: 1rem;
+	font-size: 1.25rem;
+	color: var(--fg);
 }
 #recomputePortfolioWorth {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+	margin-top: 1rem;
+	padding: 0.5rem 1rem;
+	font-size: 1rem;
 }
 
 #stock-pie-chart {
-  width: 400;
-  height: 400;
+	width: 400;
+	height: 400;
 }
 
 #gains-chart {
-  width: 600;
-  height: 400;
+	width: 600;
+	height: 400;
 }
 /* Chart container styling */
 .chartArea,
 .stock-pie-chart-div,
 .gains-chart-div,
 .volatility-chart-div {
-  flex: 2 1 600px;
-  background: #ffffff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  padding: 1.5rem;
+	flex: 2 1 600px;
+	background: #ffffff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	padding: 1.5rem;
 }
 .portfolio-area {
 	fill: rgb(0, 255, 13);
 	opacity: 0.5;
 }
 .portfolio-line {
-  	fill: none;
-  	stroke: rgb(70, 180, 112);
-  	stroke-width: 2px;
+	fill: none;
+	stroke: rgb(70, 180, 112);
+	stroke-width: 2px;
 }
 #portfolio-chart {
-  width: 100%;
-  height: 300px;
+	width: 100%;
+	height: 300px;
 }
 
 /* Tickers & Trade History tables */
 .tickersAndHistory {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 2rem auto;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	max-width: 1200px;
+	margin: 2rem auto;
 }
 .tickersAndHistory table {
-  flex: 1 1 300px;
-  width: 100%;
-  border-collapse: collapse;
-  background: #fff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  overflow: hidden;
+	flex: 1 1 300px;
+	width: 100%;
+	border-collapse: collapse;
+	background: #fff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	overflow: hidden;
 }
 .tickersAndHistory caption {
-  caption-side: top;
-  background: var(--primary);
-  color: #fff;
-  padding: 0.75rem;
-  font-weight: bold;
-  text-align: left;
+	caption-side: top;
+	background: var(--primary);
+	color: #fff;
+	padding: 0.75rem;
+	font-weight: bold;
+	text-align: left;
 }
 .tickersAndHistory th,
 .tickersAndHistory td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #ddd;
-  text-align: left;
+	padding: 0.75rem 1rem;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
 }
 .tickersAndHistory th {
-  background: var(--primary-light);
-  color: #fff;
+	background: var(--primary-light);
+	color: #fff;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .containerSummary,
-  .tickersAndHistory {
-    flex-direction: column;
-  }
+	.containerSummary,
+	.tickersAndHistory {
+		flex-direction: column;
+	}
 }
 
 .search-input {
-  width: 100%;
-  max-width: 250px;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--primary);
-  border-radius: 5px;
-  font-family: var(--font);
-  font-size: 1rem;
-  color: var(--fg);
-  background: #fff;
-  transition: border-color 0.3s, background-color 0.3s;
+	width: 100%;
+	max-width: 250px;
+	padding: 0.75rem 1rem;
+	border: 2px solid var(--primary);
+	border-radius: 5px;
+	font-family: var(--font);
+	font-size: 1rem;
+	color: var(--fg);
+	background: #fff;
+	transition: border-color 0.3s, background-color 0.3s;
 }
 
 .search-input::placeholder {
-  color: #888;
+	color: #888;
 }
 
 .search-input:focus {
-  outline: none;
-  border-color: var(--primary-light);
-  background-color: rgba(255, 255, 255, 0.9);
+	outline: none;
+	border-color: var(--primary-light);
+	background-color: rgba(255, 255, 255, 0.9);
 }
 
 /* Reset Portfolio Button Container */
 .buttonContainer {
-  max-width: 1200px;
-  margin: 2rem auto;
-  text-align: center;
+	max-width: 1200px;
+	margin: 2rem auto;
+	text-align: center;
 }
 
 /* stock.css
    Styles for the Stock Details page */
 
 .stock-container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  padding: 1rem;
-  background: var(--bg);
+	max-width: 1000px;
+	margin: 2rem auto;
+	padding: 1rem;
+	background: var(--bg);
 }
 
 .stock-header {
-  margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 .stock-header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  color: var(--fg);
+	font-size: 2rem;
+	margin-bottom: 0.5rem;
+	color: var(--fg);
 }
 
 .company-summary {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 1.5rem;
+	font-size: 1rem;
+	color: #555;
+	margin-bottom: 1.5rem;
 }
 
 .stock-content {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 }
 
 /* Chart area */
 .chartArea {
-  background: #fff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  padding: 1.5rem;
+	background: #fff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	padding: 1.5rem;
 }
 
 .chartArea h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--fg);
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	color: var(--fg);
 }
 
 #portfolio-chart {
-  width: 100%;
-  height: 450px;
+	width: 100%;
+	height: 450px;
 }
 
 /* Stock details box */
 .stock-details {
-  background: #fff;
-  border: 2px solid var(--primary);
-  border-radius: 10px;
-  padding: 1.5rem;
+	background: #fff;
+	border: 2px solid var(--primary);
+	border-radius: 10px;
+	padding: 1.5rem;
 }
 
 .stock-details h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: var(--fg);
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	color: var(--fg);
 }
 
 .stock-metrics {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 1rem;
 }
 
 .metric-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
 }
 
 .metric {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .metric-label {
-  font-weight: 600;
-  color: var(--fg);
+	font-weight: 600;
+	color: var(--fg);
 }
 
 .metric-value {
-  font-weight: 500;
-  color: var(--fg);
+	font-weight: 500;
+	color: var(--fg);
 }
 
 .metric-value.positive {
-  color: green;
+	color: green;
 }
 
 .metric-value.negative {
-  color: var(--error);
+	color: var(--error);
 }
 
 /* Trade forms */
 .stock-actions {
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+	margin-top: 1.5rem;
 }
 
 .trade-form {
-  background: var(--bg);
-  border: 1px solid var(--primary);
-  border-radius: 8px;
-  padding: 1rem;
-  flex: 1;
-  min-width: 250px;
+	background: var(--bg);
+	border: 1px solid var(--primary);
+	border-radius: 8px;
+	padding: 1rem;
+	flex: 1;
+	min-width: 250px;
 }
 
 .trade-form h3 {
-  margin-bottom: 0.75rem;
-  font-size: 1.25rem;
-  color: var(--fg);
+	margin-bottom: 0.75rem;
+	font-size: 1.25rem;
+	color: var(--fg);
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1rem;
 }
 
 .form-group label {
-  margin-bottom: 0.25rem;
-  font-weight: 600;
+	margin-bottom: 0.25rem;
+	font-weight: 600;
 }
 
 .form-group input {
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+	padding: 0.5rem;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 1rem;
 }
 
 /* Buy/Sell buttons */
 .buy-btn,
 .sell-btn {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
+	width: 100%;
+	padding: 0.75rem;
+	font-size: 1rem;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background 0.3s;
 }
 
 .buy-btn {
-  background: var(--primary);
-  color: #fff;
+	background: var(--primary);
+	color: #fff;
 }
 
 .buy-btn:hover {
-  background: var(--primary-light);
+	background: var(--primary-light);
 }
 
 .sell-btn {
-  background: var(--error);
-  color: #fff;
+	background: var(--error);
+	color: #fff;
 }
 
 .sell-btn:hover {
-  background: #a93226;
+	background: #a93226;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .stock-content {
-    flex-direction: column;
-  }
-  .stock-actions {
-    flex-direction: column;
-  }
+	.stock-content {
+		flex-direction: column;
+	}
+	.stock-actions {
+		flex-direction: column;
+	}
 }

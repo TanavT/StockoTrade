@@ -17,12 +17,10 @@ router
 		) {
 			return res.status(200).redirect(`../dashboard/${userId}`);
 		} else {
-			return res
-				.status(200)
-				.render('login', {
-					title: 'Login',
-					scriptPaths: ['auth_login_form.js'],
-				});
+			return res.status(200).render('login', {
+				title: 'Login',
+				scriptPaths: ['auth_login_form.js'],
+			});
 		}
 	})
 	.post(async (req, res) => {
