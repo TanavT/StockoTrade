@@ -357,7 +357,10 @@ const getPortfolioWorthCurrent = async (userId) => {
 	//updating in collection
 	const result = await userCollection.findOneAndUpdate({_id: new ObjectId(verifiedUserId)}, {$set: {'portfolio_information': newPortfolioInformation}})
 	if (!result) throw ['500', 'Could not update']
-	return {portfolio_worth: total, capital: userToInspect.portfolio_information.capital}
+	let sharpeRatio
+	if(userToInspect.portfolio_information.trade_history.length > 0) sharpeRatio = await getSharpeRatio(verifiedUserId)
+	// console.log(sharpeRatio)
+	return {portfolio_worth: total, capital: userToInspect.portfolio_information.capital, sharpeRatio: sharpeRatio}
 }
 
 const getCurrentValue = async(stock_ticker, volume) => {
@@ -611,6 +614,7 @@ const getVolatilityOverTime = async (userId, windowSize = 7) => {
 };
 
 const getSharpeRatio = async (userId) => {
+	//oh boy
 	const verifiedUserId = verifyId(userId);
 	const userCollection = await users();
 	const userToInspect = await userCollection.findOne({ _id: new ObjectId(verifiedUserId) });
@@ -619,11 +623,11 @@ const getSharpeRatio = async (userId) => {
 	const tradeHistory = userToInspect.portfolio_information.trade_history;
 	if (!tradeHistory || tradeHistory.length === 0) throw [400, 'no trade history'];
 
-	// Get portfolio value over time
-	const worthData = await getPortfolioWorthOverTime(userId); // this already returns [{ date, totalValue }]
+	//get portfolio value over time
+	const worthData = await getPortfolioWorthOverTime(userId);
 	if (worthData.length < 2) throw [400, 'not enough data for Sharpe Ratio'];
 
-	// Calculate daily returns
+	//calculate daily returns
 	const dailyReturns = [];
 	for (let i = 1; i < worthData.length; i++) {
 		const prev = worthData[i - 1].totalValue;
@@ -639,10 +643,9 @@ const getSharpeRatio = async (userId) => {
 
 	if (stdDev === 0) return { sharpeRatio: 0 };
 
-	// Risk-free rate assumed 0; adjust if needed
-	const sharpeRatio = avgReturn / stdDev;
+	//risk-free rate assumed 0; adjust if needed
+	return  avgReturn / stdDev;
 
-	return { sharpeRatio: parseFloat(sharpeRatio.toFixed(4)) };
 };
 
 

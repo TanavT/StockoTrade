@@ -19,6 +19,7 @@ const Sam = await userData.createUser("ssulek", "Sam", "Sulek", "samsulek@exampl
 const Rock = await userData.createUser("trock", "The", "Rock", "therock@example.com", "Passrd!23", "53", "2003-12-22")
 const Mike = await userData.createUser("mtyson", "Mike", "Tyson", "miketyson@example.com", "Pas0rd!23", "58", "2003-10-19")
 const Willy = await userData.createUser("wwonka", "Willy", "Wonka", "willywonka@example.com", "P@sord123*", "47", "2001-01-27");
+const newUser = await userData.createUser("newMan", "New", "Man", "new@example.com", "Password123!*", "49", "2001-01-27");
 
 const Tid = Tanav._id.toString();
 const Cid = Chris._id.toString();

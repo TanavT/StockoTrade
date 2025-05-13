@@ -4,17 +4,16 @@
     <div class="userSummary">
         <h2 id="capital">Current Capital: ${{capital}}</h2>
         <h2 id="portfolio_worth">Total Portfolio Worth: ${{portfolio_worth}}</h2> 
+        <h2 id="sharpe_ratio">Calculating...</h2>
         <form id="recomputePorfolioWorthForm">
-            <button type="button" id="recomputePortfolioWorth">Recompute Captial and Portfolio Worth</button>
+            <button type="button" id="recomputePortfolioWorth">Recompute Captial, Portfolio Worth, and Sharpe Ratio</button>
         </form>
     </div>
 
-    <div class="chartArea">
-        <canvas id="portfolio-chart"></canvas>
-    </div>
-    <div id="stock-pie-chart-div"><canvas id="stock-pie-chart"></canvas></div>
-    <div id="gains-chart-div"><canvas id="gains-chart"></canvas></div>
-    <div id="volatility-chart-div"><canvas id="volatility-chart"></canvas></div>
+    <div class="chartArea" id="portfolio-chart-div"><canvas id="portfolio-chart"></canvas></div>
+    <div class="chartArea" id="stock-pie-chart-div"><canvas id="stock-pie-chart"></canvas></div>
+    <div class="chartArea" id="gains-chart-div"><canvas id="gains-chart"></canvas></div>
+    <div class="chartArea" id="volatility-chart-div"><canvas id="volatility-chart"></canvas></div>
 </div>
 
 <div class="tickersAndHistory">

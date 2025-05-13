@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	//portfolio_worth
 	let portfolioWorth = document.getElementById("portfolio_worth")
 	let capital = document.getElementById("capital")
+	let sharpeRatio = document.getElementById("sharpe_ratio")
 	fetch(`/dashboard/worth`, {
 		method: 'POST',
 		headers: {
@@ -56,12 +57,16 @@ document.addEventListener("DOMContentLoaded", function () {
 	})
 		.then((response => response.json()))
 		.then((data) => {
-			//console.log("response reached")
 			capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
 			portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
+			if(data.sharpeRatio ) {
+				sharpeRatio.innerHTML = `Sharpe Ratio: ${data.sharpeRatio.toFixed(4)}`
+			} else {
+				sharpeRatio.innerHTML = `Sharpe Ratio: 0`
+			}
 		}) 
 		.catch((error) => {
-			console.error(`Could not display capital and portfolio worth because of error: ${error}`)
+			console.error(`Could not display sharpe ration, capital, and portfolio worth because of error: ${error}`)
 		})
 
 
@@ -142,7 +147,9 @@ document.addEventListener("DOMContentLoaded", function () {
 						y: {
 							title: {
 								display: true,
-								text: 'Volatility (%)'
+								text: 'Volatility (%)',
+								suggestedMin: 0,
+  								suggestedMax: 10,
 							}
 						}
 					},
@@ -205,7 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
 					title: {
 					display: true,
 					text: 'Cumulative Return ($)'
-					}
+					},
+					suggestedMin: -10000,
+  					suggestedMax: 10000,
 				}
 				},
 				plugins: {
@@ -364,6 +373,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		.then((data) => {
 			capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
 			portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
+			if(data.sharpeRatio ) {
+				sharpeRatio.innerHTML = `Sharpe Ratio: ${data.sharpeRatio.toFixed(4)}`
+			} else {
+				sharpeRatio.innerHTML = `Sharpe Ratio: 0`
+			}
 		}) 
 		.catch((error) => {
 			console.error(`Could not update capital and portfolio worth because of error: ${error}`)

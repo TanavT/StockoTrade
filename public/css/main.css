@@ -277,7 +277,10 @@ a:hover {
   height: 400;
 }
 /* Chart container styling */
-.chartArea {
+.chartArea,
+.stock-pie-chart-div,
+.gains-chart-div,
+.volatility-chart-div {
   flex: 2 1 600px;
   background: #ffffff;
   border: 2px solid var(--primary);
