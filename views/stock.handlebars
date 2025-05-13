@@ -16,8 +16,11 @@
         {{/if}}
 
         <div id="tickerSymbol" hidden> {{tickerSymbol}} </div>
+        <div id="userAbleToBuy" hidden> {{userAbleToBuy}} </div>
+        <div id="userSharesOwned" hidden> {{userSharesOwned}} </div>
         <div id="chartLabels" data-value="{{chartLabels}}" hidden></div>
         <div id="chartPrices" data-value="{{chartPrices}}" hidden></div>
+        
 
         <div class="stock-details">
             <h2>Stock Details</h2>
@@ -71,7 +74,7 @@
 
             {{#if isLoggedIn}}
             <div class="stock-actions">
-                <form method="POST" action="/stock/buy/{{tickerSymbol}}" class="trade-form">
+                <form id="buy-form" method="POST" action="/stock/buy/{{tickerSymbol}}" class="trade-form">
                     <h3>Buy Shares</h3>
                     <h4>Capital: ${{userCapital}}</h4>
                     <h4>You are able to buy {{userAbleToBuy}} more shares</h4>
@@ -82,7 +85,7 @@
                     <button type="submit" class="buy-btn">Buy</button>
                 </form>
 
-                <form method="POST" action="/stock/sell/{{tickerSymbol}}" class="trade-form">
+                <form id="sell-form" method="POST" action="/stock/sell/{{tickerSymbol}}" class="trade-form">
                     <h3>Sell Shares</h3>
                     <h4>Value of Shares Owned: ${{valueSharesOwned}}</h4>
                     <h4>Shares Owned: {{userSharesOwned}}</h4>
@@ -93,6 +96,15 @@
                     <button type="submit" class="sell-btn">Sell</button>
                 </form>
             </div>
+
+            <p id="buy-error" class="auth-error" hidden></p>
+            {{#if errorMessage}}
+                <p class="auth-error">{{errorMessage}}</p>
+            {{/if}}
+            <p id="sell-error" class="auth-error" hidden></p>
+            {{#if errorMessage}}
+                <p class="auth-error">{{errorMessage}}</p>
+            {{/if}}
             {{/if}}
         </div>
     </section>
