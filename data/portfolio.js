@@ -506,6 +506,7 @@ const getCurrentValue = async (stock_ticker, volume) => {
 	let gettingPrice = await yahooFinance.quote(stock_ticker, {
 		fields: ['regularMarketPrice'],
 	});
+	// console.log(gettingPrice)
 	gettingPrice = gettingPrice['regularMarketPrice'];
 	if (!gettingPrice) throw [500, 'Could not get price'];
 	return {
@@ -548,7 +549,7 @@ const getTopPortfolioProfiles = async () => {
 };
 
 const resetPortfolio = async (userId) => {
-	//verify the user exists
+	// Verify the user exists
 	userData.getUserById(userId);
 	const defaultPortfolio = {
 		capital: 100000,
@@ -610,6 +611,7 @@ const getCumulativeGains = async (userId) => {
 		const firstDate = new Date(orderedDates[0]);
 		const start = firstDate.toISOString().split('T')[0];
 		const end = new Date().toISOString().split('T')[0];
+		if(start === end) continue;
 
 		const result = await yahooFinance.chart(ticker, {
 			period1: start,

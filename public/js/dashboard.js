@@ -47,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
 						volumeElement.innerHTML = `${updated_volume} shares`;
 						input.max = updated_volume;
 					}
+					// console.log(`${stockTicker} ${updated_volume}`)
+					addTradeRow("Sell", form.dataset.stock_ticker, sellAmount)
 					updateStockChart(stockTicker, updated_volume);
 					updateTickers();
 					// capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
@@ -59,6 +61,36 @@ document.addEventListener('DOMContentLoaded', function () {
 				});
 		});
 	});
+	const trade_table = document.getElementById('trades');
+	//Basically just for selling
+	const addTradeRow = (type, stock_ticker, volume) => {
+		console.log(`${stock_ticker} ${volume}`)
+		fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(data)
+					const newRow = document.createElement('tr');
+					newRow.innerHTML = `
+						<td>${type}</td>
+						<td>${stock_ticker}</td>
+						<td>${volume} shares</td>
+						<td>$${(data.price_per_share * volume).toFixed(4)}</td>
+						<td>${new Date()}</td>
+					`;
+					const rows = trade_table.getElementsByTagName('tr');
+					if (rows.length > 1) {
+						rows[0].parentNode.insertBefore(newRow, rows[1]);
+					} else {
+						trade_table.appendChild(newRow);
+					}
+				})
+				.catch((error) => {
+					console.error(
+						`Could not update trade history because of error: ${error}`
+					);
+				});
+	}
+
 
 	//portfolio_worth
 	let portfolioWorth = document.getElementById('portfolio_worth');
@@ -80,9 +112,9 @@ document.addEventListener('DOMContentLoaded', function () {
 			if (data.sharpeRatio) {
 				sharpeRatio.innerHTML = `Annualized Sharpe Ratio: ${data.sharpeRatio.toFixed(
 					4
-				)}x`;
+				)}`;
 			} else {
-				sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0x`;
+				sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0`;
 			}
 		})
 		.catch((error) => {
@@ -435,9 +467,9 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (data.sharpeRatio) {
 					sharpeRatio.innerHTML = `Annualized Sharpe Ratio: ${data.sharpeRatio.toFixed(
 						4
-					)}x`;
+					)}`;
 				} else {
-					sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0x`;
+					sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0`;
 				}
 			})
 			.catch((error) => {
