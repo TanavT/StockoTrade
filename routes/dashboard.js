@@ -17,15 +17,15 @@ router.route('/:id').get(async (req, res) => {
 			errorMessage: e[1],
 		});
 	}
-	if (req.params.id !== userId) {
-		return res.status(404).render('error', {
-			errorCode: 404,
-			title: '404 Error',
-			errorMessage: 'Unauthorized account access attempt.',
-		});
-	}
 
 	if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+		if (req.params.id !== userId) {
+			return res.status(404).render('error', {
+				errorCode: 404,
+				title: '404 Error',
+				errorMessage: 'Unauthorized account access attempt.',
+			});
+		}
 		// The dashboard (by the end of the project) will take in alot of parameters of
 		// statistics calculated in realtime
 		const user = await userData.getUserById(req.params.id);
@@ -51,7 +51,6 @@ router.route('/:id').get(async (req, res) => {
 });
 
 router.route('/chart/portfolio/:id').get(async (req, res) => {
-	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getPortfolioWorthOverTime(
@@ -69,7 +68,6 @@ router.route('/chart/portfolio/:id').get(async (req, res) => {
 });
 
 router.route('/chart/stocks/:id').get(async (req, res) => {
-	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getStockTickers(req.params.id);
@@ -85,7 +83,6 @@ router.route('/chart/stocks/:id').get(async (req, res) => {
 });
 
 router.route('/chart/gains/:id').get(async (req, res) => {
-	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getCumulativeGains(req.params.id);
@@ -102,7 +99,6 @@ router.route('/chart/gains/:id').get(async (req, res) => {
 });
 
 router.route('/chart/volatility/:id').get(async (req, res) => {
-	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getVolatilityOverTime(req.params.id);
@@ -119,11 +115,8 @@ router.route('/chart/volatility/:id').get(async (req, res) => {
 });
 
 router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
-	//console.log("Route reached")
 	let stock_ticker = xss(req.params.stock_ticker);
 	let volume = xss(req.params.volume);
-	// console.log(stock_ticker)
-	// console.log(volume)
 	try {
 		stock_ticker = verifyString(stock_ticker);
 		volume = verifyString(volume);
@@ -138,7 +131,6 @@ router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 			errorMessage: e[1],
 		});
 	}
-	// console.log(result)
 });
 
 router.route('/worth').post(async (req, res) => {
@@ -210,11 +202,5 @@ router.route('/reset').post(async (req, res) => {
 		return res.status(200).redirect('/');
 	}
 });
-
-// router.route('/verify').post(async (req, res) => {
-// 	let searchStockInput = xss(req.body.searchStockInput);
-// 	const result = await portfolioData.validateStockTicker(searchStockInput);
-// 	res.json(result);
-// });
 
 export default router;
