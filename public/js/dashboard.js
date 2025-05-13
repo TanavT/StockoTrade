@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 	const username = document.getElementById('userNameDisplay');
-	const userId = username.getAttribute('userId');
+	const userId = username.dataset.userid;
 
 	//selling buttons
 	const sellForms = document.querySelectorAll('.sell-stock');
@@ -11,7 +11,13 @@ document.addEventListener('DOMContentLoaded', function () {
 			const input = form.querySelector(
 				`input[name="sell_amount_${stockTicker}"]`
 			);
-			const sellAmount = input.value;
+			const sellAmount = input.value; 
+			if (isNaN(sellAmount) || sellAmount.trim() === "" || parseInt(sellAmount) <= 0 || parseInt(sellAmount) > input.max) {
+				alert(`You cannot sell ${sellAmount}, please enter a valid share amount.`);
+				input.focus();
+				return;
+			}
+
 			// console.log(`Selling ${sellAmount} shares of ${stockTicker}`);
 			fetch(`/dashboard/sell`, {
 				method: 'POST',
@@ -72,11 +78,11 @@ document.addEventListener('DOMContentLoaded', function () {
 				4
 			)}`;
 			if (data.sharpeRatio) {
-				sharpeRatio.innerHTML = `Sharpe Ratio: ${data.sharpeRatio.toFixed(
+				sharpeRatio.innerHTML = `Annualized Sharpe Ratio: ${data.sharpeRatio.toFixed(
 					4
-				)}`;
+				)}x`;
 			} else {
-				sharpeRatio.innerHTML = `Sharpe Ratio: 0`;
+				sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0x`;
 			}
 		})
 		.catch((error) => {
@@ -427,11 +433,11 @@ document.addEventListener('DOMContentLoaded', function () {
 					4
 				)}`;
 				if (data.sharpeRatio) {
-					sharpeRatio.innerHTML = `Sharpe Ratio: ${data.sharpeRatio.toFixed(
+					sharpeRatio.innerHTML = `Annualized Sharpe Ratio: ${data.sharpeRatio.toFixed(
 						4
-					)}`;
+					)}x`;
 				} else {
-					sharpeRatio.innerHTML = `Sharpe Ratio: 0`;
+					sharpeRatio.innerHTML = `Annualized Sharpe Ratio: 0x`;
 				}
 			})
 			.catch((error) => {
