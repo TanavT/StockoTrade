@@ -103,8 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
 		},
 		body: JSON.stringify({ userId }),
 	})
-		.then((response) => response.json())
+		.then((response) => {
+			console.log(response)
+			return response.json()})
 		.then((data) => {
+			console.log(data)
 			capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`;
 			portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(
 				4
