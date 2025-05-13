@@ -416,6 +416,15 @@ const resetPortfolio = async (userId) => {
 	updateInfo._id = updateInfo._id.toString();
 	return updateInfo
 }
+const getStockTickers = async (userId) => {
+	const verifiedUserId = verifyId(userId)
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({
+			_id: new ObjectId(verifiedUserId)
+	})
+	if (!userToInspect.portfolio_information.tickers) throw [500, 'could not get stock tickers']
+	return userToInspect.portfolio_information.tickers
+}
 
 const portfolioDataFunctions = {
 	getTopPortfolioProfiles, 
@@ -426,7 +435,8 @@ const portfolioDataFunctions = {
 	buyStockPast, 
 	sellStockPast,
 	getCurrentValue,
-	resetPortfolio
+	resetPortfolio,
+	getStockTickers
 };
 
 export default portfolioDataFunctions;
