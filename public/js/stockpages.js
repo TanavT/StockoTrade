@@ -123,7 +123,7 @@ if (buyForm) {
 			verifyString(buyQuantity.value, 'buyQuantity');
 			verifyBuy(buyQuantity.value);
 			buyError.hidden = true;
-			buyError.submit();
+			buyForm.submit();
 		} catch (e) {
 			outputError(e[0], e[1]);
 		}
@@ -147,7 +147,7 @@ if (sellForm) {
 			verifyString(sellQuantity.value, 'sellQuantity');
 			verifySell(sellQuantity.value);
 			sellError.hidden = true;
-			sellError.submit();
+			sellForm.submit();
 		} catch (e) {
 			outputError(e[0], e[1]);
 		}
