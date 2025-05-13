@@ -472,7 +472,7 @@ a:hover {
 }
 
 .metric-value.negative {
-	color: var(--error);
+	color: red;
 }
 
 /* Trade forms */
