@@ -186,3 +186,46 @@ const verifyString = (str, varName) => {
 		throw [400, `${varName} cannot be an empty string or whitespace.`];
 	return trimStr;
 };
+
+// Client side javascript to client-side verify form info for search
+const searchStockForm = document.getElementById('searchBarStocksForm');
+const searchBarStocks = document.getElementById('searchBarStocks');
+const searchStockError = document.getElementById('searchstock-error');
+if (searchStockForm) {
+	function outputError(errorcode, message) {
+		searchBarStocks.value = '';
+		searchStockError.innerHTML = `${errorcode}: ${message}`;
+		searchStockError.hidden = false;
+	}
+	searchStockForm.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		try {
+			verifyString(searchBarStocks.value, 'Ticker');
+			await verifyTicker(searchBarStocks.value);
+			// if (validity === false){
+			// 	throw ['404', 'Invalid stock ticker entered']
+			// }
+			searchStockError.hidden = true;
+			searchStockForm.submit();
+		} catch (e) {
+			outputError(e[0], e[1]);
+		}
+	});
+}
+
+const verifyTicker = async (ticker) => {
+    let validity = null;
+	await fetch(`/stock/verify/${ticker}`)
+			.then((response) => response.json())
+			.then((data) => {
+				validity = data.validity;
+                console.log(validity);
+				
+			});
+    if (validity === false){
+        throw ['404', 'Invalid stock ticker entered']
+    }
+    return validity;
+
+}
+

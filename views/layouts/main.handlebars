@@ -31,6 +31,10 @@
           {{/if}}
 					<form method="GET" action="/stock" name="searchBarStocksForm" id="searchBarStocksForm" class="searchBarForm">
     					<input name="ticker" id="searchBarStocks" type="text" placeholder="Search for Stocks" class="search-input" required>
+              <p id="searchstock-error" class="auth-error" hidden></p>
+              {{#if errorMessage}}
+                  <p class="auth-error">{{errorMessage}}</p>
+              {{/if}}
 					</form>
 					<form method="POST" action="/logout" >
             <button type="submit" class="btn btn--danger">Sign Out</button>
