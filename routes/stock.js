@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { portfolioData, stockData } from '../data/index.js';
+import { portfolioData, stockData, userData } from '../data/index.js';
 import xss from 'xss';
 const router = Router();
 import { verifyString } from '../utils/auth/user_data.js';
@@ -44,6 +44,15 @@ router.get('/', async (req, res) => {
             });
         }
 
+        
+        
+        const user = await userData.getUserById(userId);
+        let userCapital = user.portfolio_information.capital;
+        let userSharesOwned = 0;
+        if (ticker in user.portfolio_information.tickers){
+            userSharesOwned = user.portfolio_information.tickers[ticker].volume;
+        }
+        let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
 
         if (data.chartLabels === null || data.chartPrices === null || data.chartLabels === undefined || data.chartPrices === undefined) {
             res.status(200).render('stock', {
@@ -65,7 +74,10 @@ router.get('/', async (req, res) => {
                 marketCapAbbrev: data.marketCapAbbrev,
                 companyName: data.companyName,
                 companySummary: data.summary,
-                graphTrue: false
+                graphTrue: false,
+                userCapital: userCapital,
+                userSharesOwned: userSharesOwned,
+                userAbleToBuy: userAbleToBuy
             });
         }
         else{
@@ -90,7 +102,10 @@ router.get('/', async (req, res) => {
                 marketCapAbbrev: data.marketCapAbbrev,
                 companyName: data.companyName,
                 companySummary: data.summary,
-                graphTrue: true
+                graphTrue: true,
+                userCapital: userCapital,
+                userSharesOwned: userSharesOwned,
+                userAbleToBuy: userAbleToBuy
             });
         }
 
