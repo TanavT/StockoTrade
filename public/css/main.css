@@ -271,6 +271,11 @@ a:hover {
   width: 200;
   height: 200;
 }
+
+#gains-chart {
+  width: 300;
+  height: 200;
+}
 /* Chart container styling */
 .chartArea {
   flex: 2 1 600px;
