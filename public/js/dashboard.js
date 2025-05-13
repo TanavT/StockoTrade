@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 	
 	//stock-chart
+	let pie_chart = null
 	fetch(`/dashboard/chart/stocks/${userId}`)
 		.then((response => response.json()))
 		.then((data) => {
@@ -114,9 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			return `rgba(${r}, ${g}, ${b}, 0.6)`;
 			});
 
-			const ctx = document.getElementById("stock-pie-chart").getContext("2d");
+			const chart_ctx = document.getElementById("stock-pie-chart").getContext("2d");
 
-			const chart = new Chart(ctx, {
+			pie_chart = new Chart(chart_ctx, {
 			type: 'pie',
 			data: {
 				labels: tickers,
