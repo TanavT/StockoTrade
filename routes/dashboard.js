@@ -122,6 +122,8 @@ router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 	//console.log("Route reached")
 	let stock_ticker = xss(req.params.stock_ticker);
 	let volume = xss(req.params.volume);
+	// console.log(stock_ticker)
+	// console.log(volume)
 	try {
 		stock_ticker = verifyString(stock_ticker);
 		volume = verifyString(volume);
