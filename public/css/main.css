@@ -366,3 +366,184 @@ a:hover {
   margin: 2rem auto;
   text-align: center;
 }
+
+/* stock.css
+   Styles for the Stock Details page */
+
+.stock-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: var(--bg);
+}
+
+.stock-header {
+  margin-bottom: 2rem;
+}
+
+.stock-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--fg);
+}
+
+.company-summary {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.stock-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Chart area */
+.chartArea {
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.chartArea h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--fg);
+}
+
+#portfolio-chart {
+  width: 100%;
+  height: 300px;
+}
+
+/* Stock details box */
+.stock-details {
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.stock-details h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--fg);
+}
+
+.stock-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.metric-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+}
+
+.metric-label {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.metric-value {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+.metric-value.positive {
+  color: green;
+}
+
+.metric-value.negative {
+  color: var(--error);
+}
+
+/* Trade forms */
+.stock-actions {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.trade-form {
+  background: var(--bg);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  padding: 1rem;
+  flex: 1;
+  min-width: 250px;
+}
+
+.trade-form h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: var(--fg);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Buy/Sell buttons */
+.buy-btn,
+.sell-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buy-btn {
+  background: var(--primary);
+  color: #fff;
+}
+
+.buy-btn:hover {
+  background: var(--primary-light);
+}
+
+.sell-btn {
+  background: var(--error);
+  color: #fff;
+}
+
+.sell-btn:hover {
+  background: #a93226;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .stock-content {
+    flex-direction: column;
+  }
+  .stock-actions {
+    flex-direction: column;
+  }
+}

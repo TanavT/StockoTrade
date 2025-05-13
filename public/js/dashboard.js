@@ -242,5 +242,25 @@ document.addEventListener("DOMContentLoaded", function () {
 		})
 	})
 
+    // let searchBarStocksForm = document.getElementById("searchBarStocksForm");
+    // if (searchBarStocksForm){
+    //     searchBarStocksForm.addEventListener("submit", function(event) {
+    //         event.preventDefault();
+    //         let searchStockInput = document.getElementById("searchBarStocks").value.trim().toUpperCase();
+    //         if (searchStockInput){
+    //             fetch(`/dashboard/verify/${searchStockInput}`)
+    //             .then((response => response.json()))
+    //             .then((data) => {
+    //                 if (data === true){
+    //                     searchBarStocksForm.submit();
+    //                 }
+    //             }) 
+    //             .catch((error) => {
+    //                 console.error(`Could not search for stock because of error: ${error}`)
+    //             })
+    //         }
+    //     })
+    // }
+
 })
 
