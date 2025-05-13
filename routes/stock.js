@@ -19,11 +19,15 @@ router.get('/', async (req, res) => {
         const isLoggedIn = req.cookies.isAuthenticated;
         const userId = req.cookies.userID;
         if (!ticker) {
-            if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
-                return res.redirect(`/dashboard/${userId}`);
-            } else {
-                return res.redirect('/');
-            }
+            // if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+            //     return res.redirect(`/dashboard/${userId}`);
+            // } else {
+            //     return res.redirect('/');
+            // }
+            return res.status(404).render('error', {
+                errorCode: "404",
+                errorMessage: `Stock with ticker ${ticker} not found`
+            });
         }
 
         // Proceed with stock data fetching if ticker exists
@@ -37,11 +41,15 @@ router.get('/', async (req, res) => {
 
         const validated = await stockData.validateStockTicker(ticker);
         if (!validated){
-            if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
-                return res.redirect(`/dashboard/${userId}`);
-            } else {
-                return res.redirect('/');
-            }
+            // if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
+            //     return res.redirect(`/dashboard/${userId}`);
+            // } else {
+            //     return res.redirect('/');
+            // }
+            return res.status(404).render('error', {
+                errorCode: "404",
+                errorMessage: `Stock with ticker ${ticker} not found`
+            });
         }
 
         
