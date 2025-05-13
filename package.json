@@ -23,7 +23,6 @@
     "bcryptjs": "^3.0.2",
     "chart.js": "^4.4.9",
     "cookie-parser": "^1.4.7",
-    "d3": "^7.9.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.1",
     "handlebars": "^4.7.8",

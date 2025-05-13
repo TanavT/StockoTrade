@@ -35,8 +35,7 @@ router.route('/:id').get(async (req, res) => {
 				isLoggedIn: true,
 				username: user.filler_username,
 				scriptPaths: ['dashboard.js', 'reset_button.js', 'searchBar.js'],
-				outsidePaths: ['https://d3js.org/d3.v7.min.js', 
-								"https://cdn.jsdelivr.net/npm/chart.js",
+				outsidePaths: ["https://cdn.jsdelivr.net/npm/chart.js",
 								"https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"],
 				title: 'dashboard',
 				capital: user.portfolio_information.capital.toFixed(4),
@@ -88,6 +87,23 @@ router.route('/chart/gains/:id').get(async (req, res) => {
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getCumulativeGains(req.params.id);
+		res.json(result);
+	} catch (e) {
+		console.log(e)
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}	
+});
+
+router.route('/chart/volatility/:id').get(async (req, res) => {
+	//console.log("Route reached")
+	try {
+		req.params.id = verifyId(req.params.id);
+		const result = await portfolioData.getVolatilityOverTime(req.params.id);
 		res.json(result);
 	} catch (e) {
 		console.log(e)

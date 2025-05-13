@@ -511,6 +511,140 @@ const getCumulativeGains = async (userId) => {
 
 	return sortedGains;
 }
+const getVolatilityOverTime = async (userId, windowSize = 7) => {
+	//this is too much math for a cs student, god has forsaken me
+	const verifiedUserId = verifyId(userId);
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({
+		_id: new ObjectId(verifiedUserId)
+	});
+	if (!userToInspect) throw [400, 'user not found'];
+
+	const tradeHistory = userToInspect.portfolio_information.trade_history;
+	if (tradeHistory.length === 0) return [];
+
+	const tickers = [...new Set(tradeHistory.map(t => t.stock_ticker))];
+	const sortedTrades = [...tradeHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+	const startDate = new Date(sortedTrades[0].date);
+	const endDate = new Date();
+	const dateList = [];
+
+	for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+		dateList.push(new Date(d).toISOString().split('T')[0]);
+	}
+
+	const tickerPrices = {};
+	for (const ticker of tickers) {
+		const history = await yahooFinance.chart(ticker, {
+			period1: dateList[0],
+			interval: '1d',
+		});
+		tickerPrices[ticker] = {};
+		for (const { date, close } of history.quotes) {
+			const d = new Date(date).toISOString().split('T')[0];
+			tickerPrices[ticker][d] = close;
+		}
+	}
+
+	let capital = 100000;
+	const result = [];
+	const holdings = {};
+	const lastKnownPrices = {};
+	let tradeIndex = 0;
+
+	//first compute daily portfolio value
+	for (const date of dateList) {
+		while (tradeIndex < sortedTrades.length && new Date(sortedTrades[tradeIndex].date).toISOString().split('T')[0] === date) {
+			const trade = sortedTrades[tradeIndex];
+			const volume = trade.volume;
+			const tradePrice = parseFloat(trade.value);
+			if (trade.type === 'Buy') {
+				holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) + volume;
+				capital -= tradePrice;
+			} else if (trade.type === 'Sell') {
+				holdings[trade.stock_ticker] = (holdings[trade.stock_ticker] || 0) - volume;
+				capital += tradePrice;
+			}
+			tradeIndex++;
+		}
+
+		let investedValue = 0;
+		for (const [ticker, volume] of Object.entries(holdings)) {
+			if (volume <= 0) continue;
+			const priceToday = tickerPrices[ticker]?.[date];
+			if (priceToday !== undefined) {
+				lastKnownPrices[ticker] = priceToday;
+			}
+			const priceToUse = lastKnownPrices[ticker];
+			if (priceToUse !== undefined) {
+				investedValue += volume * priceToUse;
+			}
+		}
+
+		const totalValue = parseFloat((capital + investedValue).toFixed(4));
+		result.push({ date, totalValue });
+	}
+
+	//compute daily percentage changes
+	const percentChanges = [];
+	for (let i = 1; i < result.length; i++) {
+		const prev = result[i - 1].totalValue;
+		const curr = result[i].totalValue;
+		const change = (curr - prev) / prev;
+		percentChanges.push({ date: result[i].date, change });
+	}
+
+	//rolling volatility using standard deviation of percent changes
+	const volatilityResult = [];
+	for (let i = windowSize - 1; i < percentChanges.length; i++) {
+		const window = percentChanges.slice(i - windowSize + 1, i + 1).map(p => p.change);
+		const mean = window.reduce((sum, val) => sum + val, 0) / window.length;
+		const variance = window.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / window.length;
+		const stdDev = Math.sqrt(variance);
+		volatilityResult.push({
+			date: percentChanges[i].date,
+			volatility: parseFloat((stdDev * 100).toFixed(4))
+		});
+	}
+
+	return volatilityResult;
+};
+
+const getSharpeRatio = async (userId) => {
+	const verifiedUserId = verifyId(userId);
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({ _id: new ObjectId(verifiedUserId) });
+	if (!userToInspect) throw [400, 'user not found'];
+
+	const tradeHistory = userToInspect.portfolio_information.trade_history;
+	if (!tradeHistory || tradeHistory.length === 0) throw [400, 'no trade history'];
+
+	// Get portfolio value over time
+	const worthData = await getPortfolioWorthOverTime(userId); // this already returns [{ date, totalValue }]
+	if (worthData.length < 2) throw [400, 'not enough data for Sharpe Ratio'];
+
+	// Calculate daily returns
+	const dailyReturns = [];
+	for (let i = 1; i < worthData.length; i++) {
+		const prev = worthData[i - 1].totalValue;
+		const curr = worthData[i].totalValue;
+		const dailyReturn = (curr - prev) / prev;
+		dailyReturns.push(dailyReturn);
+	}
+
+	if (dailyReturns.length === 0) throw [500, 'no returns to calculate Sharpe Ratio'];
+
+	const avgReturn = dailyReturns.reduce((a, b) => a + b, 0) / dailyReturns.length;
+	const stdDev = Math.sqrt(dailyReturns.reduce((sum, r) => sum + Math.pow(r - avgReturn, 2), 0) / dailyReturns.length);
+
+	if (stdDev === 0) return { sharpeRatio: 0 };
+
+	// Risk-free rate assumed 0; adjust if needed
+	const sharpeRatio = avgReturn / stdDev;
+
+	return { sharpeRatio: parseFloat(sharpeRatio.toFixed(4)) };
+};
+
 
 
 const portfolioDataFunctions = {
@@ -524,7 +658,8 @@ const portfolioDataFunctions = {
 	getCurrentValue,
 	resetPortfolio,
 	getStockTickers,
-	getCumulativeGains
+	getCumulativeGains,
+	getVolatilityOverTime
 };
 
 export default portfolioDataFunctions;
