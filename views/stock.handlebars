@@ -73,6 +73,8 @@
             <div class="stock-actions">
                 <form method="POST" action="/stock/{{tickerSymbol}}/buy" class="trade-form">
                     <h3>Buy Shares</h3>
+                    <h4>Capital: ${{userCapital}}</h4>
+                    <h4>You are able to buy {{userAbleToBuy}} more shares</h4>
                     <div class="form-group">
                         <label for="buyQuantity">Quantity:</label>
                         <input type="number" id="buyQuantity" name="quantity" min="1" required>
@@ -82,6 +84,7 @@
 
                 <form method="POST" action="/stock/{{tickerSymbol}}/sell" class="trade-form">
                     <h3>Sell Shares</h3>
+                    <h4>Shares Owned: {{userSharesOwned}}</h4>
                     <div class="form-group">
                         <label for="sellQuantity">Quantity:</label>
                         <input type="number" id="sellQuantity" name="quantity" min="1" required>
