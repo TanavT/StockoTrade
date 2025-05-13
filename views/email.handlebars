@@ -1,0 +1,17 @@
+{{#if isSubscribed}}
+
+<section class="subscribe-page card">
+  <h2 class="subscribe-title">You are successfully subscribed to emails!</h2>
+  <a href="/" class="btn">Go Home</a>
+  <p class="subscribe-message">We will send you daily updates regarding your portfolio, showcasing statistics such as the daily change in total portfolio value and all buy/sells made.</p>
+</section>
+
+{{else}}
+
+<section class="subscribe-page card">
+  <h2 class="subscribe-title">You have been successfully unsubscribed to emails!</h2>
+  <a href="/" class="btn">Go Home</a>
+  <p class="subscribe-message">We will no longer send you daily updates regarding your portfolio, showcasing statistics such as the daily change in total portfolio value and all buy/sells made.</p>
+</section>
+
+{{/if}}

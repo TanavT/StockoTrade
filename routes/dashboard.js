@@ -44,6 +44,7 @@ router.route('/:id').get(async (req, res) => {
 			tickers: user.portfolio_information.tickers,
 			trade_history: user.portfolio_information.trade_history,
 			userId: req.params.id.toString(),
+			isSubscribed: user.isSubscribed
 		});
 	} else {
 		return res.status(200).redirect('/');

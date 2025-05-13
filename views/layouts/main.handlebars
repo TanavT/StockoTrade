@@ -20,6 +20,15 @@
         <h1 class="site-logo"><a href="/">StockoTrade</a></h1>
 				{{#if isLoggedIn}}
 					<a href="/leaderboard" class="btn">Leaderboard</a>
+          {{#if isSubscribed}}
+          <form method="POST" action="/email/unsubscribe" >
+            <button type="submit" class="btn">Unsubscribe from Emails</button>
+          </form>
+          {{else}}
+           <form method="POST" action="/email/subscribe" >
+            <button type="submit" class="btn">Subscribe to Emails</button>
+          </form>
+          {{/if}}
 					<form method="GET" action="/stock" name="searchBarStocksForm" id="searchBarStocksForm" class="searchBarForm">
     					<input name="ticker" id="searchBarStocks" type="text" placeholder="Search for Stocks" class="search-input" required>
 					</form>
