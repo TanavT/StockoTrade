@@ -28,7 +28,7 @@
         </tr>
         {{#each tickers}}
         <tr id="row_{{this.stock_ticker}}">
-        <td><a href="/stock/{{this.stock_ticker}}">{{this.stock_ticker}}</a></td>
+        <td><a href="/stock?ticker={{this.stock_ticker}}">{{this.stock_ticker}}</a></td>
         <td id="volume_{{this.stock_ticker}}">{{this.volume}} shares</td>
         <td>Calculating...</td>
         <td>Calculating...</td>

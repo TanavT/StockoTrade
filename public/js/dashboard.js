@@ -20,16 +20,19 @@ document.addEventListener("DOMContentLoaded", function () {
 			})
 				.then((response => response.json()))
 				.then((data) => {
+					let updated_volume = null
 					const index = data.tickers.findIndex((ticker_elem) => ticker_elem.stock_ticker === stockTicker)
 					if (index === -1) {
 						const row = document.getElementById(`row_${stockTicker}`);
 						if (row) row.remove();
+						updated_volume = 0
 					} else {
-						const updated_volume = data.tickers[index].volume
+						updated_volume = data.tickers[index].volume
 						const volumeElement = document.getElementById(`volume_${stockTicker}`);
 						volumeElement.innerHTML = `${updated_volume} shares`;
 						input.max = updated_volume;
 					}
+					updateStockChart(stockTicker, updated_volume)
 					updateTickers();
 					// capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
 					// portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
@@ -96,15 +99,13 @@ document.addEventListener("DOMContentLoaded", function () {
 			updateTickers();
 		});
 	}
-	
+
 	//stock-chart
-	let pie_chart = null
+	let stock_pie_chart = null
 	fetch(`/dashboard/chart/stocks/${userId}`)
 		.then((response => response.json()))
 		.then((data) => {
 			console.log("response reached")
-			// capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
-			// portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
 			const tickers = data.map(stock => stock.stock_ticker);
 			const volumes = data.map(stock => stock.volume);
 
@@ -117,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			const chart_ctx = document.getElementById("stock-pie-chart").getContext("2d");
 
-			pie_chart = new Chart(chart_ctx, {
+			stock_pie_chart = new Chart(chart_ctx, {
 			type: 'pie',
 			data: {
 				labels: tickers,
@@ -146,7 +147,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		.catch((error) => {
 			console.error(`Could not display stock chart because of error: ${error}`)
 		})
-
+	//remove from stock chart
+	function updateStockChart(stock_ticker, newVolume) {
+		const ticker_index = stock_pie_chart.data.labels.indexOf(stock_ticker);
+		if (ticker_index !== -1) {
+			if (newVolume <= 0) { //just in case <=
+				stock_pie_chart.data.labels.splice(ticker_index, 1);
+				stock_pie_chart.data.datasets[0].data.splice(ticker_index, 1);
+				stock_pie_chart.data.datasets[0].backgroundColor.splice(ticker_index, 1);
+			} else {
+				stock_pie_chart.data.datasets[0].data[ticker_index] = newVolume;
+			}
+			stock_pie_chart.update();
+		}
+	}
 	//portfolio-chart
 	let chartDiv = document.getElementById("portfolio-chart")
 	fetch(`/dashboard/chart/portfolio/${userId}`)
