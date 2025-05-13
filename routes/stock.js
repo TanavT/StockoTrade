@@ -54,9 +54,6 @@ router.get('/', async (req, res) => {
 			}
 		}
 		console.log(userSharesOwned)
-		// if (ticker in user.portfolio_information.tickers) {
-		// 	userSharesOwned = user.portfolio_information.tickers[ticker].volume;
-		// }
 		let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
 		if (userAbleToBuy !== 0){
 			userAbleToBuy -= 1;
@@ -253,7 +250,6 @@ router.route('/buy/:ticker').post(async (req, res) => {
 	}
 	
 
-	//return res.status(200).redirect(`/stock?ticker=${ticker}`);
 
 	try{
 		user = await userData.getUserById(userId);
@@ -264,9 +260,6 @@ router.route('/buy/:ticker').post(async (req, res) => {
 				userSharesOwned = obj.volume;
 			}
 		}
-		// if (ticker in user.portfolio_information.tickers) {
-		// 	userSharesOwned = user.portfolio_information.tickers[ticker].volume;
-		// }
 		let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
 		if (userAbleToBuy !== 0){
 			userAbleToBuy -= 1;
@@ -406,7 +399,6 @@ router.route('/sell/:ticker').post(async (req, res) => {
 	}
 	
 
-	//return res.status(200).redirect(`/stock?ticker=${ticker}`);
 
 	try{
 		user = await userData.getUserById(userId);
@@ -417,9 +409,6 @@ router.route('/sell/:ticker').post(async (req, res) => {
 				userSharesOwned = obj.volume;
 			}
 		}
-		// if (ticker in user.portfolio_information.tickers) {
-		// 	userSharesOwned = user.portfolio_information.tickers[ticker].volume;
-		// }
 		let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
 		if (userAbleToBuy !== 0){
 			userAbleToBuy -= 1;
