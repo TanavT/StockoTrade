@@ -137,5 +137,10 @@ router.route('/reset').post(async (req,res) => {
 	}
 })
 
+// router.route('/verify').post(async (req, res) => {
+// 	let searchStockInput = xss(req.body.searchStockInput);
+// 	const result = await portfolioData.validateStockTicker(searchStockInput);
+// 	res.json(result);
+// });
 
 export default router;

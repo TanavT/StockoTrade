@@ -18,23 +18,12 @@
     <header class="site-header">
       <div class="site-header__content">
         <h1 class="site-logo"><a href="/">StockoTrade</a></h1>
-        {{#if isLoggedIn}}
-          <a href="/leaderboard" class="btn">Leaderboard</a>
-          <input
-            id="searchBarStocks"
-            name="searchBarStocks"
-            class="search-input"
-            type="text"
-            placeholder="Search for Stocks"
-          />
-          {{!-- <input
-            id="searchBarPeople"
-            name="searchBarPeople"
-            class="search-input"
-            type="text"
-            placeholder="Search for People"
-          /> --}}
-          <form method="POST" action="/logout" >
+				{{#if isLoggedIn}}
+					<a href="/leaderboard" class="btn">Leaderboard</a>
+					<form method="GET" action="/stock" name="searchBarStocksForm" id="searchBarStocksForm" class="searchBarForm">
+    					<input name="ticker" id="searchBarStocks" type="text" placeholder="Search for Stocks" class="searchBar" required>
+					</form>
+					<form method="POST" action="/logout" >
             <button type="submit" class="btn btn--danger">Sign Out</button>
           </form>
         {{/if}}
