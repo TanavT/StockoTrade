@@ -67,6 +67,7 @@ const createUser = async (
 			tickers: [],
 			trade_history: [],
 		},
+		isSubscribed: false,
 	};
 	const insertInfo = await userCollection.insertOne(newUser);
 	if (!insertInfo.acknowledged || !insertInfo.insertedId) {

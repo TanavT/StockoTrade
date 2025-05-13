@@ -220,6 +220,28 @@ a:hover {
 	margin-top: 1rem;
 }
 
+
+.subscribe-page {
+	text-align: center;
+}
+.subscribe-title {
+	font-size: 1.5rem;
+	color: var(--primary);
+	margin-bottom: 1rem;
+}
+.subscribe {
+	font-size: 3rem;
+	color: var(--primary);
+	margin-bottom: 1rem;
+}
+.subscribe-message {
+	color: var(--primary);
+	margin-top: 1rem;
+}
+.subscribe-page a.btn {
+	margin-top: 1rem;
+}
+
 .auth {
 	font-size: 1.1rem;
 }
