@@ -100,6 +100,68 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
+	//volatility Chart
+	let volatility_chart = null
+	fetch(`/dashboard/chart/volatility/${userId}`)
+		.then((response => response.json()))
+		.then((data) => {
+			console.log(data)
+			const chart_ctx = document.getElementById("volatility-chart").getContext("2d");
+
+			const chartData = data.map(day => ({
+				x: new Date(day.date),
+				y: day.volatility
+			}));
+
+			volatility_chart = new Chart(chart_ctx, {
+				type: 'line',
+				data: {
+					datasets: [{
+						label: 'Daily Volatility (%)',
+						data: chartData,
+						backgroundColor: 'rgba(255, 99, 132, 0.3)',
+						borderColor: 'rgb(255, 99, 132)',
+						borderWidth: 2,
+						fill: true,
+						tension: 0.2
+					}]
+				},
+				options: {
+					responsive: true,
+					scales: {
+						x: {
+							type: 'time',
+							time: {
+								unit: 'day'
+							},
+							title: {
+								display: true,
+								text: 'Date'
+							}
+						},
+						y: {
+							title: {
+								display: true,
+								text: 'Volatility (%)'
+							}
+						}
+					},
+					plugins: {
+						legend: {
+							position: 'top'
+						},
+						title: {
+							display: true,
+							text: 'Portfolio Daily Volatility (%)'
+						}
+					}
+				}
+			});
+		}) 
+		.catch((error) => {
+			console.error(`Could not display returns chart because of error: ${error}`)
+		})
+
 	//gains Chart
 	let gains_chart = null
 	fetch(`/dashboard/chart/gains/${userId}`)
@@ -227,71 +289,62 @@ document.addEventListener("DOMContentLoaded", function () {
 	fetch(`/dashboard/chart/portfolio/${userId}`)
 		.then((response) => response.json())
 		.then((data) => {
-			const parseDate = d3.timeParse("%Y-%m-%d");
-			data.forEach(d => d.date = parseDate(d.date));
+			const chart_ctx = document.getElementById("portfolio-chart").getContext("2d");
 
-			//setting dimensions
-			const margin = { top: 20, right: 30, bottom: 30, left: 60 };
-			const width = 450 - margin.left - margin.right;
-			const height = 300 - margin.top - margin.bottom;
+			// Parse dates and prepare data
+			const chartData = data.map(day => ({
+				x: new Date(day.date), // assuming date is still in "YYYY-MM-DD" format
+				y: day.totalValue
+			}));
 
-			//creating svg inside the chartDiv
-			const svg = d3.select(chartDiv)
-				.append("svg")
-				.attr("class", "portfolio-svg")
-				.attr("width", width + margin.left + margin.right)
-				.attr("height", height + margin.top + margin.bottom);
-
-			svg.append("text")
-				.attr("x", width / 2)
-				.attr("y", 15)
-				.attr("text-anchor", "middle")
-				.attr("class", "graph-title")
-				.text("Portfolio Value Over Time")
-
-			const g = svg.append("g")
-				.attr("class", "chart-group")
-				.attr("transform", `translate(${margin.left},${margin.top})`);
-
-			//scales
-			const x = d3.scaleTime()
-				.domain(d3.extent(data, d => d.date))
-				.range([0, width]);
-
-			const y = d3.scaleLinear()
-				.domain([0, d3.max(data, d => d.totalValue)])
-				.range([height, 0]);
-
-			//Axis
-			g.append("g")
-				.attr("class", "x-axis")
-				.attr("transform", `translate(0,${height})`)
-				.call(d3.axisBottom(x).ticks(5));
-
-			g.append("g")
-				.attr("class", "y-axis")
-				.call(d3.axisLeft(y));
-			
-			//area
-			const area = d3.area()
-				.x(d => x(d.date))
-				.y0(height)
-				.y1(d => y(d.totalValue))
-
-			g.append("path")
-			.datum(data)
-			.attr("class", "portfolio-area")
-			.attr("d", area)
-
-			//line
-			const line = d3.line()
-				.x(d => x(d.date))
-				.y(d => y(d.totalValue));
-
-			g.append("path")
-				.datum(data)
-				.attr("class", "portfolio-line")
-				.attr("d", line);
+			portfolio_chart = new Chart(chart_ctx, {
+				type: 'line',
+				data: {
+					datasets: [{
+						label: 'Portfolio Value ($)',
+						data: chartData,
+						backgroundColor: 'rgba(47, 255, 19, 0.55)',
+						borderColor: 'rgba(15, 137, 15, 0.61)',
+						borderWidth: 2,
+						fill: true,
+						tension: 0.2
+					}]
+				},
+				options: {
+					responsive: true,
+					scales: {
+						x: {
+							type: 'time',
+							time: {
+								unit: 'day'
+							},
+							title: {
+								display: true,
+								text: 'Date'
+							},
+							ticks: {
+								maxTicksLimit: 5
+							}
+						},
+						y: {
+							title: {
+								display: true,
+								text: 'Portfolio Value ($)'
+							},
+							beginAtZero: true
+						}
+					},
+					plugins: {
+						legend: {
+							position: 'top'
+						},
+						title: {
+							display: true,
+							text: 'Portfolio Value Over Time'
+						}
+					}
+				}
+			});
 			})
 		.catch((error) => {
 			console.error(`Could not display chart because of error: ${error}`)

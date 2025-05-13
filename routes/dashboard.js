@@ -100,6 +100,23 @@ router.route('/chart/gains/:id').get(async (req, res) => {
 	}	
 });
 
+router.route('/chart/volatility/:id').get(async (req, res) => {
+	//console.log("Route reached")
+	try {
+		req.params.id = verifyId(req.params.id);
+		const result = await portfolioData.getVolatilityOverTime(req.params.id);
+		res.json(result);
+	} catch (e) {
+		console.log(e)
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}	
+});
+
 router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 	//console.log("Route reached")
 	let stock_ticker = xss(req.params.stock_ticker);
