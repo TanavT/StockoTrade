@@ -166,8 +166,7 @@ router.get('/', async (req, res) => {
 					marketCapAbbrev: data.marketCapAbbrev,
 					companyName: data.companyName,
 					companySummary: data.summary,
-					graphTrue: false,
-					isSubscribed: user.isSubscribed
+					graphTrue: false
 				});
 			} else {
 				res.status(200).render('stock', {
@@ -195,8 +194,7 @@ router.get('/', async (req, res) => {
 					marketCapAbbrev: data.marketCapAbbrev,
 					companyName: data.companyName,
 					companySummary: data.summary,
-					graphTrue: true,
-					isSubscribed: user.isSubscribed
+					graphTrue: true
 				});
 			}
 		}
@@ -545,7 +543,8 @@ router.route('/sell/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		} else {
 			res.status(200).render('stock', {
@@ -577,7 +576,8 @@ router.route('/sell/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		}
 		return res.redirect(`/stock?ticker=${ticker}`);
