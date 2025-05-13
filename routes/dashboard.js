@@ -34,7 +34,7 @@ router.route('/:id').get(async (req, res) => {
 			.render('dashboard', {
 				isLoggedIn: true,
 				username: user.filler_username,
-				scriptPaths: ['dashboard.js'],
+				scriptPaths: ['dashboard.js', 'reset_button.js', 'searchBar.js'],
 				outsidePaths: ['https://d3js.org/d3.v7.min.js'],
 				title: 'dashboard',
 				capital: user.portfolio_information.capital.toFixed(4),

@@ -14,7 +14,7 @@ router.route('/:stockTicker').get(async (req, res) => {
             errorMessage: e[1],
         });
     }
-    return res.status(200).render('stock', {isLoggedIn: true, title: req.params.stockTicker})
+    return res.status(200).render('stock', {isLoggedIn: true, title: req.params.stockTicker, scriptPaths: ['searchBar.js']})
 })
 
 export default router

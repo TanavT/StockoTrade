@@ -10,7 +10,7 @@ router.route('/').get(async (req, res) => {
 			.status(200)
 			.render('leaderboard', {
 				title: 'Leaderboard',
-				scriptPaths: ['load_leaderboard.js'], // Client-side JS to load table
+				scriptPaths: ['load_leaderboard.js', 'searchBar.js'], // Client-side JS to load table
 				outsidePaths: ['https://code.jquery.com/jquery-3.7.1.min.js'],
 				isLoggedIn: true,
 			});
