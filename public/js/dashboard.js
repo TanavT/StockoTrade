@@ -100,6 +100,67 @@ document.addEventListener("DOMContentLoaded", function () {
 		});
 	}
 
+	//gains Chart
+	let gains_chart = null
+	fetch(`/dashboard/chart/gains/${userId}`)
+		.then((response => response.json()))
+		.then((data) => {
+			console.log(data)
+			const chart_ctx = document.getElementById("gains-chart").getContext("2d");
+
+			const chartData = data.map(day => ({
+			x: new Date(day.date),
+			y: day.cumulativeGain
+			}));
+
+			gains_chart = new Chart(chart_ctx, {
+			type: 'line',
+			data: {
+				datasets: [{
+				label: 'Cumulative Returns Per Day ($)',
+				data: chartData,
+				backgroundColor: 'rgba(96, 156, 103, 0.5)',
+				borderColor: 'rgb(7, 171, 18)',
+				borderWidth: 2,
+				fill: true,
+				tension: 0.2,
+				}]
+			},
+			options: {
+				responsive: true,
+				scales: {
+				x: {
+					type: 'time',
+					time: {
+					unit: 'day',
+					},
+					title: {
+					display: true,
+					text: 'Date'
+					}
+				},
+				y: {
+					title: {
+					display: true,
+					text: 'Cumulative Return ($)'
+					}
+				}
+				},
+				plugins: {
+				legend: {
+					position: 'top'
+				},
+				title: {
+					display: true,
+					text: 'Cumulative Return Per Day ($)'
+				}
+				}
+			}
+			});
+		}) 
+		.catch((error) => {
+			console.error(`Could not display returns chart because of error: ${error}`)
+		})
 	//stock-chart
 	let stock_pie_chart = null
 	fetch(`/dashboard/chart/stocks/${userId}`)
@@ -256,25 +317,25 @@ document.addEventListener("DOMContentLoaded", function () {
 		})
 	})
 
-    // let searchBarStocksForm = document.getElementById("searchBarStocksForm");
-    // if (searchBarStocksForm){
-    //     searchBarStocksForm.addEventListener("submit", function(event) {
-    //         event.preventDefault();
-    //         let searchStockInput = document.getElementById("searchBarStocks").value.trim().toUpperCase();
-    //         if (searchStockInput){
-    //             fetch(`/dashboard/verify/${searchStockInput}`)
-    //             .then((response => response.json()))
-    //             .then((data) => {
-    //                 if (data === true){
-    //                     searchBarStocksForm.submit();
-    //                 }
-    //             }) 
-    //             .catch((error) => {
-    //                 console.error(`Could not search for stock because of error: ${error}`)
-    //             })
-    //         }
-    //     })
-    // }
+	// let searchBarStocksForm = document.getElementById("searchBarStocksForm");
+	// if (searchBarStocksForm){
+	//     searchBarStocksForm.addEventListener("submit", function(event) {
+	//         event.preventDefault();
+	//         let searchStockInput = document.getElementById("searchBarStocks").value.trim().toUpperCase();
+	//         if (searchStockInput){
+	//             fetch(`/dashboard/verify/${searchStockInput}`)
+	//             .then((response => response.json()))
+	//             .then((data) => {
+	//                 if (data === true){
+	//                     searchBarStocksForm.submit();
+	//                 }
+	//             }) 
+	//             .catch((error) => {
+	//                 console.error(`Could not search for stock because of error: ${error}`)
+	//             })
+	//         }
+	//     })
+	// }
 
 })
 

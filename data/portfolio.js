@@ -252,6 +252,8 @@ async function getPortfolioWorthOverTime(userId) {
 	const userToInspect = await userCollection.findOne({
 			_id: new ObjectId(verifiedUserId)
 	})
+	if (!userToInspect) throw [400, 'user not found']
+
   	let capital = 100000; //inital amount of money user starts with, is set to 100000 currently
   	const tradeHistory = userToInspect.portfolio_information.trade_history;
 	if (tradeHistory.length === 0) return []
@@ -334,6 +336,8 @@ const getPortfolioWorthCurrent = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 			_id: new ObjectId(verifiedUserId)
 	})
+	if (!userToInspect) throw [400, 'user not found']
+
 	let total = userToInspect.portfolio_information.capital
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
@@ -422,9 +426,92 @@ const getStockTickers = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 			_id: new ObjectId(verifiedUserId)
 	})
+	if (!userToInspect) throw [400, 'user not found']
+
 	if (!userToInspect.portfolio_information.tickers) throw [500, 'could not get stock tickers']
 	return userToInspect.portfolio_information.tickers
 }
+const getCumulativeGains = async (userId) => {
+
+	const verifiedUserId = verifyId(userId);
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({ _id: new ObjectId(verifiedUserId) });
+	if (!userToInspect) throw [400, 'user not found'];
+
+	const tradeHistory = userToInspect.portfolio_information.trade_history
+
+	const tickers = userToInspect.portfolio_information.tickers.map(t => t.stock_ticker);
+	let allGainsByDate = {};
+
+	for (const ticker of tickers) {
+		const tickerTrades = tradeHistory.filter(t => t.stock_ticker === ticker);
+		if (tickerTrades.length === 0) continue;
+
+		const orderedDates = tickerTrades.map(t => t.date).sort((a,b) => {
+			return Date.parse(a) - Date.parse(b)
+		});
+		// console.log(orderedDates[0])
+		const firstDate = new Date(orderedDates[0])
+		const start = firstDate.toISOString().split('T')[0];
+		const end = new Date().toISOString().split('T')[0];
+
+		const result = await yahooFinance.chart(ticker, {
+			period1: start,
+			period2: end,
+			interval: '1d'
+		});
+
+		const history = result.quotes;
+		if (!history || history.length === 0) continue;
+
+		let volumeHeld = 0;
+		let cumulativeGain = 0;
+
+		for (let i = 0; i < history.length; i++) {
+			const quote = history[i];
+			const dateStr = new Date(quote.date).toISOString().split('T')[0];
+
+			const tradesToday = tickerTrades.filter(t =>
+				new Date(t.date).toISOString().split('T')[0] === dateStr
+			);
+
+			let dailyGain = 0;
+
+			for (const trade of tradesToday) {
+				if (trade.type === 'Buy') {
+					const gain = (quote.close * trade.volume) - trade.value;
+					volumeHeld += trade.volume;
+					dailyGain += gain;
+				} else if (trade.type === 'Sell') {
+					const gain = trade.value - (quote.open * trade.volume);
+					volumeHeld -= trade.volume;
+					dailyGain += gain;
+				}
+			}
+
+			if (tradesToday.length === 0 && volumeHeld > 0) {
+				const prevClose = i > 0 ? history[i - 1].close : quote.open;
+				const dayGain = volumeHeld * (quote.close - prevClose);
+				dailyGain += dayGain;
+			} else if (tradesToday.some(t => t.type === 'Buy') && volumeHeld > 0) {
+				const dayGain = volumeHeld * (quote.close - quote.open);
+				dailyGain += dayGain;
+			}
+
+			cumulativeGain += dailyGain;
+
+			if (!allGainsByDate[dateStr]) allGainsByDate[dateStr] = 0;
+			allGainsByDate[dateStr] += cumulativeGain;
+		}
+	}
+
+	const sortedGains = Object.entries(allGainsByDate)
+		.sort((a, b) => new Date(a[0]) - new Date(b[0]))
+		.map(([date, cumulativeGain]) => ({ date, cumulativeGain: parseFloat(cumulativeGain.toFixed(4)) }));
+
+	return sortedGains;
+}
+
 
 const portfolioDataFunctions = {
 	getTopPortfolioProfiles, 
@@ -436,7 +523,8 @@ const portfolioDataFunctions = {
 	sellStockPast,
 	getCurrentValue,
 	resetPortfolio,
-	getStockTickers
+	getStockTickers,
+	getCumulativeGains
 };
 
 export default portfolioDataFunctions;
