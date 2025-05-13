@@ -267,6 +267,10 @@ a:hover {
   font-size: 1rem;
 }
 
+#stock-pie-chart {
+  width: 200;
+  height: 200;
+}
 /* Chart container styling */
 .chartArea {
   flex: 2 1 600px;

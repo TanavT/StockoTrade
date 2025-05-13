@@ -86,9 +86,70 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 	updateTickers(); //run once at page load
-	//chart
+
+	//refresh button
+	const refreshButton = document.getElementById('refresh_button');
+	if (refreshButton) {
+		refreshButton.addEventListener('click', (event) => {
+			// console.log("button clicked")
+			event.preventDefault(); //just in case
+			updateTickers();
+		});
+	}
+	
+	//stock-chart
+	let pie_chart = null
+	fetch(`/dashboard/chart/stocks/${userId}`)
+		.then((response => response.json()))
+		.then((data) => {
+			console.log("response reached")
+			// capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`
+			// portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(4)}`
+			const tickers = data.map(stock => stock.stock_ticker);
+			const volumes = data.map(stock => stock.volume);
+
+			const backgroundColors = tickers.map(() => {
+			const r = Math.floor(Math.random() * 255);
+			const g = Math.floor(Math.random() * 255);
+			const b = Math.floor(Math.random() * 255);
+			return `rgba(${r}, ${g}, ${b}, 0.6)`;
+			});
+
+			const chart_ctx = document.getElementById("stock-pie-chart").getContext("2d");
+
+			pie_chart = new Chart(chart_ctx, {
+			type: 'pie',
+			data: {
+				labels: tickers,
+				datasets: [{
+				label: 'Stock Volume Owned',
+				data: volumes,
+				backgroundColor: backgroundColors,
+				borderColor: 'rgba(255, 255, 255, 0.9)',
+				borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				plugins: {
+				legend: {
+					position: 'right'
+				},
+				title: {
+					display: true,
+					text: 'Your Portfolio by Volume'
+				}
+				}
+			}
+			});
+		}) 
+		.catch((error) => {
+			console.error(`Could not display stock chart because of error: ${error}`)
+		})
+
+	//portfolio-chart
 	let chartDiv = document.getElementById("portfolio-chart")
-	fetch(`/dashboard/chart/${userId}`)
+	fetch(`/dashboard/chart/portfolio/${userId}`)
 		.then((response) => response.json())
 		.then((data) => {
 			const parseDate = d3.timeParse("%Y-%m-%d");
@@ -96,8 +157,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//setting dimensions
 			const margin = { top: 20, right: 30, bottom: 30, left: 60 };
-			const width = 400 - margin.left - margin.right;
-			const height = 250 - margin.top - margin.bottom;
+			const width = 450 - margin.left - margin.right;
+			const height = 300 - margin.top - margin.bottom;
 
 			//creating svg inside the chartDiv
 			const svg = d3.select(chartDiv)

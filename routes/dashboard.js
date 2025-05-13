@@ -35,7 +35,7 @@ router.route('/:id').get(async (req, res) => {
 				isLoggedIn: true,
 				username: user.filler_username,
 				scriptPaths: ['dashboard.js', 'reset_button.js', 'searchBar.js'],
-				outsidePaths: ['https://d3js.org/d3.v7.min.js'],
+				outsidePaths: ['https://d3js.org/d3.v7.min.js', "https://cdn.jsdelivr.net/npm/chart.js"],
 				title: 'dashboard',
 				capital: user.portfolio_information.capital.toFixed(4),
 				portfolio_worth:
@@ -48,11 +48,28 @@ router.route('/:id').get(async (req, res) => {
 		return res.status(200).redirect('/');
 	}
 });
-router.route('/chart/:id').get(async (req, res) => {
+
+router.route('/chart/portfolio/:id').get(async (req, res) => {
 	//console.log("Route reached")
 	try {
 		req.params.id = verifyId(req.params.id);
 		const result = await portfolioData.getPortfolioWorthOverTime(req.params.id);
+		res.json(result);
+	} catch (e) {
+		const errorCode = e[0];
+		return res.status(errorCode).render('error', {
+			errorCode: errorCode,
+			title: `${errorCode} Error`,
+			errorMessage: e[1],
+		});
+	}	
+});
+
+router.route('/chart/stocks/:id').get(async (req, res) => {
+	//console.log("Route reached")
+	try {
+		req.params.id = verifyId(req.params.id);
+		const result = await portfolioData.getStockTickers(req.params.id);
 		res.json(result);
 	} catch (e) {
 		const errorCode = e[0];
@@ -107,9 +124,18 @@ router.route('/worth').post(async (req, res) => {
 
 router.route('/sell').post(async (req, res) => {
 	//console.log("Route reached")
+	const isLoggedIn = xss(req.cookies.isAuthenticated);
+	const cookiesUserId = xss(req.cookies.userID);
 	let sellAmount = xss(req.body.sellAmount);
 	let stockTicker = xss(req.body.stockTicker)
 	let userId = xss(req.body.userId);
+	if (!(isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null' && cookiesUserId == userId)) {
+		return res.status(404).render('error', {
+			errorCode: 404,
+			title: '404 Error',
+			errorMessage: 'Unauthorized account sell attempt.',
+		});
+	}
 	try {
 		userId = verifyId(userId);
 		sellAmount = verifyString(sellAmount);
