@@ -103,3 +103,86 @@ document.addEventListener('DOMContentLoaded', function () {
 		console.error('Error parsing chart data:', e);
 	}
 });
+
+
+
+// Client side javascript to client-side verify form info for buy
+const buyForm = document.getElementById('buy-form');
+const buyQuantity = document.getElementById('buyQuantity');
+const buyError = document.getElementById('buy-error');
+const userAbleToBuy = document.getElementById('userAbleToBuy').textContent.trim();
+if (buyForm) {
+	function outputError(errorcode, message) {
+		buyQuantity.value = '';
+		buyError.innerHTML = `${errorcode}: ${message}`;
+		buyError.hidden = false;
+	}
+	buyForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+		try {
+			verifyString(buyQuantity.value, 'buyQuantity');
+			verifyBuy(buyQuantity.value);
+			buyError.hidden = true;
+			buyError.submit();
+		} catch (e) {
+			outputError(e[0], e[1]);
+		}
+	});
+}
+
+// Client side javascript to client-side verify form info for sell
+const sellForm = document.getElementById('sell-form');
+const sellQuantity = document.getElementById('sellQuantity');
+const sellError = document.getElementById('sell-error');
+const userSharesOwned = document.getElementById('userSharesOwned').textContent.trim();
+if (sellForm) {
+	function outputError(errorcode, message) {
+		sellQuantity.value = '';
+		sellError.innerHTML = `${errorcode}: ${message}`;
+		sellError.hidden = false;
+	}
+	sellForm.addEventListener('submit', (event) => {
+		event.preventDefault();
+		try {
+			verifyString(sellQuantity.value, 'sellQuantity');
+			verifySell(sellQuantity.value);
+			sellError.hidden = true;
+			sellError.submit();
+		} catch (e) {
+			outputError(e[0], e[1]);
+		}
+	});
+}
+
+const verifyBuy = (buyQuantity) => {
+	const pattern = /^[0-9]+$/;
+	if (!pattern.test(buyQuantity.trim())){
+		throw [400, ['buyQuantity must contain only numbers']]
+	}
+	let buyQuantityNUMBER = parseInt(buyQuantity);
+	if (buyQuantityNUMBER < 1 || buyQuantityNUMBER > parseInt(userAbleToBuy)){
+		throw [400, [`buyQuantity must be a positive integer between 1 and ${userAbleToBuy} inclusive`]]
+	}
+
+}
+
+const verifySell = (sellQuantity) => {
+	const pattern = /^[0-9]+$/;
+	if (!pattern.test(sellQuantity.trim())){
+		throw [400, ['sellQuantity must contain only numbers']]
+	}
+	let sellQuantityNUMBER = parseInt(sellQuantity);
+	if (sellQuantityNUMBER < 1 || sellQuantityNUMBER > parseInt(userSharesOwned)){
+		throw [400, [`sellQuantity must be a positive integer between 1 and ${userSharesOwned} inclusive`]]
+	}
+
+}
+
+const verifyString = (str, varName) => {
+	if (!str) throw [400, `You must provide a ${varName}.`];
+	if (typeof str !== 'string') throw [400, `${varName} must be a string.`];
+	const trimStr = str.trim();
+	if (trimStr.length < 1)
+		throw [400, `${varName} cannot be an empty string or whitespace.`];
+	return trimStr;
+};
