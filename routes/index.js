@@ -4,6 +4,7 @@ import signupRouter from './signup.js';
 import logoutRouter from './logout.js';
 import leaderboardRouter from './leaderboard.js';
 import stockRouter from './stock.js';
+import emailRouter from './email.js';
 
 const setupRoutes = (app) => {
 	// Just do a get because its our default route
@@ -33,6 +34,8 @@ const setupRoutes = (app) => {
 	app.use('/leaderboard', leaderboardRouter);
 	// Bind stock router (stock pages)
 	app.use('/stock', stockRouter);
+	// Bind email router (email subscriptions)
+	app.use('/email', emailRouter);
 	// Bind universal router for invalid URL's
 	app.use(/(.*)/, (req, res) => {
 		// Set status code to 404 and render the error page

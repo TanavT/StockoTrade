@@ -14,7 +14,13 @@ router.get('/', async (req, res) => {
 	}
 
 	try {
-		const isLoggedIn = req.cookies.isAuthenticated;
+		let isLoggedIn = req.cookies.isAuthenticated;
+		if (isLoggedIn === "true"){
+			isLoggedIn = true;
+		}
+		else{
+			isLoggedIn = false;
+		}
 		const userId = req.cookies.userID;
 		if (!ticker) {
 			return res.status(404).render('error', {
@@ -50,89 +56,149 @@ router.get('/', async (req, res) => {
 		}
 
 		
-		const user = await userData.getUserById(userId);
-		console.log(user)
-		console.log(user.portfolio_information.tickers)
-		console.log(ticker)
-		let userCapital = user.portfolio_information.capital.toFixed(roundingVal);
-		let userSharesOwned = 0;
-		for (let obj of user.portfolio_information.tickers){
-			if (obj.stock_ticker === ticker.toString()){
-				userSharesOwned = obj.volume;
-				console.log("WE HERE")
+
+		if (isLoggedIn){
+			const user = await userData.getUserById(userId);
+			let userCapital = user.portfolio_information.capital.toFixed(roundingVal);
+			let userSharesOwned = 0;
+			for (let obj of user.portfolio_information.tickers){
+				if (obj.stock_ticker === ticker.toString()){
+					userSharesOwned = obj.volume;
+				}
+			}
+			let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
+			if (userAbleToBuy !== 0){
+				userAbleToBuy -= 1;
+			}
+			let valueSharesOwned = (userSharesOwned * data.currentPriceNUMBER).toFixed(roundingVal);
+
+			if (
+				data.chartLabels === null ||
+				data.chartPrices === null ||
+				data.chartLabels === undefined ||
+				data.chartPrices === undefined
+			) {
+				res.status(200).render('stock', {
+					title: `${data.companyName} (${ticker})`,
+					isLoggedIn: isLoggedIn,
+					tickerSymbol: ticker,
+					chartLabels: JSON.stringify(data.chartLabels),
+					chartPrices: JSON.stringify(data.chartPrices),
+					currentPrice: data.currentPrice,
+					isPositive: data.isPositive,
+					priceChange: data.priceChange,
+					percentChange: data.percentChange,
+					openPrice: data.openPrice,
+					previousClose: data.previousClose,
+					dayHigh: data.dayHigh,
+					dayLow: data.dayLow,
+					volume: data.volume,
+					marketCap: data.marketCap,
+					marketCapAbbrev: data.marketCapAbbrev,
+					companyName: data.companyName,
+					companySummary: data.summary,
+					graphTrue: false,
+					userCapital: userCapital,
+					userSharesOwned: userSharesOwned,
+					userAbleToBuy: userAbleToBuy,
+					valueSharesOwned: valueSharesOwned,
+					isSubscribed: user.isSubscribed
+				});
+			} else {
+				res.status(200).render('stock', {
+					title: `${data.companyName} (${ticker})`,
+					scriptPaths: ['stockpages.js'],
+					outsidePaths: [
+						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/moment',
+						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
+					],
+					isLoggedIn: isLoggedIn,
+					tickerSymbol: ticker,
+					chartLabels: JSON.stringify(data.chartLabels),
+					chartPrices: JSON.stringify(data.chartPrices),
+					currentPrice: data.currentPrice,
+					isPositive: data.isPositive,
+					priceChange: data.priceChange,
+					percentChange: data.percentChange,
+					openPrice: data.openPrice,
+					previousClose: data.previousClose,
+					dayHigh: data.dayHigh,
+					dayLow: data.dayLow,
+					volume: data.volume,
+					marketCap: data.marketCap,
+					marketCapAbbrev: data.marketCapAbbrev,
+					companyName: data.companyName,
+					companySummary: data.summary,
+					graphTrue: true,
+					userCapital: userCapital,
+					userSharesOwned: userSharesOwned,
+					userAbleToBuy: userAbleToBuy,
+					valueSharesOwned: valueSharesOwned,
+					isSubscribed: user.isSubscribed
+				});
 			}
 		}
-		console.log(userSharesOwned)
-		let userAbleToBuy = Math.floor(userCapital / data.currentPriceNUMBER);
-		if (userAbleToBuy !== 0){
-			userAbleToBuy -= 1;
-		}
-		let valueSharesOwned = (userSharesOwned * data.currentPriceNUMBER).toFixed(roundingVal);
+		else{
 
-		if (
-			data.chartLabels === null ||
-			data.chartPrices === null ||
-			data.chartLabels === undefined ||
-			data.chartPrices === undefined
-		) {
-			res.status(200).render('stock', {
-				title: `${data.companyName} (${ticker})`,
-				isLoggedIn: isLoggedIn,
-				tickerSymbol: ticker,
-				chartLabels: JSON.stringify(data.chartLabels),
-				chartPrices: JSON.stringify(data.chartPrices),
-				currentPrice: data.currentPrice,
-				isPositive: data.isPositive,
-				priceChange: data.priceChange,
-				percentChange: data.percentChange,
-				openPrice: data.openPrice,
-				previousClose: data.previousClose,
-				dayHigh: data.dayHigh,
-				dayLow: data.dayLow,
-				volume: data.volume,
-				marketCap: data.marketCap,
-				marketCapAbbrev: data.marketCapAbbrev,
-				companyName: data.companyName,
-				companySummary: data.summary,
-				graphTrue: false,
-				userCapital: userCapital,
-				userSharesOwned: userSharesOwned,
-				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
-			});
-		} else {
-			res.status(200).render('stock', {
-				title: `${data.companyName} (${ticker})`,
-				scriptPaths: ['stockpages.js'],
-				outsidePaths: [
-					'https://cdn.jsdelivr.net/npm/chart.js',
-					'https://cdn.jsdelivr.net/npm/moment',
-					'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
-				],
-				isLoggedIn: isLoggedIn,
-				tickerSymbol: ticker,
-				chartLabels: JSON.stringify(data.chartLabels),
-				chartPrices: JSON.stringify(data.chartPrices),
-				currentPrice: data.currentPrice,
-				isPositive: data.isPositive,
-				priceChange: data.priceChange,
-				percentChange: data.percentChange,
-				openPrice: data.openPrice,
-				previousClose: data.previousClose,
-				dayHigh: data.dayHigh,
-				dayLow: data.dayLow,
-				volume: data.volume,
-				marketCap: data.marketCap,
-				marketCapAbbrev: data.marketCapAbbrev,
-				companyName: data.companyName,
-				companySummary: data.summary,
-				graphTrue: true,
-				userCapital: userCapital,
-				userSharesOwned: userSharesOwned,
-				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
-			});
+			if (
+				data.chartLabels === null ||
+				data.chartPrices === null ||
+				data.chartLabels === undefined ||
+				data.chartPrices === undefined
+			) {
+				res.status(200).render('stock', {
+					title: `${data.companyName} (${ticker})`,
+					isLoggedIn: isLoggedIn,
+					tickerSymbol: ticker,
+					chartLabels: JSON.stringify(data.chartLabels),
+					chartPrices: JSON.stringify(data.chartPrices),
+					currentPrice: data.currentPrice,
+					isPositive: data.isPositive,
+					priceChange: data.priceChange,
+					percentChange: data.percentChange,
+					openPrice: data.openPrice,
+					previousClose: data.previousClose,
+					dayHigh: data.dayHigh,
+					dayLow: data.dayLow,
+					volume: data.volume,
+					marketCap: data.marketCap,
+					marketCapAbbrev: data.marketCapAbbrev,
+					companyName: data.companyName,
+					companySummary: data.summary,
+					graphTrue: false
+				});
+			} else {
+				res.status(200).render('stock', {
+					title: `${data.companyName} (${ticker})`,
+					scriptPaths: ['stockpages.js'],
+					outsidePaths: [
+						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/moment',
+						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
+					],
+					isLoggedIn: isLoggedIn,
+					tickerSymbol: ticker,
+					chartLabels: JSON.stringify(data.chartLabels),
+					chartPrices: JSON.stringify(data.chartPrices),
+					currentPrice: data.currentPrice,
+					isPositive: data.isPositive,
+					priceChange: data.priceChange,
+					percentChange: data.percentChange,
+					openPrice: data.openPrice,
+					previousClose: data.previousClose,
+					dayHigh: data.dayHigh,
+					dayLow: data.dayLow,
+					volume: data.volume,
+					marketCap: data.marketCap,
+					marketCapAbbrev: data.marketCapAbbrev,
+					companyName: data.companyName,
+					companySummary: data.summary,
+					graphTrue: true
+				});
+			}
 		}
+		
 	} catch (e) {
 		res.status(500).render('error', {
 			errorCode: '500',
@@ -220,6 +286,8 @@ router.route('/buy/:ticker').post(async (req, res) => {
 	}
 
 	let quantity = req.body.quantityBuy;
+	const checkQuantity = xss(req.body.quantityBuy.trim());
+	quantity = checkQuantity;
 	let quantityTest = null;
 	try{
 		quantityTest = parseInt(req.body.quantityBuy);
@@ -313,7 +381,8 @@ router.route('/buy/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		} else {
 			res.status(200).render('stock', {
@@ -345,7 +414,8 @@ router.route('/buy/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		}
 		return res.redirect(`/stock?ticker=${ticker}`);
@@ -378,6 +448,8 @@ router.route('/sell/:ticker').post(async (req, res) => {
 	}
 
 	let quantity = req.body.quantitySell;
+	const checkQuantity = xss(req.body.quantitySell.trim());
+	quantity = checkQuantity;
 	let quantityTest = null;
 	try{
 		quantityTest = parseInt(req.body.quantitySell);
@@ -471,7 +543,8 @@ router.route('/sell/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		} else {
 			res.status(200).render('stock', {
@@ -503,7 +576,8 @@ router.route('/sell/:ticker').post(async (req, res) => {
 				userCapital: userCapital,
 				userSharesOwned: userSharesOwned,
 				userAbleToBuy: userAbleToBuy,
-				valueSharesOwned: valueSharesOwned
+				valueSharesOwned: valueSharesOwned,
+				isSubscribed: user.isSubscribed
 			});
 		}
 		return res.redirect(`/stock?ticker=${ticker}`);
