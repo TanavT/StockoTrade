@@ -21,13 +21,7 @@
 				{{#if isLoggedIn}}
 					<a href="/leaderboard" class="btn">Leaderboard</a>
 					<form method="GET" action="/stock" name="searchBarStocksForm" id="searchBarStocksForm" class="searchBarForm">
-    					<!--<label for="searchBarStocks">Search for stocks...</label> -->
     					<input name="ticker" id="searchBarStocks" type="text" placeholder="Search for Stocks" class="searchBar" required>
-						{{!-- <button type="submit" id="searchBarStocksFormSubmit" name="searchBarStocksFormSubmit">Search Stock</button> --}}
-					</form>
-					<form name="searchBarPeopleForm" id="searchBarPeopleForm" class="searchBarForm">
-    					<!--<label for="searchBarStocks">Search for stocks...</label> -->
-    					<input name="searchBarPeople" id="searchBarPeople" type="text" placeholder="Search for People" class="searchBar">
 					</form>
 					<form method="POST" action="/logout" >
             <button type="submit" class="btn btn--danger">Sign Out</button>

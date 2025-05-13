@@ -18,33 +18,14 @@ router.get('/', async (req, res) => {
         const isLoggedIn = req.cookies.isAuthenticated;
         const userId = req.cookies.userID;
         if (!ticker) {
-            // if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
-            //     return res.redirect(`/dashboard/${userId}`);
-            // } else {
-            //     return res.redirect('/');
-            // }
             return res.status(404).render('error', {
                 errorCode: "404",
                 errorMessage: `Stock with ticker ${ticker} not found`
             });
         }
 
-        // Proceed with stock data fetching if ticker exists
-        // if (ticker.length > 5){
-        //     if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
-        //         return res.redirect(`/dashboard/${userId}`);
-        //     } else {
-        //         return res.redirect('/');
-        //     }
-        // }
-
         const validated = await stockData.validateStockTicker(ticker);
         if (!validated){
-            // if (isLoggedIn && userId && isLoggedIn === 'true' && userId !== 'null') {
-            //     return res.redirect(`/dashboard/${userId}`);
-            // } else {
-            //     return res.redirect('/');
-            // }
             return res.status(404).render('error', {
                 errorCode: "404",
                 errorMessage: `Stock with ticker ${ticker} not found`
@@ -62,16 +43,6 @@ router.get('/', async (req, res) => {
                 errorMessage: `Stock with ticker ${ticker} not found`
             });
         }
-
-        
-
-        // if (data.error !== null){
-        //     return res.status(404).render('error', {
-        //         errorCode: "404",
-        //         errorMessage: data.error
-        //     });
-        // }
-        // data = data.data;
 
 
         if (data.chartLabels === null || data.chartPrices === null || data.chartLabels === undefined || data.chartPrices === undefined) {
@@ -159,14 +130,6 @@ router.get('/chart/:ticker', async (req, res) => {
                 errorMessage: `Stock with ticker ${ticker} not found`
             });
         }
-
-        // if (data.error !== null){
-        //     return res.status(404).render('error', {
-        //         errorCode: "404",
-        //         errorMessage: data.error
-        //     });
-        // }
-        // data = data.data;
 
         res.json({chartLabels: data.chartLabels,
             chartPrices: data.chartPrices

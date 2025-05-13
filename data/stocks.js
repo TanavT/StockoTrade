@@ -128,24 +128,6 @@ const getStockData = async (ticker) => {
     return data
 
 
-
-    // const nullFields = [];
-    
-    // for (const [key, value] of Object.entries(data)) {
-    //     if (value === null || value === undefined) {
-    //         nullFields.push(key);
-    //     }
-    // }
-    
-    // if (nullFields.length > 0) {
-    //     return {
-    //         data: data,
-    //         error: nullFields.join(", ") + " couldn't be retrieved"
-    //     };
-    // }
-
-    // return {data: data, error: null};
-
 }
 
 const stockDataFunctions = { validateStockTicker, getStockData};
