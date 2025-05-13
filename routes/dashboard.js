@@ -32,7 +32,7 @@ router.route('/:id').get(async (req, res) => {
 		return res.status(200).render('dashboard', {
 			isLoggedIn: true,
 			username: user.filler_username,
-			scriptPaths: ['dashboard.js', 'reset_button.js'],
+			scriptPaths: ['dashboard.js', 'reset_button.js', 'searchbar.js'],
 			outsidePaths: [
 				' https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 				'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns',
