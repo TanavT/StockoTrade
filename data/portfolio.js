@@ -91,7 +91,7 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 		{ returnDocument: 'after' }
 	);
 	//could set _id to id right here, idrc right now
-	if (!updatedInfo) throw ['500', 'Could not sell'];
+	if (!updatedInfo) throw [500, 'Could not buy'];
 	return newPortfolioInformation;
 };
 
@@ -128,6 +128,7 @@ const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 	const indexOfTicker = newTicker.findIndex(
 		(ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker
 	);
+	if (indexOfTicker === -1) throw [400, 'User does not own this stock']
 	if (newTicker[indexOfTicker].volume < verifiedVolume)
 		throw [
 			403,
@@ -168,7 +169,7 @@ const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 		{ returnDocument: 'after' }
 	);
 	//could set _id to id right here, idrc right now
-	if (!updatedInfo) throw ['500', 'Could not sell'];
+	if (!updatedInfo) throw [500, 'Could not sell'];
 	return newPortfolioInformation;
 };
 
@@ -246,7 +247,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 		{ returnDocument: 'after' }
 	);
 	//could set _id to id right here, idrc right now
-	if (!updatedInfo) throw ['500', 'Could not sell'];
+	if (!updatedInfo) throw [500, 'Could not buy'];
 	return newPortfolioInformation;
 };
 
@@ -275,6 +276,7 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	const indexOfTicker = newTicker.findIndex(
 		(ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker
 	);
+	if (indexOfTicker === -1) throw [400, 'User does not own this stock']
 	if (newTicker[indexOfTicker].volume < verifiedVolume)
 		throw [
 			403,
@@ -316,7 +318,7 @@ const sellStock = async (userId, stock_ticker, volume) => {
 		{ returnDocument: 'after' }
 	);
 	//could set _id to id right here, idrc right now
-	if (!updatedInfo) throw ['500', 'Could not sell'];
+	if (!updatedInfo) throw [500, 'Could not sell'];
 	return newPortfolioInformation;
 };
 
@@ -417,6 +419,43 @@ async function getPortfolioWorthOverTime(userId) {
 	return result;
 }
 
+const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
+	const verifiedUserId = verifyId(userId);
+	const userCollection = await users();
+	const userToInspect = await userCollection.findOne({
+		_id: new ObjectId(verifiedUserId),
+	});
+	if (!userToInspect) throw [400, 'user not found'];
+
+	let total = userToInspect.portfolio_information.capital;
+	for (const ticker of userToInspect.portfolio_information.tickers) {
+		//console.log(ticker.stock_ticker)
+		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+		if (!gettingPrice) throw [500, 'Could not get price'];
+		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
+		total += gettingPrice * ticker.volume;
+	}
+
+	const newPortfolioInformation = {
+		capital: userToInspect.portfolio_information.capital,
+		portfolio_worth: total,
+		tickers: userToInspect.portfolio_information.tickers,
+		trade_history: userToInspect.portfolio_information.trade_history,
+	};
+	//updating in collection
+	const result = await userCollection.findOneAndUpdate(
+		{ _id: new ObjectId(verifiedUserId) },
+		{ $set: { portfolio_information: newPortfolioInformation } }
+	);
+	if (!result) throw ['500', 'Could not update'];
+	return {
+		portfolio_worth: total,
+	};
+};
+
 const getPortfolioWorthCurrent = async (userId) => {
 	const verifiedUserId = verifyId(userId);
 	const userCollection = await users();
@@ -449,7 +488,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 		{ $set: { portfolio_information: newPortfolioInformation } }
 	);
 	if (!result) throw ['500', 'Could not update'];
-	let sharpeRatio;
+	let sharpeRatio = 0;
 	if (userToInspect.portfolio_information.trade_history.length > 0)
 		sharpeRatio = await getSharpeRatio(verifiedUserId);
 	// console.log(sharpeRatio)
@@ -482,7 +521,7 @@ const getTopPortfolioProfiles = async () => {
 		.toArray();
 
 	for (const user of allUsers) {
-		await getPortfolioWorthCurrent(user._id.toString()); //will recalculate so leaderboard is accurate
+		await getPortfolioWorthCurrentLeaderboardOnly(user._id.toString()); //will recalculate so leaderboard is accurate
 	}
 	let topProfiles = await usersCollection
 		.find(
@@ -509,7 +548,7 @@ const getTopPortfolioProfiles = async () => {
 };
 
 const resetPortfolio = async (userId) => {
-	// Verify the user exists
+	//verify the user exists
 	userData.getUserById(userId);
 	const defaultPortfolio = {
 		capital: 100000,
@@ -682,7 +721,7 @@ const getVolatilityOverTime = async (userId, windowSize = 7) => {
 	const lastKnownPrices = {};
 	let tradeIndex = 0;
 
-	//first compute daily portfolio value
+	//compute daily portfolio value
 	for (const date of dateList) {
 		while (
 			tradeIndex < sortedTrades.length &&
@@ -789,8 +828,8 @@ const getSharpeRatio = async (userId) => {
 
 	if (stdDev === 0) return { sharpeRatio: 0 };
 
-	//risk-free rate assumed 0; adjust if needed
-	return avgReturn / stdDev;
+	//risk-free rate assumed 0
+	return (avgReturn / stdDev) * Math.sqrt(252) //trading days in year;
 };
 
 const portfolioDataFunctions = {

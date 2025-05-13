@@ -220,13 +220,15 @@ await portfolioData.sellStockPast(Miid, 'FDX', '15', '2025-02-16');
 await portfolioData.buyStockPast(Miid, 'DE', '80', '2025-02-25');
 
 console.log('Done Mike');
-await portfolioData.buyStockPast(Wid, 'HSY', '120', '2025-01-09');
-await portfolioData.buyStockPast(Wid, 'MCD', '100', '2025-01-18');
-await portfolioData.sellStockPast(Wid, 'HSY', '25', '2025-01-29');
-await portfolioData.buyStockPast(Wid, 'K', '130', '2025-02-10');
-await portfolioData.sellStockPast(Wid, 'MCD', '10', '2025-02-17');
-await portfolioData.buyStockPast(Wid, 'SJM', '90', '2025-02-26');
 
-console.log('Done Willy');
+//So we can have a blank user
+// await portfolioData.buyStockPast(Wid, 'HSY', '120', '2025-01-09');
+// await portfolioData.buyStockPast(Wid, 'MCD', '100', '2025-01-18');
+// await portfolioData.sellStockPast(Wid, 'HSY', '25', '2025-01-29');
+// await portfolioData.buyStockPast(Wid, 'K', '130', '2025-02-10');
+// await portfolioData.sellStockPast(Wid, 'MCD', '10', '2025-02-17');
+// await portfolioData.buyStockPast(Wid, 'SJM', '90', '2025-02-26');
+
+// console.log('Done Willy');
 console.log('Done seeding');
 await closeConnection();
