@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	const trade_table = document.getElementById('trades');
 	//Basically just for selling
 	const addTradeRow = (type, stock_ticker, volume) => {
-		console.log(`${stock_ticker} ${volume}`)
+		// console.log(`${stock_ticker} ${volume}`)
 		fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
 				.then((response) => response.json())
 				.then((data) => {
@@ -104,10 +104,10 @@ document.addEventListener('DOMContentLoaded', function () {
 		body: JSON.stringify({ userId }),
 	})
 		.then((response) => {
-			console.log(response)
+			// console.log(response)
 			return response.json()})
 		.then((data) => {
-			console.log(data)
+			// console.log(data)
 			capital.innerHTML = `Current Capital: $${data.capital.toFixed(4)}`;
 			portfolioWorth.innerHTML = `Total Portfolio Worth: $${data.portfolio_worth.toFixed(
 				4

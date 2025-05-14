@@ -489,13 +489,20 @@ const getPortfolioWorthCurrent = async (userId) => {
 	);
 	if (!result) throw ['500', 'Could not update'];
 	let sharpeRatio = 0;
-	if (userToInspect.portfolio_information.trade_history.length > 0)
+	try {
 		sharpeRatio = await getSharpeRatio(verifiedUserId);
-	return {
-		portfolio_worth: total,
-		capital: userToInspect.portfolio_information.capital,
-		sharpeRatio: sharpeRatio,
-	};
+		return {
+			portfolio_worth: total,
+			capital: userToInspect.portfolio_information.capital,
+			sharpeRatio: sharpeRatio,
+		}
+	} catch (e) {
+		return {
+			portfolio_worth: total,
+			capital: userToInspect.portfolio_information.capital,
+			sharpeRatio: 0,
+		}
+	}
 };
 
 const getCurrentValue = async (stock_ticker, volume) => {

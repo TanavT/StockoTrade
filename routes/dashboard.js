@@ -34,7 +34,7 @@ router.route('/:id').get(async (req, res) => {
 			username: user.filler_username,
 			scriptPaths: ['dashboard.js', 'reset_button.js', 'searchbar.js'],
 			outsidePaths: [
-				' https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
+				'https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 				'https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns',
 			],
 			title: 'dashboard',
@@ -54,6 +54,15 @@ router.route('/:id').get(async (req, res) => {
 router.route('/chart/portfolio/:id').get(async (req, res) => {
 	try {
 		req.params.id = verifyId(req.params.id);
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userId = req.cookies.userID;
+		if(!isLoggedIn && userId != req.params.id) {
+			return res.status(404).render('error', {
+					errorCode: 404,
+					title: '404 Error',
+					errorMessage: 'Unauthorized account access attempt.',
+				})
+		}
 		const result = await portfolioData.getPortfolioWorthOverTime(
 			req.params.id
 		);
@@ -71,6 +80,15 @@ router.route('/chart/portfolio/:id').get(async (req, res) => {
 router.route('/chart/stocks/:id').get(async (req, res) => {
 	try {
 		req.params.id = verifyId(req.params.id);
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userId = req.cookies.userID;
+		if(!isLoggedIn && userId != req.params.id) {
+			return res.status(404).render('error', {
+					errorCode: 404,
+					title: '404 Error',
+					errorMessage: 'Unauthorized account access attempt.',
+				})
+		}
 		const result = await portfolioData.getStockTickers(req.params.id);
 		res.json(result);
 	} catch (e) {
@@ -86,6 +104,15 @@ router.route('/chart/stocks/:id').get(async (req, res) => {
 router.route('/chart/gains/:id').get(async (req, res) => {
 	try {
 		req.params.id = verifyId(req.params.id);
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userId = req.cookies.userID;
+		if(!isLoggedIn && userId != req.params.id) {
+			return res.status(404).render('error', {
+					errorCode: 404,
+					title: '404 Error',
+					errorMessage: 'Unauthorized account access attempt.',
+				})
+		}
 		const result = await portfolioData.getCumulativeGains(req.params.id);
 		res.json(result);
 	} catch (e) {
@@ -102,6 +129,15 @@ router.route('/chart/gains/:id').get(async (req, res) => {
 router.route('/chart/volatility/:id').get(async (req, res) => {
 	try {
 		req.params.id = verifyId(req.params.id);
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userId = req.cookies.userID;
+		if(!isLoggedIn && userId != req.params.id) {
+			return res.status(404).render('error', {
+					errorCode: 404,
+					title: '404 Error',
+					errorMessage: 'Unauthorized account access attempt.',
+				})
+		}
 		const result = await portfolioData.getVolatilityOverTime(req.params.id);
 		res.json(result);
 	} catch (e) {
@@ -135,12 +171,23 @@ router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 });
 
 router.route('/worth').post(async (req, res) => {
-	let userId = xss(req.body.userId);
 	try {
+		let userId = xss(req.body.userId);	
 		userId = verifyId(userId);
+		const isLoggedIn = req.cookies.isAuthenticated;
+		const userIdC = req.cookies.userID;
+		if(!isLoggedIn && userId != userIdC) {
+			return res.status(404).render('error', {
+					errorCode: 404,
+					title: '404 Error',
+					errorMessage: 'Unauthorized account access attempt.',
+				})
+		}
 		const result = await portfolioData.getPortfolioWorthCurrent(userId);
 		return res.json(result);
 	} catch (e) {
+			console.log(e)
+
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
 			errorCode: errorCode,
