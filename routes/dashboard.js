@@ -66,6 +66,7 @@ router.route('/chart/portfolio/:id').get(async (req, res) => {
 		const result = await portfolioData.getPortfolioWorthOverTime(
 			req.params.id
 		);
+		// console.log(result)
 		res.json(result);
 	} catch (e) {
 		const errorCode = e[0];
@@ -116,7 +117,7 @@ router.route('/chart/gains/:id').get(async (req, res) => {
 		const result = await portfolioData.getCumulativeGains(req.params.id);
 		res.json(result);
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
 			errorCode: errorCode,
@@ -141,7 +142,7 @@ router.route('/chart/volatility/:id').get(async (req, res) => {
 		const result = await portfolioData.getVolatilityOverTime(req.params.id);
 		res.json(result);
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
 			errorCode: errorCode,
@@ -160,7 +161,7 @@ router.route('/getValue/:stock_ticker/:volume').get(async (req, res) => {
 		const value = await portfolioData.getCurrentValue(stock_ticker, volume);
 		res.json(value);
 	} catch (e) {
-		console.log(e);
+		// console.log(e);
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
 			errorCode: parseInt(errorCode),
@@ -186,7 +187,7 @@ router.route('/worth').post(async (req, res) => {
 		const result = await portfolioData.getPortfolioWorthCurrent(userId);
 		return res.json(result);
 	} catch (e) {
-			console.log(e)
+			// console.log(e)
 
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {

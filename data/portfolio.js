@@ -405,6 +405,13 @@ async function getPortfolioWorthOverTime(userId) {
 			const priceToUse = lastKnownPrices[ticker];
 			if (priceToUse !== undefined) {
 				investedValue += volume * priceToUse;
+			} else {
+				//case where it is the first day or recent account creation and buy
+				let gettingPrice = await yahooFinance.quote(ticker, {
+					fields: ['regularMarketPrice'],
+				});
+				gettingPrice = gettingPrice['regularMarketPrice'];
+				investedValue += volume * gettingPrice;
 			}
 		}
 
