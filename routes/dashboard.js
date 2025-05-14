@@ -69,6 +69,7 @@ router.route('/chart/portfolio/:id').get(async (req, res) => {
 		// console.log(result)
 		res.json(result);
 	} catch (e) {
+		// console.log(e)
 		const errorCode = e[0];
 		return res.status(errorCode).render('error', {
 			errorCode: errorCode,

@@ -190,7 +190,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	//confirmed stock and userexists now, getting price
 	let gettingPrice = null 
 	try {
-		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+		gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
 			fields: ['regularMarketPrice'],
 		});
 		gettingPrice = gettingPrice['regularMarketPrice'];
@@ -273,7 +273,7 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	//confirmed stock and userexists now, getting price
 	let gettingPrice = null 
 	try {
-		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+		gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
 			fields: ['regularMarketPrice'],
 		});
 		gettingPrice = gettingPrice['regularMarketPrice'];
@@ -421,10 +421,11 @@ async function getPortfolioWorthOverTime(userId) {
 				//case where it is the first day or recent account creation and buy
 				let gettingPrice = null 
 				try {
-					let gettingPrice = await yahooFinance.quote(stock_ticker, {
+					gettingPrice = await yahooFinance.quote(ticker, {
 						fields: ['regularMarketPrice'],
 					});
 					gettingPrice = gettingPrice['regularMarketPrice'];
+					investedValue += volume * gettingPrice;
 				} catch (e) {
 					throw [500, `Could not get stock ticker because of error: ${e}`]
 				}
@@ -456,7 +457,7 @@ const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
 		//console.log(ticker.stock_ticker)
 		let gettingPrice = null 
 		try {
-			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
 				fields: ['regularMarketPrice'],
 			});
 			gettingPrice = gettingPrice['regularMarketPrice'];
@@ -498,7 +499,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 		//console.log(ticker.stock_ticker)
 		let gettingPrice = null 
 		try {
-			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
 				fields: ['regularMarketPrice'],
 			});
 			gettingPrice = gettingPrice['regularMarketPrice'];
@@ -545,7 +546,7 @@ const getCurrentValue = async (stock_ticker, volume) => {
 	const volumeInt = parseInt(volume);
 	let gettingPrice = null 
 	try {
-		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+		gettingPrice = await yahooFinance.quote(stock_ticker, {
 			fields: ['regularMarketPrice'],
 		});
 		gettingPrice = gettingPrice['regularMarketPrice'];
