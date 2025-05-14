@@ -108,7 +108,7 @@ router.get('/', async (req, res) => {
 			} else {
 				res.status(200).render('stock', {
 					title: `${data.companyName} (${ticker})`,
-					scriptPaths: ['stockpages.js','searchbar.js'],
+					scriptPaths: ['stockpages.js'],
 					outsidePaths: [
 						'https://cdn.jsdelivr.net/npm/chart.js',
 						'https://cdn.jsdelivr.net/npm/moment',
@@ -171,7 +171,7 @@ router.get('/', async (req, res) => {
 			} else {
 				res.status(200).render('stock', {
 					title: `${data.companyName} (${ticker})`,
-					scriptPaths: ['stockpages.js', 'searchbar.js'],
+					scriptPaths: ['stockpages.js'],
 					outsidePaths: [
 						'https://cdn.jsdelivr.net/npm/chart.js',
 						'https://cdn.jsdelivr.net/npm/moment',
