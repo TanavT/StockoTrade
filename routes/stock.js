@@ -80,6 +80,7 @@ router.get('/', async (req, res) => {
 			) {
 				res.status(200).render('stock', {
 					title: `${data.companyName} (${ticker})`,
+					scriptPaths: ['searchbar.js'],
 					isLoggedIn: isLoggedIn,
 					tickerSymbol: ticker,
 					chartLabels: JSON.stringify(data.chartLabels),
@@ -109,7 +110,7 @@ router.get('/', async (req, res) => {
 					title: `${data.companyName} (${ticker})`,
 					scriptPaths: ['stockpages.js'],
 					outsidePaths: [
-						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 						'https://cdn.jsdelivr.net/npm/moment',
 						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
 					],
@@ -147,6 +148,7 @@ router.get('/', async (req, res) => {
 			) {
 				res.status(200).render('stock', {
 					title: `${data.companyName} (${ticker})`,
+					scriptPaths: ['searchbar.js'],
 					isLoggedIn: isLoggedIn,
 					tickerSymbol: ticker,
 					chartLabels: JSON.stringify(data.chartLabels),
@@ -171,7 +173,7 @@ router.get('/', async (req, res) => {
 					title: `${data.companyName} (${ticker})`,
 					scriptPaths: ['stockpages.js'],
 					outsidePaths: [
-						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 						'https://cdn.jsdelivr.net/npm/moment',
 						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
 					],
@@ -350,6 +352,30 @@ router.route('/sell/:ticker').post(async (req, res) => {
 		return res.status(404).render('error', {
 			errorCode: '404',
 			errorMessage: `Must be logged in to purchase a stock`,
+		});
+	}
+});
+
+
+router.get('/verify/:ticker', async (req, res) => {
+	let ticker = null;
+	if (req.params.ticker) {
+		const checkTicker = xss(req.params.ticker.trim());
+		ticker = checkTicker.toUpperCase();
+	}
+
+	try {
+
+		const validated = await stockData.validateStockTicker(ticker);
+
+
+		return res.json({
+			validity: validated
+		});
+	} catch (e) {
+		res.status(500).render('error', {
+			errorCode: '500',
+			errorMessage: e,
 		});
 	}
 });
