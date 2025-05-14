@@ -188,7 +188,7 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingprice = null 
+	let gettingPrice = null 
 	try {
 		let gettingPrice = await yahooFinance.quote(stock_ticker, {
 			fields: ['regularMarketPrice'],
@@ -271,7 +271,7 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingprice = null 
+	let gettingPrice = null 
 	try {
 		let gettingPrice = await yahooFinance.quote(stock_ticker, {
 			fields: ['regularMarketPrice'],
@@ -419,7 +419,7 @@ async function getPortfolioWorthOverTime(userId) {
 				investedValue += volume * priceToUse;
 			} else {
 				//case where it is the first day or recent account creation and buy
-				let gettingprice = null 
+				let gettingPrice = null 
 				try {
 					let gettingPrice = await yahooFinance.quote(stock_ticker, {
 						fields: ['regularMarketPrice'],
@@ -454,7 +454,7 @@ const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingprice = null 
+		let gettingPrice = null 
 		try {
 			let gettingPrice = await yahooFinance.quote(stock_ticker, {
 				fields: ['regularMarketPrice'],
@@ -496,7 +496,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingprice = null 
+		let gettingPrice = null 
 		try {
 			let gettingPrice = await yahooFinance.quote(stock_ticker, {
 				fields: ['regularMarketPrice'],
@@ -543,7 +543,7 @@ const getCurrentValue = async (stock_ticker, volume) => {
 	stock_ticker = verifyString(stock_ticker);
 	volume = verifyString(volume);
 	const volumeInt = parseInt(volume);
-	let gettingprice = null 
+	let gettingPrice = null 
 	try {
 		let gettingPrice = await yahooFinance.quote(stock_ticker, {
 			fields: ['regularMarketPrice'],
