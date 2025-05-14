@@ -14,12 +14,12 @@ An application where users can invest in the stock market with real-time stock p
 1. Frontend: Simple HTML and CSS
 2. Backend: Express.js
 3. Database: MongoDB
-4. Data Visualization: D3.js
+4. Data Visualization: chart.js
 5. JavaScript runtime: Node.js
 
 ### Key dependencies
 
-1. ``d3``
+1. ``chart.js``
 2. ``express``
 3. ``mongodb``
 4. ``yahoo-finance2``
