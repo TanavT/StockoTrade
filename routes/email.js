@@ -25,7 +25,7 @@ router.route('/subscribe').post(async (req, res) => {
         { returnDocument: 'after' }
     );
 
-    return res.status(200).render('email', {isSubscribed:true});
+    return res.status(200).render('email', {isSubscribed:true, title: "Subscribed"});
 });
 
 router.route('/unsubscribe').post(async (req, res) => {
@@ -49,7 +49,7 @@ router.route('/unsubscribe').post(async (req, res) => {
         { returnDocument: 'after' }
     );
 
-    return res.status(200).render('email', {isSubscribed:false});
+    return res.status(200).render('email', {isSubscribed:false, title: "Unsubscribed"});
 });
 
 export default router;
