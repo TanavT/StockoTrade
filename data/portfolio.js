@@ -12,6 +12,7 @@ import { userData } from './index.js';
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
+ * DO NOT USE DELISTED STOCKS OR CRYPTOCURRENCY
  */
 const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 	const [verifiedUserId, verifiedStock_Ticker, verifiedVolume] =
@@ -34,13 +35,13 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 		interval: '1d',
 	});
 	const gettingPrice = chartData.quotes[chartData.quotes.length - 1].close; //getting most recent, must be one quote within a week
-	if (!gettingPrice) throw [500, 'Could not get price'];
+	if (!gettingPrice) throw [404, 'Could not get price'];
 	const buyCost = gettingPrice * verifiedVolume;
 
 	//may have to check for multiplication error
 	if (userToBuy.portfolio_information.capital < buyCost)
 		throw [
-			403,
+			422,
 			`Trying to buy ${stock_ticker} for a total of ${buyCost} with ${userToBuy.portfolio_information.capital}`,
 		];
 
@@ -97,6 +98,7 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
+ * DO NOT USE DELISTED STOCKS OR CRYPTOCURRENCY
  */
 const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 	const [verifiedUserId, verifiedStock_Ticker, verifiedVolume] =
@@ -120,7 +122,7 @@ const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 	});
 
 	const gettingPrice = chartData.quotes[chartData.quotes.length - 1].close; //getting most recent, must be one quote within a week
-	if (!gettingPrice) throw [500, 'Could not get price'];
+	if (!gettingPrice) throw [404, 'Could not get price'];
 	const sellCost = gettingPrice * verifiedVolume;
 
 	//may have to check for multiplication error
@@ -128,10 +130,10 @@ const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 	const indexOfTicker = newTicker.findIndex(
 		(ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker
 	);
-	if (indexOfTicker === -1) throw [400, 'User does not own this stock']
+	if (indexOfTicker === -1) throw [422, 'User does not own this stock']
 	if (newTicker[indexOfTicker].volume < verifiedVolume)
 		throw [
-			403,
+			422,
 			'User does not have enough owned shares to sell and make this trade',
 		];
 
@@ -186,17 +188,22 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
-		fields: ['regularMarketPrice'],
-	});
-	gettingPrice = gettingPrice['regularMarketPrice'];
-	if (!gettingPrice) throw [500, 'Could not get price'];
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
+	if (!gettingPrice) throw [404, 'Could not get price'];
 	const buyCost = gettingPrice * verifiedVolume;
 
 	//may have to check for multiplication error
 	if (userToBuy.portfolio_information.capital < buyCost)
 		throw [
-			403,
+			422,
 			`Trying to buy ${stock_ticker} for a total of ${buyCost} with ${userToBuy.portfolio_information.capital}`,
 		];
 
@@ -264,11 +271,16 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
-		fields: ['regularMarketPrice'],
-	});
-	gettingPrice = gettingPrice['regularMarketPrice'];
-	if (!gettingPrice) throw [500, 'Could not get price'];
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
+	if (!gettingPrice) throw [404, 'Could not get price'];
 	const sellCost = gettingPrice * verifiedVolume;
 
 	//may have to check for multiplication error
@@ -276,10 +288,10 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	const indexOfTicker = newTicker.findIndex(
 		(ticker_elem) => ticker_elem.stock_ticker === verifiedStock_Ticker
 	);
-	if (indexOfTicker === -1) throw [400, 'User does not own this stock']
+	if (indexOfTicker === -1) throw [422, 'User does not own this stock']
 	if (newTicker[indexOfTicker].volume < verifiedVolume)
 		throw [
-			403,
+			422,
 			'User does not have enough owned shares to sell and make this trade',
 		];
 
@@ -328,7 +340,7 @@ async function getPortfolioWorthOverTime(userId) {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	let capital = 100000; //inital amount of money user starts with, is set to 100000 currently
 	const tradeHistory = userToInspect.portfolio_information.trade_history;
@@ -407,10 +419,15 @@ async function getPortfolioWorthOverTime(userId) {
 				investedValue += volume * priceToUse;
 			} else {
 				//case where it is the first day or recent account creation and buy
-				let gettingPrice = await yahooFinance.quote(ticker, {
-					fields: ['regularMarketPrice'],
-				});
-				gettingPrice = gettingPrice['regularMarketPrice'];
+				let gettingprice = null 
+				try {
+					let gettingPrice = await yahooFinance.quote(stock_ticker, {
+						fields: ['regularMarketPrice'],
+					});
+					gettingPrice = gettingPrice['regularMarketPrice'];
+				} catch (e) {
+					throw [500, `Could not get stock ticker because of error: ${e}`]
+				}
 				investedValue += volume * gettingPrice;
 			}
 		}
@@ -432,16 +449,21 @@ const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
-			fields: ['regularMarketPrice'],
-		});
-		gettingPrice = gettingPrice['regularMarketPrice'];
-		if (!gettingPrice) throw [500, 'Could not get price'];
+		let gettingprice = null 
+		try {
+			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+				fields: ['regularMarketPrice'],
+			});
+			gettingPrice = gettingPrice['regularMarketPrice'];
+		} catch (e) {
+			throw [500, `Could not get stock ticker because of error: ${e}`]
+		}
+		if (!gettingPrice) throw [404, 'Could not get price'];
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume;
 	}
@@ -457,7 +479,7 @@ const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
 		{ _id: new ObjectId(verifiedUserId) },
 		{ $set: { portfolio_information: newPortfolioInformation } }
 	);
-	if (!result) throw ['500', 'Could not update'];
+	if (!result) throw [500, 'Could not update'];
 	return {
 		portfolio_worth: total,
 	};
@@ -469,16 +491,21 @@ const getPortfolioWorthCurrent = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
-			fields: ['regularMarketPrice'],
-		});
-		gettingPrice = gettingPrice['regularMarketPrice'];
-		if (!gettingPrice) throw [500, 'Could not get price'];
+		let gettingprice = null 
+		try {
+			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+				fields: ['regularMarketPrice'],
+			});
+			gettingPrice = gettingPrice['regularMarketPrice'];
+		} catch (e) {
+			throw [500, `Could not get stock ticker because of error: ${e}`]
+		}
+		if (!gettingPrice) throw [404, 'Could not get price'];
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume;
 	}
@@ -494,7 +521,7 @@ const getPortfolioWorthCurrent = async (userId) => {
 		{ _id: new ObjectId(verifiedUserId) },
 		{ $set: { portfolio_information: newPortfolioInformation } }
 	);
-	if (!result) throw ['500', 'Could not update'];
+	if (!result) throw [500, 'Could not update'];
 	let sharpeRatio = 0;
 	try {
 		sharpeRatio = await getSharpeRatio(verifiedUserId);
@@ -516,12 +543,17 @@ const getCurrentValue = async (stock_ticker, volume) => {
 	stock_ticker = verifyString(stock_ticker);
 	volume = verifyString(volume);
 	const volumeInt = parseInt(volume);
-	let gettingPrice = await yahooFinance.quote(stock_ticker, {
-		fields: ['regularMarketPrice'],
-	});
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
 	// console.log(gettingPrice)
-	gettingPrice = gettingPrice['regularMarketPrice'];
-	if (!gettingPrice) throw [500, 'Could not get price'];
+	if (!gettingPrice) throw [404, 'Could not get price'];
 	return {
 		total_price: gettingPrice * volumeInt,
 		price_per_share: gettingPrice,
@@ -587,7 +619,7 @@ const getStockTickers = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	if (!userToInspect.portfolio_information.tickers)
 		throw [500, 'could not get stock tickers'];
@@ -600,7 +632,7 @@ const getCumulativeGains = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	const tradeHistory = userToInspect.portfolio_information.trade_history;
 
@@ -696,7 +728,7 @@ const getVolatilityOverTime = async (userId, windowSize = 7) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	const tradeHistory = userToInspect.portfolio_information.trade_history;
 	if (tradeHistory.length === 0) return [];
@@ -812,15 +844,15 @@ const getSharpeRatio = async (userId) => {
 	const userToInspect = await userCollection.findOne({
 		_id: new ObjectId(verifiedUserId),
 	});
-	if (!userToInspect) throw [400, 'user not found'];
+	if (!userToInspect) throw [404, 'user not found'];
 
 	const tradeHistory = userToInspect.portfolio_information.trade_history;
 	if (!tradeHistory || tradeHistory.length === 0)
-		throw [400, 'no trade history'];
+		throw [500, 'no trade history'];
 
 	//get portfolio value over time
 	const worthData = await getPortfolioWorthOverTime(userId);
-	if (worthData.length < 2) throw [400, 'not enough data for Sharpe Ratio'];
+	if (worthData.length < 2) throw [422, 'not enough data for Sharpe Ratio'];
 
 	//calculate daily returns
 	const dailyReturns = [];
@@ -832,7 +864,7 @@ const getSharpeRatio = async (userId) => {
 	}
 
 	if (dailyReturns.length === 0)
-		throw [500, 'no returns to calculate Sharpe Ratio'];
+		throw [422, 'no returns to calculate Sharpe Ratio'];
 
 	const avgReturn =
 		dailyReturns.reduce((a, b) => a + b, 0) / dailyReturns.length;

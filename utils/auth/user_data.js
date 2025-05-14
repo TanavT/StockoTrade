@@ -81,7 +81,7 @@ export const verifyPassword = (password) => {
 export const verifyAge = (age) => {
 	const trimAge = verifyString(age, 'Age');
 	const pattern = /^\d+$/;
-	if (!pattern.test(trimAge)) throw ['400', 'Age must be a proper number.'];
+	if (!pattern.test(trimAge)) throw [400, 'Age must be a proper number.'];
 	const numAge = Number.parseInt(trimAge);
 	if (numAge < 18 || numAge > 100)
 		throw [400, 'Age must be between 18 and 100.'];
@@ -167,7 +167,7 @@ export const verifyNumber = (num, varName) => {
 	const trimNum = verifyString(num, varName);
 	const pattern = /^\d+$/;
 	if (!pattern.test(trimNum))
-		throw ['400', `${varName} must be a proper number.`];
+		throw [400, `${varName} must be a proper number.`];
 	const numb = Number.parseInt(trimNum);
 	return numb;
 };
