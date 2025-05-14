@@ -50,8 +50,14 @@ Password: Password123!
 
 ### A few notes about finance
 
-Given the nature of how financial portfolios work, data gets updated slowly and daily, immediate results on your portfolio volatility of cummulative gains should not be expected to be instant, especially when starting out. Thats why using premade accounts, with already populated portfolios over months is far more preferable to see our data visualization and statistics compared to a fresh account.
+Given the nature of how financial portfolios work, data gets updated slowly and daily, immediate results on your portfolio volatility of cummulative gains should not be expected to be instant, especially when starting out. Thats why using premade accounts, with already populated portfolios over months is far more preferable to see our data visualization and statistics compared to a fresh account. In our premade accounts, the functions work the exact same! Just more data to comb through compared to fresh portfolio.
+
+**We also recommend, to really see the numbers change dynamically, to test this within 9:30AM to 4PM during real trading hours!**
 
 We try to make this as realistic as possible, we do this by following the market in **live time**. Which means trading starts at 9:30AM to 4PM EST time. Which means your portfolio will not be updated outside these ranges, because trading isnt happening at this time!
 
 Regardless, investing is something that takes years to master, and making money can be slow, and arduous, but with patience, and through the correct decision making, one can make it big.
+
+### Additonal notes we recommend reading
+
+Due to the heavy computation, please let the leaderboard load, it takes at most 5-10 seconds. Thanks. In addition, given how heavy in computation our statistics are, we ask that you remain patient and wait for everything to load, the dashboard typically takes 2 seconds to load. Thank you!
