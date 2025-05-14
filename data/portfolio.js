@@ -491,7 +491,6 @@ const getPortfolioWorthCurrent = async (userId) => {
 	let sharpeRatio = 0;
 	if (userToInspect.portfolio_information.trade_history.length > 0)
 		sharpeRatio = await getSharpeRatio(verifiedUserId);
-	// console.log(sharpeRatio)
 	return {
 		portfolio_worth: total,
 		capital: userToInspect.portfolio_information.capital,
