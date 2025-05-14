@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		})
 		.catch((error) => {
 			console.error(
-				`Could not display sharpe ration, capital, and portfolio worth because of error: ${error}`
+				`Could not display sharpe ratio, capital, and portfolio worth because of error: ${error}`
 			);
 		});
 
