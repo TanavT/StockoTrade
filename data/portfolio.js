@@ -429,7 +429,6 @@ async function getPortfolioWorthOverTime(userId) {
 				} catch (e) {
 					throw [500, `Could not get stock ticker because of error: ${e}`]
 				}
-				investedValue += volume * gettingPrice;
 			}
 		}
 

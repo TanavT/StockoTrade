@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		fetch(`/dashboard/getvalue/${stock_ticker}/${volume}`)
 				.then((response) => response.json())
 				.then((data) => {
-					console.log(data)
+					// console.log(data)
 					const newRow = document.createElement('tr');
 					newRow.innerHTML = `
 						<td>${type}</td>
