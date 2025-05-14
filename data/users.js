@@ -42,11 +42,11 @@ const createUser = async (
 	const tryToFindUser = await userCollection.findOne({
 		username: verifiedUserName.toUpperCase(),
 	});
-	if (tryToFindUser) throw [400, 'Username already taken.'];
+	if (tryToFindUser) throw [409, 'Username already taken.'];
 	const tryToFindEmail = await userCollection.findOne({
 		email: verifiedEmail.toUpperCase(),
 	});
-	if (tryToFindEmail) throw [400, 'Email already taken.'];
+	if (tryToFindEmail) throw [409, 'Email already taken.'];
 
 	// Hash passwords
 	const salt = bcrypt.genSaltSync(10);
