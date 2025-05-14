@@ -186,6 +186,7 @@ router.route('/worth').post(async (req, res) => {
 				})
 		}
 		const result = await portfolioData.getPortfolioWorthCurrent(userId);
+		// console.log(result)
 		return res.json(result);
 	} catch (e) {
 			// console.log(e)
