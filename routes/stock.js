@@ -110,7 +110,7 @@ router.get('/', async (req, res) => {
 					title: `${data.companyName} (${ticker})`,
 					scriptPaths: ['stockpages.js','searchbar.js'],
 					outsidePaths: [
-						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 						'https://cdn.jsdelivr.net/npm/moment',
 						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
 					],
@@ -173,7 +173,7 @@ router.get('/', async (req, res) => {
 					title: `${data.companyName} (${ticker})`,
 					scriptPaths: ['stockpages.js', 'searchbar.js'],
 					outsidePaths: [
-						'https://cdn.jsdelivr.net/npm/chart.js',
+						'https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.js',
 						'https://cdn.jsdelivr.net/npm/moment',
 						'https://cdn.jsdelivr.net/npm/chartjs-adapter-moment',
 					],
