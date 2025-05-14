@@ -12,6 +12,7 @@ import { userData } from './index.js';
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
+ * DO NOT USE DELISTED STOCKS OR CRYPTOCURRENCY
  */
 const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 	const [verifiedUserId, verifiedStock_Ticker, verifiedVolume] =
@@ -97,6 +98,7 @@ const buyStockPast = async (userId, stock_ticker, volume, dateBought) => {
 
 /**volume must be inputted as a string
  * THIS VARIENT IS ONLY INTENDED FOR USE IN SEEDING DATABASE, WILL NOT BE USED BY USERS
+ * DO NOT USE DELISTED STOCKS OR CRYPTOCURRENCY
  */
 const sellStockPast = async (userId, stock_ticker, volume, dateSold) => {
 	const [verifiedUserId, verifiedStock_Ticker, verifiedVolume] =
@@ -186,10 +188,15 @@ const buyStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
-		fields: ['regularMarketPrice'],
-	});
-	gettingPrice = gettingPrice['regularMarketPrice'];
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
 	if (!gettingPrice) throw [404, 'Could not get price'];
 	const buyCost = gettingPrice * verifiedVolume;
 
@@ -264,10 +271,15 @@ const sellStock = async (userId, stock_ticker, volume) => {
 	if (checkingExists.count === 0) throw [404, 'Stock Ticker does not exist'];
 
 	//confirmed stock and userexists now, getting price
-	let gettingPrice = await yahooFinance.quote(verifiedStock_Ticker, {
-		fields: ['regularMarketPrice'],
-	});
-	gettingPrice = gettingPrice['regularMarketPrice'];
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
 	if (!gettingPrice) throw [404, 'Could not get price'];
 	const sellCost = gettingPrice * verifiedVolume;
 
@@ -407,10 +419,15 @@ async function getPortfolioWorthOverTime(userId) {
 				investedValue += volume * priceToUse;
 			} else {
 				//case where it is the first day or recent account creation and buy
-				let gettingPrice = await yahooFinance.quote(ticker, {
-					fields: ['regularMarketPrice'],
-				});
-				gettingPrice = gettingPrice['regularMarketPrice'];
+				let gettingprice = null 
+				try {
+					let gettingPrice = await yahooFinance.quote(stock_ticker, {
+						fields: ['regularMarketPrice'],
+					});
+					gettingPrice = gettingPrice['regularMarketPrice'];
+				} catch (e) {
+					throw [500, `Could not get stock ticker because of error: ${e}`]
+				}
 				investedValue += volume * gettingPrice;
 			}
 		}
@@ -437,10 +454,15 @@ const getPortfolioWorthCurrentLeaderboardOnly = async (userId) => {
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
-			fields: ['regularMarketPrice'],
-		});
-		gettingPrice = gettingPrice['regularMarketPrice'];
+		let gettingprice = null 
+		try {
+			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+				fields: ['regularMarketPrice'],
+			});
+			gettingPrice = gettingPrice['regularMarketPrice'];
+		} catch (e) {
+			throw [500, `Could not get stock ticker because of error: ${e}`]
+		}
 		if (!gettingPrice) throw [404, 'Could not get price'];
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume;
@@ -474,10 +496,15 @@ const getPortfolioWorthCurrent = async (userId) => {
 	let total = userToInspect.portfolio_information.capital;
 	for (const ticker of userToInspect.portfolio_information.tickers) {
 		//console.log(ticker.stock_ticker)
-		let gettingPrice = await yahooFinance.quote(ticker.stock_ticker, {
-			fields: ['regularMarketPrice'],
-		});
-		gettingPrice = gettingPrice['regularMarketPrice'];
+		let gettingprice = null 
+		try {
+			let gettingPrice = await yahooFinance.quote(stock_ticker, {
+				fields: ['regularMarketPrice'],
+			});
+			gettingPrice = gettingPrice['regularMarketPrice'];
+		} catch (e) {
+			throw [500, `Could not get stock ticker because of error: ${e}`]
+		}
 		if (!gettingPrice) throw [404, 'Could not get price'];
 		//console.log(`${ticker.stock_ticker}: $${gettingPrice}`)
 		total += gettingPrice * ticker.volume;
@@ -516,11 +543,16 @@ const getCurrentValue = async (stock_ticker, volume) => {
 	stock_ticker = verifyString(stock_ticker);
 	volume = verifyString(volume);
 	const volumeInt = parseInt(volume);
-	let gettingPrice = await yahooFinance.quote(stock_ticker, {
-		fields: ['regularMarketPrice'],
-	});
+	let gettingprice = null 
+	try {
+		let gettingPrice = await yahooFinance.quote(stock_ticker, {
+			fields: ['regularMarketPrice'],
+		});
+		gettingPrice = gettingPrice['regularMarketPrice'];
+	} catch (e) {
+		throw [500, `Could not get stock ticker because of error: ${e}`]
+	}
 	// console.log(gettingPrice)
-	gettingPrice = gettingPrice['regularMarketPrice'];
 	if (!gettingPrice) throw [404, 'Could not get price'];
 	return {
 		total_price: gettingPrice * volumeInt,
